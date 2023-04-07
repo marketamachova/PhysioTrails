@@ -1,18 +1,26 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * All rights reserved.
+ *
+ * Licensed under the Oculus SDK License Agreement (the "License");
+ * you may not use the Oculus SDK except in compliance with the License,
+ * which is provided at the time of installation or download, or which
+ * otherwise accompanies this software in either electronic or hard copy form.
+ *
+ * You may obtain a copy of the License at
+ *
+ * https://developer.oculus.com/licenses/oculussdk/
+ *
+ * Unless required by applicable law or agreed to in writing, the Oculus SDK
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-/************************************************************************************
-Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
-https://developer.oculus.com/licenses/oculussdk/
-
-Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-ANY KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
-************************************************************************************/
-
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -26,99 +34,233 @@ public class OVRCustomSkeletonEditor : Editor
 		DrawPropertiesExcluding(serializedObject, new string[] { "_customBones" });
 		serializedObject.ApplyModifiedProperties();
 
-		OVRCustomSkeleton skeleton = (OVRCustomSkeleton)target;
-		OVRSkeleton.SkeletonType skeletonType = skeleton.GetSkeletonType();
+		var skeleton = (OVRCustomSkeleton)target;
 
-		if (skeletonType == OVRSkeleton.SkeletonType.None)
+		if (skeleton.GetSkeletonType() == OVRSkeleton.SkeletonType.None)
 		{
 			EditorGUILayout.HelpBox("Please select a SkeletonType.", MessageType.Warning);
 		}
 		else
 		{
-			if (GUILayout.Button("Auto Map Bones"))
-			{
-				skeleton.TryAutoMapBonesByName();
-				EditorUtility.SetDirty(skeleton);
-				EditorSceneManager.MarkSceneDirty(skeleton.gameObject.scene);
-			}
+			DrawBonesMapping(skeleton);
+		}
+	}
 
-			EditorGUILayout.LabelField("Bones", EditorStyles.boldLabel);
-			BoneId start = skeleton.GetCurrentStartBoneId();
-			BoneId end = skeleton.GetCurrentEndBoneId();
-			if (start != BoneId.Invalid && end != BoneId.Invalid)
+	private void DrawBonesMapping(OVRCustomSkeleton skeleton)
+	{
+		var enumValues = Enum.GetNames(typeof(OVRCustomSkeleton.RetargetingType));
+		skeleton.retargetingType = (OVRCustomSkeleton.RetargetingType)
+			EditorGUILayout.Popup("Custom skeleton structure", (int) skeleton.retargetingType, enumValues);
+
+		if (GUILayout.Button($"Auto Map Bones ({enumValues[(int) skeleton.retargetingType]})"))
+		{
+			skeleton.AutoMapBones(skeleton.retargetingType);
+			EditorUtility.SetDirty(skeleton);
+			EditorSceneManager.MarkSceneDirty(skeleton.gameObject.scene);
+		}
+
+		EditorGUILayout.LabelField("Bones", EditorStyles.boldLabel);
+		var start = skeleton.GetCurrentStartBoneId();
+		var end = skeleton.GetCurrentEndBoneId();
+		if (start != BoneId.Invalid && end != BoneId.Invalid)
+		{
+			for (var i = (int)start; i < (int)end; ++i)
 			{
-				for (int i = (int)start; i < (int)end; ++i)
+				var boneName = OVRSkeleton.BoneLabelFromBoneId(skeleton.GetSkeletonType(), (BoneId)i);
+				skeleton.CustomBones[i] =
+					(Transform)EditorGUILayout.ObjectField(boneName, skeleton.CustomBones[i], typeof(Transform), true);
+			}
+		}
+	}
+}
+
+/// <summary>
+/// Extensions class for the editor methods of <see cref="OVRCustomSkeleton"/>.
+/// </summary>
+public static class OVRCustomSkeletonEditorExtensions
+{
+	/// <summary>
+	/// This method tries to retarget the skeleton structure present in the current <see cref="GameObject"/> to the one supported by the body tracking system.
+	/// </summary>
+	/// <param name="customSkeleton" cref="OVRCustomSkeleton">The custom skeleton to run this method on</param>
+	/// <param name="type" cref="OVRCustomSkeleton.RetargetingType">The skeleton structure to auto map from</param>
+	public static void AutoMapBones(this OVRCustomSkeleton customSkeleton, OVRCustomSkeleton.RetargetingType type)
+	{
+		try
+		{
+			switch (type)
+			{
+				case OVRCustomSkeleton.RetargetingType.OculusSkeleton:
+					customSkeleton.AutoMapBonesFromOculusSkeleton();
+					break;
+				default:
+					throw new InvalidEnumArgumentException($"Invalid {nameof(OVRCustomSkeleton.RetargetingType)}");
+			}
+		}
+		catch (Exception e)
+		{
+			EditorUtility.DisplayDialog($"Auto Map Bones Error", e.Message, "Ok");
+		}
+	}
+
+	public static void TryAutoMapBonesByName(this OVRCustomSkeleton customSkeleton)
+	{
+		customSkeleton.AutoMapBonesFromOculusSkeleton();
+	}
+
+	internal static void AutoMapBonesFromOculusSkeleton(this OVRCustomSkeleton customSkeleton)
+	{
+		var start = customSkeleton.GetCurrentStartBoneId();
+		var end = customSkeleton.GetCurrentEndBoneId();
+		var skeletonType = customSkeleton.GetSkeletonType();
+		if (start != BoneId.Invalid && end != BoneId.Invalid)
+		{
+			for (var bi = (int)start; bi < (int)end; ++bi)
+			{
+				string fbxBoneName = FbxBoneNameFromBoneId(skeletonType, (BoneId)bi);
+				Transform t = customSkeleton.transform.FindChildRecursive(fbxBoneName);
+
+				if (t == null && skeletonType == OVRSkeleton.SkeletonType.Body)
 				{
-					string boneName = BoneLabelFromBoneId(skeletonType, (BoneId)i);
-					skeleton.CustomBones[i] = (Transform)EditorGUILayout.ObjectField(boneName, skeleton.CustomBones[i], typeof(Transform), true);
+					var legacyBoneName = fbxBoneName
+						.Replace("Little", "Pinky")
+						.Replace("Metacarpal", "Meta");
+					t = customSkeleton.transform.FindChildRecursive(legacyBoneName);
+				}
+
+				if (t != null)
+				{
+					customSkeleton.CustomBones[bi] = t;
 				}
 			}
 		}
 	}
 
-	// force aliased enum values to the more appropriate value
-	private static string BoneLabelFromBoneId(OVRSkeleton.SkeletonType skeletonType, BoneId boneId)
+	private static string FbxBoneNameFromBoneId(OVRSkeleton.SkeletonType skeletonType, BoneId bi)
 	{
-		if (skeletonType == OVRSkeleton.SkeletonType.HandLeft || skeletonType == OVRSkeleton.SkeletonType.HandRight)
+		if (skeletonType == OVRSkeleton.SkeletonType.Body)
 		{
-			switch (boneId)
-			{
-				case OVRSkeleton.BoneId.Hand_WristRoot:
-					return "Hand_WristRoot";
-				case OVRSkeleton.BoneId.Hand_ForearmStub:
-					return "Hand_ForearmStub";
-				case OVRSkeleton.BoneId.Hand_Thumb0:
-					return "Hand_Thumb0";
-				case OVRSkeleton.BoneId.Hand_Thumb1:
-					return "Hand_Thumb1";
-				case OVRSkeleton.BoneId.Hand_Thumb2:
-					return "Hand_Thumb2";
-				case OVRSkeleton.BoneId.Hand_Thumb3:
-					return "Hand_Thumb3";
-				case OVRSkeleton.BoneId.Hand_Index1:
-					return "Hand_Index1";
-				case OVRSkeleton.BoneId.Hand_Index2:
-					return "Hand_Index2";
-				case OVRSkeleton.BoneId.Hand_Index3:
-					return "Hand_Index3";
-				case OVRSkeleton.BoneId.Hand_Middle1:
-					return "Hand_Middle1";
-				case OVRSkeleton.BoneId.Hand_Middle2:
-					return "Hand_Middle2";
-				case OVRSkeleton.BoneId.Hand_Middle3:
-					return "Hand_Middle3";
-				case OVRSkeleton.BoneId.Hand_Ring1:
-					return "Hand_Ring1";
-				case OVRSkeleton.BoneId.Hand_Ring2:
-					return "Hand_Ring2";
-				case OVRSkeleton.BoneId.Hand_Ring3:
-					return "Hand_Ring3";
-				case OVRSkeleton.BoneId.Hand_Pinky0:
-					return "Hand_Pinky0";
-				case OVRSkeleton.BoneId.Hand_Pinky1:
-					return "Hand_Pinky1";
-				case OVRSkeleton.BoneId.Hand_Pinky2:
-					return "Hand_Pinky2";
-				case OVRSkeleton.BoneId.Hand_Pinky3:
-					return "Hand_Pinky3";
-				case OVRSkeleton.BoneId.Hand_ThumbTip:
-					return "Hand_ThumbTip";
-				case OVRSkeleton.BoneId.Hand_IndexTip:
-					return "Hand_IndexTip";
-				case OVRSkeleton.BoneId.Hand_MiddleTip:
-					return "Hand_MiddleTip";
-				case OVRSkeleton.BoneId.Hand_RingTip:
-					return "Hand_RingTip";
-				case OVRSkeleton.BoneId.Hand_PinkyTip:
-					return "Hand_PinkyTip";
-				default:
-					return "Hand_Unknown";
-			}
+			return FBXBodyBoneNames[(int)bi];
 		}
 		else
 		{
-			return "Skeleton_Unknown";
+			if (bi >= BoneId.Hand_ThumbTip && bi <= BoneId.Hand_PinkyTip)
+			{
+				return FBXHandSidePrefix[(int)skeletonType] + FBXHandFingerNames[(int)bi - (int)BoneId.Hand_ThumbTip] + "_finger_tip_marker";
+			}
+			else
+			{
+				return FBXHandBonePrefix + FBXHandSidePrefix[(int)skeletonType] + FBXHandBoneNames[(int)bi];
+			}
 		}
 	}
-}
 
+	private static readonly string[] FBXBodyBoneNames =
+	{
+		"Root",
+		"Hips",
+		"SpineLower",
+		"SpineMiddle",
+		"SpineUpper",
+		"Chest",
+		"Neck",
+		"Head",
+		"LeftShoulder",
+		"LeftScapula",
+		"LeftArmUpper",
+		"LeftArmLower",
+		"LeftHandWristTwist",
+		"RightShoulder",
+		"RightScapula",
+		"RightArmUpper",
+		"RightArmLower",
+		"RightHandWristTwist",
+		"LeftHandPalm",
+		"LeftHandWrist",
+		"LeftHandThumbMetacarpal",
+		"LeftHandThumbProximal",
+		"LeftHandThumbDistal",
+		"LeftHandThumbTip",
+		"LeftHandIndexMetacarpal",
+		"LeftHandIndexProximal",
+		"LeftHandIndexIntermediate",
+		"LeftHandIndexDistal",
+		"LeftHandIndexTip",
+		"LeftHandMiddleMetacarpal",
+		"LeftHandMiddleProximal",
+		"LeftHandMiddleIntermediate",
+		"LeftHandMiddleDistal",
+		"LeftHandMiddleTip",
+		"LeftHandRingMetacarpal",
+		"LeftHandRingProximal",
+		"LeftHandRingIntermediate",
+		"LeftHandRingDistal",
+		"LeftHandRingTip",
+		"LeftHandLittleMetacarpal",
+		"LeftHandLittleProximal",
+		"LeftHandLittleIntermediate",
+		"LeftHandLittleDistal",
+		"LeftHandLittleTip",
+		"RightHandPalm",
+		"RightHandWrist",
+		"RightHandThumbMetacarpal",
+		"RightHandThumbProximal",
+		"RightHandThumbDistal",
+		"RightHandThumbTip",
+		"RightHandIndexMetacarpal",
+		"RightHandIndexProximal",
+		"RightHandIndexIntermediate",
+		"RightHandIndexDistal",
+		"RightHandIndexTip",
+		"RightHandMiddleMetacarpal",
+		"RightHandMiddleProximal",
+		"RightHandMiddleIntermediate",
+		"RightHandMiddleDistal",
+		"RightHandMiddleTip",
+		"RightHandRingMetacarpal",
+		"RightHandRingProximal",
+		"RightHandRingIntermediate",
+		"RightHandRingDistal",
+		"RightHandRingTip",
+		"RightHandLittleMetacarpal",
+		"RightHandLittleProximal",
+		"RightHandLittleIntermediate",
+		"RightHandLittleDistal",
+		"RightHandLittleTip"
+	};
+
+	private static readonly string[] FBXHandSidePrefix = { "l_", "r_" };
+	private const string FBXHandBonePrefix = "b_";
+
+	private static readonly string[] FBXHandBoneNames =
+	{
+		"wrist",
+		"forearm_stub",
+		"thumb0",
+		"thumb1",
+		"thumb2",
+		"thumb3",
+		"index1",
+		"index2",
+		"index3",
+		"middle1",
+		"middle2",
+		"middle3",
+		"ring1",
+		"ring2",
+		"ring3",
+		"pinky0",
+		"pinky1",
+		"pinky2",
+		"pinky3"
+	};
+
+	private static readonly string[] FBXHandFingerNames =
+	{
+		"thumb",
+		"index",
+		"middle",
+		"ring",
+		"pinky"
+	};
+}
