@@ -23,7 +23,7 @@ namespace Network
          * 2. instantiate object carrying player and cameras
          * 3. invokes established connection events
          */
-        public override void OnServerAddPlayer(NetworkConnection conn)
+        public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             InstantiatePlayer(conn);
             
@@ -44,7 +44,7 @@ namespace Network
          * adds player to Players list
          * calls UpdateSceneConnected on the instantiated player to update UI
          */
-        private void InstantiatePlayer(NetworkConnection conn)
+        private void InstantiatePlayer(NetworkConnectionToClient conn)
         {
             GameObject player = Instantiate(playerPrefab);
             NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
@@ -70,7 +70,7 @@ namespace Network
             DontDestroyOnLoad(PlayerCamera);
         }
 
-        public override void OnServerDisconnect(NetworkConnection conn)
+        public override void OnServerDisconnect(NetworkConnectionToClient conn)
         {
             base.OnServerDisconnect(conn);
 
@@ -85,15 +85,15 @@ namespace Network
         }
 
 
-        public override void OnClientDisconnect(NetworkConnection conn)
+        public override void OnClientDisconnect()
         {
             OnClientDisconnectAction?.Invoke();
-            base.OnClientDisconnect(conn);
+            base.OnClientDisconnect();
         }
 
-        public override void OnClientConnect(NetworkConnection conn)
+        public override void OnClientConnect()
         {
-            base.OnClientConnect(conn);
+            base.OnClientConnect();
             OnClientConnectAction?.Invoke();
         }
     }

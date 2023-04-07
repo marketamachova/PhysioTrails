@@ -5,8 +5,8 @@ using Mirror.Discovery;
 using Network;
 using Scenes;
 using UI;
-using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization.Settings;
 
 namespace Player
 {
