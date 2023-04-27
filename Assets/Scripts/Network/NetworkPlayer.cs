@@ -38,6 +38,8 @@ namespace Network
         private SceneLoader _sceneLoader;
         private NetworkPlayer[] _networkPlayers;
 
+        private bool _waitBeforeEscapeToLobby = true;
+
         public event Action OnCalibrationComplete;
         public event Action OnSceneLoadedAction;
 
@@ -154,8 +156,8 @@ namespace Network
                             AssignGameController();
                         }
 
-                        _vrController.GoToLobby();
-                        _controller.OnGoToLobby();
+                        // _vrController.GoToLobby();
+                        _vrController.OnGoToLobby(_waitBeforeEscapeToLobby);
                     }
 
                     _controller.OnGoToLobby();
@@ -292,9 +294,10 @@ namespace Network
         }
 
         [Command(requiresAuthority = false)]
-        public void CmdGoToLobby()
+        public void CmdGoToLobby(bool wait)
         {
             goToLobby = true;
+            _waitBeforeEscapeToLobby = wait;
         }
 
 

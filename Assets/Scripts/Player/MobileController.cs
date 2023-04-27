@@ -160,7 +160,7 @@ namespace Player
             uiController.EnableFalse(UIConstants.Calibration);
         }
 
-        public override void OnGoToLobby()
+        public override void OnGoToLobby(bool wait)
         {
             base.OnGoToLobby();
             sceneLoader.UnloadScene();

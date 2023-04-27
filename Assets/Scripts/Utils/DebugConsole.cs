@@ -21,7 +21,6 @@ namespace Utils
      
         public void Log(string logString, string stackTrace, LogType type)
         {
-            Debug.Log("kuk");
             output = logString;
             stack = stackTrace;
             myLog = output + "\n" + myLog;

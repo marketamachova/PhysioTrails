@@ -89,7 +89,7 @@ namespace Player
             SceneManager.SetActiveScene(scene);
         }
 
-        public override void OnGoToLobby()
+        public override void OnGoToLobby(bool wait)
         {
             uiController.gameObject.SetActive(true);
             LocalNetworkPlayer.CmdSetWorldLoaded(false);

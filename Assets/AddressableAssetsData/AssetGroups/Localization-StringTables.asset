@@ -16,25 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 24dc4bd24cda845cda9913f0c13d4f96
-  m_SerializeEntries:
-  - m_GUID: 3da0b02c7a0344d7cbea5df2368c27b9
-    m_Address: UI elements mobile_cs
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-cs
-    m_mainAssetType: UnityEngine.Localization.Tables.StringTable, Unity.Localization,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 53a7c94ba0c914ccfbfad56f5f2d4dd8
-    m_Address: UI elements mobile_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    m_mainAssetType: UnityEngine.Localization.Tables.StringTable, Unity.Localization,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 81f08b44d58d64800a80793fc3f498f7, type: 2}
   m_SchemaSet:

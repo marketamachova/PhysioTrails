@@ -15,6 +15,7 @@ TagManager:
   - CenterEyeAnchor
   - Terrain
   - RTCamera
+  - SamplesInfoPanel
   layers:
   - Default
   - TransparentFX

@@ -44,7 +44,7 @@ namespace Scenes
             {
                 _mainCamera.transform.parent = _player.transform;
                 _mainCamera.transform.position = _player.transform.position;
-                _mainCamera.transform.localPosition = new Vector3(0, 1.5f, 0);
+                // _mainCamera.transform.localPosition = new Vector3(0, 1.5f, 0);
             }
         }
         

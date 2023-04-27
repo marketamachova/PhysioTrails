@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Fader : MonoBehaviour
 {
     [SerializeField] private GameObject faderObjectPrefab;
+    [SerializeField] private Transform centerEyeAnchor;
     [SerializeField] private float fadeDuration;
     [SerializeField] private GameObject canvas;
-
+    
     private Color _faderColor;
     private Material _fadeMaterial;
     private GameObject _faderObject;
@@ -17,7 +19,7 @@ public class Fader : MonoBehaviour
     {
         if (!fadeIn)
         {
-            _faderObject = Instantiate(faderObjectPrefab, gameObject.transform);
+            _faderObject = Instantiate(faderObjectPrefab, centerEyeAnchor);
             _fadeRenderer = _faderObject.GetComponent<Renderer>();
             _fadeMaterial = _fadeRenderer.material;
             _faderColor = _fadeMaterial.color;

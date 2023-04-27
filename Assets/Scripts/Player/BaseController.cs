@@ -93,7 +93,7 @@ namespace Player
             }
         }
 
-        public virtual void OnGoToLobby() { }
+        public virtual void OnGoToLobby(bool wait = true) { }
 
         /**
          * synchronises triggerGoToLobby  syncVar with all NetworkPlayers in the scene
@@ -102,7 +102,7 @@ namespace Player
         {
             foreach (var networkPlayer in NetworkPlayers)
             {
-                networkPlayer.CmdGoToLobby();
+                networkPlayer.CmdGoToLobby(false);
             }
         }
 

@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: -164489207563210975}
   - component: {fileID: 6283072857296402769}
   m_Layer: 0
-  m_Name: OVRMainCamera
+  m_Name: OVRMainCameraOld
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

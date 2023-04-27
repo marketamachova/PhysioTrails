@@ -18,23 +18,15 @@ MonoBehaviour:
   m_GUID: b0626bc7eec3e418299218c6cbdb9c9d
   m_SerializeEntries:
   - m_GUID: 84f29d7499ee447b387908ee3d3c9baa
-    m_Address: Czech (cs)
+    m_Address: Czech
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
-    m_mainAssetType: UnityEngine.Localization.Locale, Unity.Localization, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
   - m_GUID: e0c17fc3fcf8e413683bd613db131144
-    m_Address: English (en)
+    m_Address: English
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
-    m_mainAssetType: UnityEngine.Localization.Locale, Unity.Localization, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 81f08b44d58d64800a80793fc3f498f7, type: 2}
   m_SchemaSet:

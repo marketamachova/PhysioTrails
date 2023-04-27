@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Network;
 using PathCreation;
 using Scenes;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using NetworkPlayer = Network.NetworkPlayer;
@@ -12,7 +14,7 @@ namespace Player
     /**
      * Controller managing events in VR travelling experience
      */
-    public class VRController : MonoBehaviour
+    public class VRController : BaseController
     {
         public List<GameObject> player = new List<GameObject>();
         private SceneController _sceneController;
@@ -25,6 +27,7 @@ namespace Player
         private Animator _cartAnimator;
         private AudioSource _cartAudio;
         private NetworkPlayer _networkPlayer;
+        private EscapeGestureHandler _escapeGestureHandler;
         private Fader _fader;
 
         private string _currentScene;
@@ -42,12 +45,17 @@ namespace Player
             _customSpeed = _networkPlayer.speed;
             _cart = GameObject.FindWithTag(GameConstants.Cart);
             _player = GameObject.FindWithTag(GameConstants.NetworkCamera);
-            _sceneController = GameObject.FindObjectOfType<SceneController>();
-            _sceneLoader = GameObject.FindObjectOfType<SceneLoader>();
+            _sceneController = FindObjectOfType<SceneController>();
+            _sceneLoader = FindObjectOfType<SceneLoader>();
             _pathCreator = FindObjectOfType<PathCreator>();
             _networkManager = FindObjectOfType<MyNetworkManager>();
+            _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
+
+            _escapeGestureHandler.VRController = this;
 
             player.Add(_player);
+            
+            AssignPlayers();
 
             _playerMovementScripts = FindObjectsOfType<PlayerMovement>();
             foreach (var script in _playerMovementScripts)
@@ -64,6 +72,15 @@ namespace Player
 
             _networkManager.OnMobileClientDisconnectAction += TriggerPlayerMoving;
             _networkManager.OnClientDisconnectAction += TriggerPlayerMoving;
+            _networkManager.OnServerAddPlayerAction += AssignPlayers;
+        }
+
+        private void OnEnable()
+        {
+            _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
+
+            _escapeGestureHandler.VRController = this;
+
         }
 
         public IEnumerator Start()
@@ -104,20 +121,20 @@ namespace Player
 
         public void End()
         {
-            foreach (var script in _playerMovementScripts)
-            {
-                Disable(script);
-            }
-
-            if (_cart != null)
-            {
-                StopCart();
-            }
+            // foreach (var script in _playerMovementScripts)
+            // {
+            //     Disable(script);
+            // }
+            //
+            // if (_cart != null)
+            // {
+            //     StopCart();
+            // }
             
             var networkPlayers = FindObjectsOfType<NetworkPlayer>();
             foreach (var networkPlayer in networkPlayers)
             {
-                networkPlayer.CmdGoToLobby();
+                networkPlayer.CmdGoToLobby(true);
             }
         }
 
@@ -145,10 +162,27 @@ namespace Player
             _cartAudio.Stop();
         }
 
-        public void GoToLobby()
+        public override void OnGoToLobby(bool wait)
         {
-            StartCoroutine(GoToLobbyCoroutine());
+            base.OnGoToLobby();
+            
+            foreach (var script in _playerMovementScripts)
+            {
+                Disable(script);
+            }
+
+            if (_cart != null)
+            {
+                StopCart();
+            }
+            
+            StartCoroutine(GoToLobbyCoroutine(wait));
         }
+
+        // public void GoToLobby()
+        // {
+        //     StartCoroutine(GoToLobbyCoroutine());
+        // }
 
 
         /**
@@ -158,9 +192,13 @@ namespace Player
          * 3. Moves player at accurate position in Lobby
          * 4. calls async scene unloading
          */
-        private IEnumerator GoToLobbyCoroutine()
+        private IEnumerator GoToLobbyCoroutine(bool wait = true)
         {
-            yield return new WaitForSecondsRealtime(GameConstants.ReturnToLobbyWaitingTime);
+            if (wait)
+            {
+                yield return new WaitForSecondsRealtime(GameConstants.ReturnToLobbyWaitingTime);
+            }
+            
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(GameConstants.VROffline));
 
             _sceneController.MovePlayersAtStartingPositionLobby();
