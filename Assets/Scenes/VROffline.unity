@@ -4199,6 +4199,11 @@ MonoBehaviour:
   leftHand: {fileID: 5462931726616528053}
   rightHand: {fileID: 8190866238513811725}
   cartMaterial: {fileID: 2100000, guid: 4da054084302b475a96316517b8a286d, type: 2}
+  cartDissolveMaterial: {fileID: 2100000, guid: b013dbfa18710c94989adf88e6e9fb97,
+    type: 2}
+  cartDissolveTextureMaterial: {fileID: 2100000, guid: 14a79290fde8fad40ba1e2a7964e417f,
+    type: 2}
+  cartGhostMaterial: {fileID: 2100000, guid: f540c1b5e549e431d8780afe6f194fed, type: 2}
   cartPrefab: {fileID: 5604761228508816616, guid: a5dbb7b32671141dea8471f2a59d7748,
     type: 3}
   defaultCartPosition: {x: 0, y: 0, z: 0}
@@ -5778,11 +5783,6 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1783725903437176516}
-    - target: {fileID: 3185216193347949339, guid: 91830a4ebb51b014b817fd59bd9faa6e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6633742723378565800, guid: 91830a4ebb51b014b817fd59bd9faa6e,
         type: 3}
       propertyPath: _pointerPoseRoot

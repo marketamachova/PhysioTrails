@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using Player;
@@ -21,6 +22,9 @@ namespace Cart
         [SerializeField] private GameObject rightHand;
 
         [Header("Cart")] [SerializeField] private Material cartMaterial;
+        [SerializeField] private Material cartDissolveMaterial;
+        [SerializeField] private Material cartDissolveTextureMaterial;
+        [SerializeField] private Material cartGhostMaterial;
         [SerializeField] private GameObject cartPrefab;
         [SerializeField] private Vector3 defaultCartPosition;
 
@@ -44,6 +48,7 @@ namespace Cart
         private List<Vector3> _currentPointPositionList = new List<Vector3>();
         private Vector3 _lastPointPosition;
         private GameObject _cart;
+        private Renderer[] _cartRenderer;
 
         public event Action OnCartCreatorCalibrationComplete;
 
@@ -102,8 +107,35 @@ namespace Cart
         private void CreateCart(Vector3 pointPosition)
         {
             _cart = Instantiate(cartPrefab, pointPosition, cartPrefab.transform.rotation);
+            _cartRendererComponents.AddRange(_cart.GetComponentsInChildren<Renderer>());
+            StartCoroutine(ChangeCartMaterial(cartDissolveMaterial, cartGhostMaterial));
 
             uiController.DisplayCalibrationStep2();
+        }
+
+        /**
+         * changes the cart's material over time
+         * - given start and end material 
+         * - transitions "_Elapsed" material property from 1 to 0 over duration seconds
+         */
+        private IEnumerator ChangeCartMaterial(Material startMaterial, Material finalMaterial)
+        {
+            _cartRendererComponents.ForEach(component => component.material = startMaterial);
+            
+            float timeElapsed = 0.0f; 
+            var duration = 2f;
+            
+            while (timeElapsed < duration)
+            {
+                timeElapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(timeElapsed / duration);
+                float newValue = Mathf.Lerp(1.0f, 0.0f, t);
+                _cartRendererComponents.ForEach(rend => rend.material.SetFloat("_Elapsed", newValue));
+
+                yield return null; 
+            }
+
+            _cartRendererComponents.ForEach(component => component.material = finalMaterial);
         }
 
         /**
@@ -133,12 +165,7 @@ namespace Cart
 
             uiController.DisplayCalibrationStep1();
         }
-
-        private void ColorCart()
-        {
-            _cartRendererComponents.AddRange(_cart.GetComponentsInChildren<Renderer>());
-            _cartRendererComponents.ForEach(component => component.material = cartMaterial);
-        }
+        
 
         public void SkipCalibration()
         {
@@ -160,7 +187,7 @@ namespace Cart
         public void EndCalibration()
         {
             _interactable = false;
-            ColorCart();
+            StartCoroutine(ChangeCartMaterial(cartDissolveTextureMaterial, cartMaterial));
 
             var networkCamera = GameObject.FindWithTag(GameConstants.NetworkCamera);
 
