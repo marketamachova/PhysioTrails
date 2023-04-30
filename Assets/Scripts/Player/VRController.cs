@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Analytics;
 using Network;
 using PathCreation;
 using Scenes;
@@ -90,6 +91,8 @@ namespace Player
                 yield return new WaitForSecondsRealtime(4);
                 TriggerPlayerMoving();
             }
+            
+            AnalyticsController.Instance.StartTracking();
         }
 
 
@@ -121,16 +124,6 @@ namespace Player
 
         public void End()
         {
-            // foreach (var script in _playerMovementScripts)
-            // {
-            //     Disable(script);
-            // }
-            //
-            // if (_cart != null)
-            // {
-            //     StopCart();
-            // }
-            
             var networkPlayers = FindObjectsOfType<NetworkPlayer>();
             foreach (var networkPlayer in networkPlayers)
             {
@@ -175,6 +168,8 @@ namespace Player
             {
                 StopCart();
             }
+            
+            AnalyticsController.Instance.EndTracking();
             
             StartCoroutine(GoToLobbyCoroutine(wait));
         }
