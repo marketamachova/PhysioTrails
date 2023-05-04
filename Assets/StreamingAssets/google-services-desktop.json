@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "294164298328",
+    "project_id": "physiotrails",
+    "storage_bucket": "physiotrails.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294164298328:android:7b8977af3c11282527282d",
+        "android_client_info": {
+          "package_name": "com.marketamachova.PhysioTrails"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294164298328-45nje465u1m4l38ubpac1osstc7hufdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyubbpyBBwJ5JzV3Lrr7UE64AHwJAYVRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294164298328-45nje465u1m4l38ubpac1osstc7hufdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,6 +15,7 @@ namespace Player
     /**
      * Controller managing events in VR travelling experience
      */
+    [RequireComponent(typeof(AnalyticsController))]
     public class VRController : BaseController
     {
         public List<GameObject> player = new List<GameObject>();
@@ -30,6 +31,7 @@ namespace Player
         private NetworkPlayer _networkPlayer;
         private EscapeGestureHandler _escapeGestureHandler;
         private Fader _fader;
+        private AnalyticsController _analyticsController;
 
         private string _currentScene;
 
@@ -51,6 +53,7 @@ namespace Player
             _pathCreator = FindObjectOfType<PathCreator>();
             _networkManager = FindObjectOfType<MyNetworkManager>();
             _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
+            _analyticsController = GetComponent<AnalyticsController>();
 
             _escapeGestureHandler.VRController = this;
 
@@ -92,7 +95,7 @@ namespace Player
                 TriggerPlayerMoving();
             }
             
-            AnalyticsController.Instance.StartTracking();
+            _analyticsController.StartTracking();
         }
 
 
@@ -169,7 +172,7 @@ namespace Player
                 StopCart();
             }
             
-            AnalyticsController.Instance.EndTracking();
+            _analyticsController.EndTracking();
             
             StartCoroutine(GoToLobbyCoroutine(wait));
         }

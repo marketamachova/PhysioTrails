@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Utils;
@@ -8,6 +7,12 @@ namespace Analytics
     public class AnalyticsController : MonoSingleton<AnalyticsController>
     {
         private HmdTracker _hmdTracker;
+        private FirebaseStorageHandler _firebaseStorageHandler;
+
+        private void Awake()
+        {
+            _firebaseStorageHandler = new FirebaseStorageHandler();
+        }
         private void OnEnable()
         {
             _hmdTracker = FindObjectOfType<HmdTracker>();
@@ -24,8 +29,17 @@ namespace Analytics
             _hmdTracker.EndTrackingData();
             var data = _hmdTracker.GetData();
             
-            FileWriter fileWriter = new FileWriter(Constants.LogDirectoryName, Constants.FileName, Constants.FormatTXT, true);
-            fileWriter.WriteData(fileWriter.ParseList(data));
+            // FileWriter fileWriter = new FileWriter(Constants.FileName, Constants.FormatTXT, true, Constants.LogDirectoryName);
+            // fileWriter.WriteData(fileWriter.ParseList(data));
+
+            if (data == null)
+            {
+                Debug.LogError("Tracking data is null.");
+                return;
+            }
+            
+            //Sending data to Firebase
+            _firebaseStorageHandler.UploadFile(data);
         }
 
         [ContextMenu("Test Tracking")]

@@ -41,7 +41,7 @@ namespace Analytics
             Vector3 headPos = centerEyeAnchor.position;
             Vector3 headRot = centerEyeAnchor.rotation.eulerAngles;
         
-            // if (leftHand.Bones.Count == 0) return;
+            if (leftHand.Bones.Count == 0) return;
             
             // Get position and rotation data for hands
             Vector3 leftHandPos =  leftHand.Bones[0].Transform.position; 
