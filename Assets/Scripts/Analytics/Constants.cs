@@ -15,5 +15,28 @@ namespace Analytics
         public static string LogDirectoryName = Path.Combine(DataPath, "Logs");
         public static string FileName = "PhysioTrails";
         public static string FormatTXT = "txt";
+        
+        public enum LogHeader
+        {
+            Time = 0,
+            HeadPositionX,
+            HeadPositionY,
+            HeadPositionZ,
+            HeadRotationX,
+            HeadRotationY,
+            HeadRotationZ,
+            LeftHandPositionX,
+            LeftHandPositionY,
+            LeftHandPositionZ,
+            LeftHandRotationX,
+            LeftHandRotationY,
+            LeftHandRotationZ,
+            RightHandPositionX,
+            RightHandPositionY,
+            RightHandPositionZ,
+            RightHandRotationX,
+            RightHandRotationY,
+            RightHandRotationZ
+        }
     }
 }

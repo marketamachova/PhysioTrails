@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Analytics;
 using UnityEngine;
 
 namespace Utils
@@ -17,7 +18,7 @@ namespace Utils
             _fileName = addDate ? $"{fileName}_{GetCurrentDateTime()}.{format}" : $"{fileName}.{format}";
         }
 
-        public string WriteData(string data)
+        public string WriteData(string header, string data)
         {
             Debug.Log(_path);
 
@@ -30,6 +31,7 @@ namespace Utils
                 {
                     using (StreamWriter sw = new StreamWriter(stream))
                     {
+                        sw.Write(header);
                         sw.Write(data);
                         sw.Close();
                         
@@ -53,7 +55,7 @@ namespace Utils
             return filePath;
         }
 
-        public string ParseList(List<string> stringList)
+        public string StringifyList(List<string> stringList)
         {
             StringBuilder sb = new StringBuilder();
     
@@ -62,6 +64,19 @@ namespace Utils
                 sb.AppendLine(s);
             }
     
+            return sb.ToString();
+        }
+
+        public string StringifyLogsHeader()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Constants.LogHeader header in Enum.GetValues(typeof(Constants.LogHeader)))
+            {
+                sb.Append(header.ToString()).Append(" ");
+            }
+            sb.Remove(sb.Length - 1, 1);
+            sb.AppendLine();
+
             return sb.ToString();
         }
 

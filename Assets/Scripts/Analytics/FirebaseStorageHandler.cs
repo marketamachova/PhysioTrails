@@ -11,7 +11,7 @@ namespace Analytics
         public async void UploadFile(List<string> data)
         {
             var fileWriter = new FileWriter(Constants.FileName, Constants.FormatTXT, true, Constants.LogDirectoryName);
-            var path = fileWriter.WriteData(fileWriter.ParseList(data));
+            var path = fileWriter.WriteData(fileWriter.StringifyLogsHeader(), fileWriter.StringifyList(data));
             Debug.Log("path " + path);
 
             // Create storage reference
