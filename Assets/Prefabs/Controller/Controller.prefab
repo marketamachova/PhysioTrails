@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 485182997557110485}
   - component: {fileID: 485182997557110486}
   - component: {fileID: 8958595492238979270}
-  - component: {fileID: 8958595492238979269}
+  - component: {fileID: 7508624643091259960}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Controller
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -189.32571, y: 2.8005905, z: -64.77138}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,8 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58255a6ea0c5c41729342cabe04b55f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkDiscovery: {fileID: 0}
+  networkManager: {fileID: 0}
+  sceneLoader: {fileID: 0}
+  uiController: {fileID: 0}
+  currentPtScene: 0
   player:
   - {fileID: 0}
+  isVR: 1
 --- !u!114 &8958595492238979270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,8 +71,7 @@ MonoBehaviour:
   player: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   rotateCamera: 1
-  reverse: 0
---- !u!114 &8958595492238979269
+--- !u!114 &7508624643091259960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,11 +80,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 485182997557110487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: 904a2c51d0b18ea4bb32ecb67e196a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 
-  hasSpawned: 0

@@ -41923,6 +41923,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485182997557110486, guid: 7c772e2636b9249d88709135a6aaf2c3,
         type: 3}
+      propertyPath: currentPtScene
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485182997557110486, guid: 7c772e2636b9249d88709135a6aaf2c3,
+        type: 3}
       propertyPath: player.Array.size
       value: 0
       objectReference: {fileID: 0}

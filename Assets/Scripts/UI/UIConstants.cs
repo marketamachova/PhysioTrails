@@ -11,6 +11,8 @@ namespace UI
         public const string PlayerCameraButton = "PlayerCameraButton";
         public const string TopCameraButton = "TopCameraButton";
         public const string MultiviewButton = "MultiviewButton";
+        public const string EndTourButton = "EndTourButton";
+        public const string EndTourButtonSidebar = "EndTourButtonSidebar";
         public const string TopCameraRT = "TopCameraRT";
         public const string PlayerCameraRT = "PlayerCameraRT";
         public const string VideoControls = "VideoControls";

@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4222324146264349462
 Transform:
@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1.2177014, y: 1.2177014, z: 1.2177014}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4222416328306247786}
   m_RootOrder: 1
@@ -42,10 +43,12 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -101,7 +104,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4222418424425038756
 Transform:
@@ -113,6 +116,7 @@ Transform:
   m_LocalRotation: {x: -0.27573478, y: -0.2847731, z: 0.6386311, w: 0.6595642}
   m_LocalPosition: {x: 0.33545548, y: 1.7190848e-17, z: -0.14694723}
   m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4217230231730442798}
   - {fileID: 4217222827453624210}
@@ -134,7 +138,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4222416328306247786
 Transform:
@@ -146,6 +150,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.048811246, z: -0, w: 0.998808}
   m_LocalPosition: {x: 138.586, y: 40.496, z: 224.494}
   m_LocalScale: {x: 1.7148786, y: 1.7148781, z: 1.7148786}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4222418424425038756}
   - {fileID: 4222324146264349462}
@@ -154,7 +159,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4313157211203400810
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -167,6 +172,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -185,7 +191,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4222471407512154502
 Transform:
@@ -198,6 +204,7 @@ Transform:
     w: 1}
   m_LocalPosition: {x: -0.027645582, y: -0.000000009536743, z: 0}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4217230231730442798}
   m_RootOrder: 0
@@ -216,7 +223,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4217222827453624210
 Transform:
@@ -228,6 +235,7 @@ Transform:
   m_LocalRotation: {x: 0.00000010646659, y: -0.0000033446702, z: 0.10294573, w: 0.99468696}
   m_LocalPosition: {x: -0.015463208, y: -0.0000000047683715, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4222414319387285308}
   m_Father: {fileID: 4222418424425038756}
@@ -247,7 +255,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4222414319387285308
 Transform:
@@ -260,6 +268,7 @@ Transform:
     w: 1}
   m_LocalPosition: {x: -0.026952803, y: 0, z: -0.000000009536743}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4217222827453624210}
   m_RootOrder: 0
@@ -278,7 +287,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4217230231730442798
 Transform:
@@ -290,6 +299,7 @@ Transform:
   m_LocalRotation: {x: -0.00000002632345, y: 0.0000033462607, z: -0.063398555, w: 0.9979883}
   m_LocalPosition: {x: -0.015463208, y: -0.0000000047683715, z: 0}
   m_LocalScale: {x: 1.0000004, y: 1.0000004, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4222471407512154502}
   m_Father: {fileID: 4222418424425038756}

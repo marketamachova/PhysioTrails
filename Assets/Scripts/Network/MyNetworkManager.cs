@@ -33,6 +33,16 @@ namespace Network
             }
             else
             {
+                var networkCamera = FindObjectOfType<PlayerCamera>();
+                if (networkCamera)
+                {
+                    Debug.Log("Found network camera");
+                    DontDestroyOnLoad(networkCamera);
+                }
+                else
+                {
+                    Debug.Log("Network camera null");
+                }
                 OnMobileClientConnectAction?.Invoke();
             }
             
@@ -53,6 +63,16 @@ namespace Network
             DontDestroyOnLoad(player);
             Players.Add(player);
 
+            var networkCamera = FindObjectOfType<PlayerCamera>();
+            if (networkCamera)
+            {
+                DontDestroyOnLoad(networkCamera);
+            }
+            else
+            {
+                Debug.Log("No network camera present");
+            }
+
             networkPlayer.UpdateSceneConnected();
         }
 
@@ -61,8 +81,12 @@ namespace Network
          */
         private void InstantiateCamera()
         {
+            Debug.Log("Kuk Will instantiate camera");
             PlayerCamera = Instantiate(spawnPrefabs.Find(prefab => prefab.name == GameConstants.NetworkPlayerAttachCamera));
             NetworkServer.Spawn(PlayerCamera);
+            
+            Debug.Log("Kuk Spawned camera");
+
 
             var mainCamera = GameObject.FindWithTag(GameConstants.MainCamera);
             mainCamera.transform.parent = PlayerCamera.transform;

@@ -58,7 +58,7 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 0
-    antiAliasing: 0
+    antiAliasing: 4
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
@@ -77,7 +77,8 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: 4bc0c6dc2064ac74293e1161fb5b93cd,
+      type: 2}
     excludedTargetPlatforms:
     - Android
   - serializedVersion: 2
@@ -99,7 +100,7 @@ QualitySettings:
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
-    billboardsFaceCameraPosition: 1
+    billboardsFaceCameraPosition: 0
     vSyncCount: 0
     lodBias: 0.7
     maximumLODLevel: 0
@@ -132,11 +133,11 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
-    antiAliasing: 0
+    antiAliasing: 4
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 1
-    billboardsFaceCameraPosition: 1
+    billboardsFaceCameraPosition: 0
     vSyncCount: 1
     lodBias: 1
     maximumLODLevel: 0
@@ -151,7 +152,8 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: 900b2ef59e0504840a0e0f5fe05a8fb3,
+      type: 2}
     excludedTargetPlatforms:
     - Android
   - serializedVersion: 2
@@ -173,7 +175,7 @@ QualitySettings:
     softParticles: 1
     softVegetation: 1
     realtimeReflectionProbes: 1
-    billboardsFaceCameraPosition: 1
+    billboardsFaceCameraPosition: 0
     vSyncCount: 1
     lodBias: 1.5
     maximumLODLevel: 0
@@ -188,7 +190,8 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: 51f7c8086d020ac4eb7fcb02df01f75d,
+      type: 2}
     excludedTargetPlatforms:
     - Android
   - serializedVersion: 2
@@ -210,7 +213,7 @@ QualitySettings:
     softParticles: 1
     softVegetation: 1
     realtimeReflectionProbes: 1
-    billboardsFaceCameraPosition: 1
+    billboardsFaceCameraPosition: 0
     vSyncCount: 0
     lodBias: 2
     maximumLODLevel: 0
@@ -225,7 +228,8 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: ba482f3ce62cc024285723792d1fb603,
+      type: 2}
     excludedTargetPlatforms:
     - Android
   m_PerPlatformDefaultQuality:
@@ -234,6 +238,7 @@ QualitySettings:
     Lumin: 5
     Nintendo Switch: 5
     PS4: 5
+    Server: 0
     Stadia: 5
     Standalone: 5
     WebGL: 3

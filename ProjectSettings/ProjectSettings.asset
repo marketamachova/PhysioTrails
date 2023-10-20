@@ -134,9 +134,61 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 2.0
   preloadedAssets:
   - {fileID: 11400000, guid: 101659cf1892b41b69ea6a12253c5207, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 4a687ddd122a04b8d8030d30d784faca, type: 2}
+  - {fileID: 8633852114367649641, guid: a48753007d4124b56a530c2789143f3f, type: 2}
+  - {fileID: 2476185636861925350, guid: 2a7ac05b49aa7a3478f58e5ac2453fab, type: 2}
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -155,14 +207,15 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.marketamachova.PhysioTrails
   buildNumber:
     Standalone: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
+  overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 29
+  AndroidMinSdkVersion: 30
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
   aotOptions: 
@@ -655,7 +708,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: UNITY_POST_PROCESSING_STACK_V2;CROSS_PLATFORM_INPUT;MOBILE_INPUT;MIRROR;MIRROR_17_0_OR_NEWER;MIRROR_18_0_OR_NEWER;MIRROR_24_0_OR_NEWER;MIRROR_26_0_OR_NEWER;MIRROR_27_0_OR_NEWER;MIRROR_28_0_OR_NEWER;MIRROR_29_0_OR_NEWER;MIRROR_30_0_OR_NEWER;MIRROR_30_5_2_OR_NEWER;MIRROR_32_1_2_OR_NEWER;MIRROR_32_1_4_OR_NEWER;MIRROR_35_0_OR_NEWER;MIRROR_35_1_OR_NEWER;IGNORANCE;IGNORANCE_1;IGNORANCE_1_4;MIRROR_37_0_OR_NEWER;MIRROR_38_0_OR_NEWER;MIRROR_39_0_OR_NEWER;MIRROR_40_0_OR_NEWER;MIRROR_41_0_OR_NEWER;MIRROR_42_0_OR_NEWER;MIRROR_43_0_OR_NEWER;MIRROR_44_0_OR_NEWER;MIRROR_46_0_OR_NEWER;MIRROR_47_0_OR_NEWER;MIRROR_53_0_OR_NEWER;MIRROR_55_0_OR_NEWER;MIRROR_57_0_OR_NEWER;MIRROR_58_0_OR_NEWER;MIRROR_65_0_OR_NEWER;MIRROR_66_0_OR_NEWER;MIRROR_2022_9_OR_NEWER;MIRROR_2022_10_OR_NEWER;MIRROR_70_0_OR_NEWER
+    Android: UNITY_POST_PROCESSING_STACK_V2;CROSS_PLATFORM_INPUT;MOBILE_INPUT;MIRROR;MIRROR_17_0_OR_NEWER;MIRROR_18_0_OR_NEWER;MIRROR_24_0_OR_NEWER;MIRROR_26_0_OR_NEWER;MIRROR_27_0_OR_NEWER;MIRROR_28_0_OR_NEWER;MIRROR_29_0_OR_NEWER;MIRROR_30_0_OR_NEWER;MIRROR_30_5_2_OR_NEWER;MIRROR_32_1_2_OR_NEWER;MIRROR_32_1_4_OR_NEWER;MIRROR_35_0_OR_NEWER;MIRROR_35_1_OR_NEWER;IGNORANCE;IGNORANCE_1;IGNORANCE_1_4;MIRROR_37_0_OR_NEWER;MIRROR_38_0_OR_NEWER;MIRROR_39_0_OR_NEWER;MIRROR_40_0_OR_NEWER;MIRROR_41_0_OR_NEWER;MIRROR_42_0_OR_NEWER;MIRROR_43_0_OR_NEWER;MIRROR_44_0_OR_NEWER;MIRROR_46_0_OR_NEWER;MIRROR_47_0_OR_NEWER;MIRROR_53_0_OR_NEWER;MIRROR_55_0_OR_NEWER;MIRROR_57_0_OR_NEWER;MIRROR_58_0_OR_NEWER;MIRROR_65_0_OR_NEWER;MIRROR_66_0_OR_NEWER;MIRROR_2022_9_OR_NEWER;MIRROR_2022_10_OR_NEWER;MIRROR_70_0_OR_NEWER;__MICROSPLAT__
     LinuxHeadlessSimulation: UNITY_POST_PROCESSING_STACK_V2
     Lumin: UNITY_POST_PROCESSING_STACK_V2
     Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2

@@ -13,13 +13,15 @@ namespace Analytics
         [SerializeField] private OVRSkeleton leftHand;
         [SerializeField] private Transform leftHandTransform;
 
+        private string _sceneName;
         private float _startTrackingTime = 0;
         private List<string> data = new List<string>();
     
 
         // Start tracking data every second
-        public void StartTrackingData()
+        public void StartTrackingData(string sceneName)
         {
+            _sceneName = sceneName;
             _startTrackingTime = Time.time;
             InvokeRepeating("TrackData", 0, 1f);
         }
@@ -39,17 +41,17 @@ namespace Analytics
             int time = (int) Math.Round(Time.time - _startTrackingTime);
 
             // Get position and rotation data for head
-            Vector3 headPos = centerEyeAnchor.position;
-            Vector3 headRot = centerEyeAnchor.rotation.eulerAngles;
+            Vector3 headPos = centerEyeAnchor.localPosition;
+            Vector3 headRot = centerEyeAnchor.localRotation.eulerAngles;
         
             if (leftHand.Bones.Count == 0) return;
             
             // Get position and rotation data for hands
-            Vector3 leftHandPos =  leftHand.Bones[0].Transform.position; 
-            Vector3 rightHandPos = rightHand.Bones[0].Transform.position;
+            Vector3 leftHandPos =  leftHand.Bones[0].Transform.localPosition; 
+            Vector3 rightHandPos = rightHand.Bones[0].Transform.localPosition;
         
-            Vector3 leftHandRot = leftHand.Bones[0].Transform.rotation.eulerAngles;
-            Vector3 rightHandRot = rightHand.Bones[0].Transform.rotation.eulerAngles;
+            Vector3 leftHandRot = leftHand.Bones[0].Transform.localRotation.eulerAngles;
+            Vector3 rightHandRot = rightHand.Bones[0].Transform.localRotation.eulerAngles;
 
             // Add data to list as comma-separated string
             var rowData = ConstructStringTable(time, headPos, headRot, leftHandPos, leftHandRot, rightHandPos, rightHandRot);
@@ -67,6 +69,7 @@ namespace Analytics
             sb.Append(rightHandPos.x.ToString("F2")).Append(" ").Append(rightHandPos.y.ToString("F2")).Append(" ").Append(rightHandPos.z.ToString("F2")).Append(" ");
             sb.Append(rightHandRot.x.ToString("F2")).Append(" ").Append(rightHandRot.y.ToString("F2")).Append(" ").Append(rightHandRot.z.ToString("F2"));
 
+            // Debug.Log(time + headPos.x.ToString("F2") + (" ") + (headPos.y.ToString("F2")) + (" ") + headPos.z.ToString("F2"));
             return sb.ToString();
         }
         
@@ -86,6 +89,11 @@ namespace Analytics
         public List<string> GetData()
         {
             return data;
+        }
+
+        public string GetSceneName()
+        {
+            return _sceneName;
         }
     }
 }

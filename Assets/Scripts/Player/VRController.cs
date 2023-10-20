@@ -8,17 +8,27 @@ using Scenes;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using NetworkPlayer = Network.NetworkPlayer;
 
 namespace Player
 {
+    public enum PTScene
+    {
+        Forest, Rural, Winter, None
+    }
     /**
      * Controller managing events in VR travelling experience
      */
     [RequireComponent(typeof(AnalyticsController))]
     public class VRController : BaseController
     {
+        [FormerlySerializedAs("currentScene")] [SerializeField] private PTScene currentPtScene;
+
         public List<GameObject> player = new List<GameObject>();
+
+        [SerializeField] private bool isVR = true;
+        
         private SceneController _sceneController;
         private SceneLoader _sceneLoader;
         private PathCreator _pathCreator;
@@ -32,9 +42,7 @@ namespace Player
         private EscapeGestureHandler _escapeGestureHandler;
         private Fader _fader;
         private AnalyticsController _analyticsController;
-
-        private string _currentScene;
-
+        
         private int _customSpeed = 10;
 
         private static readonly int Idle = Animator.StringToHash("Idle");
@@ -43,7 +51,6 @@ namespace Player
         private void Awake()
         {
             _networkPlayer = FindObjectOfType<NetworkPlayer>();
-            _currentScene = SceneManager.GetActiveScene().name;
 
             _customSpeed = _networkPlayer.speed;
             _cart = GameObject.FindWithTag(GameConstants.Cart);
@@ -52,11 +59,16 @@ namespace Player
             _sceneLoader = FindObjectOfType<SceneLoader>();
             _pathCreator = FindObjectOfType<PathCreator>();
             _networkManager = FindObjectOfType<MyNetworkManager>();
-            _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
-            _analyticsController = GetComponent<AnalyticsController>();
 
-            _escapeGestureHandler.VRController = this;
-
+            if (isVR)
+            {
+                _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
+                _analyticsController = GetComponent<AnalyticsController>();
+                
+                _escapeGestureHandler.VRController = this;
+            }
+            
+            
             player.Add(_player);
             
             AssignPlayers();
@@ -95,7 +107,8 @@ namespace Player
                 TriggerPlayerMoving();
             }
             
-            _analyticsController.StartTracking();
+            _analyticsController.StartTracking(currentPtScene.ToString());
+            Debug.Log("Start tracking in scene " + currentPtScene.ToString());
         }
 
 

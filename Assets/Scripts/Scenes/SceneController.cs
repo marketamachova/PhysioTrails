@@ -1,16 +1,17 @@
 ﻿using Player;
+using Unity.Collections;
 using UnityEngine;
 using NetworkPlayer = Network.NetworkPlayer;
 
 
 namespace Scenes
-{
+{ 
     public class SceneController : MonoBehaviour
     {
         [SerializeField] private Transform startingPoint;
         [SerializeField] private Vector3 startingPositionLobby;
         [SerializeField] private Quaternion startingRotationLobby;
-        
+
         private GameObject _player;
         private GameObject _mainCamera;
         private GameObject _rtCamera;

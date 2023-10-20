@@ -109,6 +109,7 @@ namespace UI
             _panelOnTopOfStack = panelName;
             Enable(panelName, true);
             Enable(UIConstants.BackButton, true);
+            Enable(UIConstants.EndTourButton, false);
 
             if (!portraitOriented)
             {
@@ -119,6 +120,7 @@ namespace UI
         public void RemovePanelFromStack()
         {
             Enable(_panelOnTopOfStack, false);
+            Enable(UIConstants.EndTourButton, true);
             Enable(UIConstants.BackButton, false);
         }
 
@@ -176,7 +178,7 @@ namespace UI
 
         private IEnumerator SlideSplashScreen()
         {
-            yield return new WaitForSecondsRealtime(3f);
+            yield return new WaitForSecondsRealtime(5f);
             splashScreen.GetComponent<Animator>().SetTrigger(SlideDown);
             yield return new WaitForSecondsRealtime(2f);
             splashScreen.SetActive(false);

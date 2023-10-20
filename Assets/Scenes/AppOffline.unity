@@ -98,8 +98,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000004, guid: a0ac5c19f8cc14e91ad0266db861ce4a,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -287,7 +286,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 186621}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -1312,12 +1311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!1 &265339807 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7921233048587166164, guid: e1c1ed46ba8dd47b2b149e8e82330427,
-    type: 3}
-  m_PrefabInstance: {fileID: 1241318938}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &271983755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,7 +1717,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1241318938}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265339807}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ccec9e4114a1436fa2ddcc1a4792444, type: 3}
@@ -4847,7 +4840,7 @@ GameObject:
   - component: {fileID: 780388907}
   - component: {fileID: 780388906}
   m_Layer: 5
-  m_Name: EndTourButton
+  m_Name: EndTourButtonSidebar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6181,6 +6174,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Console
       objectReference: {fileID: 0}
+    - target: {fileID: 2451853026162762367, guid: be4c07884ecb984488ff713c6c2a6908,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2451853026162762369, guid: be4c07884ecb984488ff713c6c2a6908,
         type: 3}
       propertyPath: m_RootOrder
@@ -6311,7 +6309,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: cf2e9d391cd8046d1850747e8b2fc29d, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -7021,12 +7019,22 @@ PrefabInstance:
         type: 3}
       propertyPath: transport
       value: 
-      objectReference: {fileID: 1241318942}
+      objectReference: {fileID: 1241318943}
     - target: {fileID: 7921233048587166059, guid: e1c1ed46ba8dd47b2b149e8e82330427,
         type: 3}
       propertyPath: transport
       value: 
-      objectReference: {fileID: 1241318942}
+      objectReference: {fileID: 1241318943}
+    - target: {fileID: 7921233048587166059, guid: e1c1ed46ba8dd47b2b149e8e82330427,
+        type: 3}
+      propertyPath: onlineScene
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921233048587166059, guid: e1c1ed46ba8dd47b2b149e8e82330427,
+        type: 3}
+      propertyPath: offlineScene
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7921233048587166059, guid: e1c1ed46ba8dd47b2b149e8e82330427,
         type: 3}
       propertyPath: networkAddress
@@ -7107,36 +7115,24 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1241318938}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265339807}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c761308e733c51245b2e8bb4201f46dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1241318942
+--- !u!114 &1241318943 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1142988726255370796, guid: e1c1ed46ba8dd47b2b149e8e82330427,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241318938}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265339807}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 7777
-  NoDelay: 1
-  SendTimeout: 5000
-  ReceiveTimeout: 30000
-  serverMaxMessageSize: 16384
-  serverMaxReceivesPerTick: 10000
-  serverSendQueueLimitPerConnection: 10000
-  serverReceiveQueueLimitPerConnection: 10000
-  clientMaxMessageSize: 16384
-  clientMaxReceivesPerTick: 1000
-  clientSendQueueLimit: 10000
-  clientReceiveQueueLimit: 10000
 --- !u!1 &1280767303
 GameObject:
   m_ObjectHideFlags: 0
@@ -8521,6 +8517,7 @@ MonoBehaviour:
   - {fileID: 1852341074}
   - {fileID: 1112121272}
   - {fileID: 577717483}
+  - {fileID: 1978156412}
   networkManager: {fileID: 356490372}
   controller: {fileID: 1322426695}
   portraitOriented: 1
@@ -9359,7 +9356,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1638970475}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -11349,7 +11346,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1861251030}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -11892,7 +11889,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 18.410034, y: 3.6}
+  m_AnchoredPosition: {x: 18.4, y: -0.000026464}
   m_SizeDelta: {x: -69.43819, y: 45.035713}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1894585899
@@ -12022,7 +12019,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1894585899}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -12603,7 +12600,7 @@ GameObject:
   - component: {fileID: 1978156415}
   - component: {fileID: 1978156414}
   m_Layer: 5
-  m_Name: EndTourButtton
+  m_Name: EndTourButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15086,7 +15083,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5048184561794347863}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -15248,7 +15245,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 202432241384609934}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -15363,7 +15360,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3899996423412418283}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:

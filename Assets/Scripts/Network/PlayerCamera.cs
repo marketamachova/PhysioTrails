@@ -49,8 +49,8 @@ namespace Network
         
         private void SyncUserPositionAndRotation()
         {
-            var playerViewportPosition = _centerEyeAnchor.transform.position;
-            var playerViewportRotation = _centerEyeAnchor.transform.rotation;
+            var playerViewportPosition = _centerEyeAnchor.transform.localPosition;
+            var playerViewportRotation = _centerEyeAnchor.transform.localRotation;
 
             rtCamera.transform.rotation = playerViewportRotation;
             rtWideCamera.transform.rotation = playerViewportRotation;

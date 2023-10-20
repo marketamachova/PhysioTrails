@@ -86,5 +86,10 @@ namespace Scenes
         {
             SceneManager.UnloadSceneAsync(_currentSceneName);
         }
+
+        public string GetSceneName()
+        {
+            return _loadedSceneName;
+        }
     }
 }

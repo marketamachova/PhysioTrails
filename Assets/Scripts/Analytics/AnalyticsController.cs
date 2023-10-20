@@ -19,15 +19,16 @@ namespace Analytics
             Debug.Assert(_hmdTracker != null, "HmdTracker is null");
         }
 
-        public void StartTracking()
+        public void StartTracking(string sceneName)
         {
-            _hmdTracker.StartTrackingData();
+            _hmdTracker.StartTrackingData(sceneName);
         }
 
         public void EndTracking()
         {
             _hmdTracker.EndTrackingData();
             var data = _hmdTracker.GetData();
+            var sceneName = _hmdTracker.GetSceneName();
             
             // FileWriter fileWriter = new FileWriter(Constants.FileName, Constants.FormatTXT, true, Constants.LogDirectoryName);
             // fileWriter.WriteData(fileWriter.ParseList(data));
@@ -39,7 +40,7 @@ namespace Analytics
             }
             
             //Sending data to Firebase
-            _firebaseStorageHandler.UploadFile(data);
+            _firebaseStorageHandler.UploadFile(data, sceneName);
         }
 
         [ContextMenu("Test Tracking")]
@@ -50,7 +51,7 @@ namespace Analytics
 
         private IEnumerator TestTrackingCoroutine()
         {
-            StartTracking();
+            StartTracking("Forest scene");
             yield return new WaitForSecondsRealtime(1);
             EndTracking();
         }

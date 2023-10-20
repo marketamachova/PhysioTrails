@@ -12,10 +12,10 @@ namespace Utils
         private string _path;
         private string _fileName;
 
-        public FileWriter(string fileName, string format, bool addDate, string path = null)
+        public FileWriter(string fileName, string format, bool addDate, string path = null, string sceneName = "")
         {
             _path = path;
-            _fileName = addDate ? $"{fileName}_{GetCurrentDateTime()}.{format}" : $"{fileName}.{format}";
+            _fileName = addDate ? $"{fileName}_{sceneName}_{GetCurrentDateTime()}.{format}" : $"{fileName}_{sceneName}_.{format}";
         }
 
         public string WriteData(string header, string data)

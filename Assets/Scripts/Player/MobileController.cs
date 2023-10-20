@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Network;
 using Scenes;
 using UI;
 using UnityEngine;
@@ -121,6 +122,17 @@ namespace Player
             // {
             //     LocalNetworkPlayer.CmdSetCalibrationComplete(true);
             // }
+            
+            var networkCamera = FindObjectOfType<PlayerCamera>();
+            if (networkCamera)
+            {
+                DontDestroyOnLoad(networkCamera);
+            }
+            else
+            {
+                Debug.Log("Network camera not found");
+            }
+
             if (_vrPlayer.playerMoving)
             {
                 LocalNetworkPlayer.CmdSetPlayerMoving(true);
