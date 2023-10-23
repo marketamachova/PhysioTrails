@@ -20,7 +20,7 @@ namespace Network
         private bool _vrInstance;
         private GameObject _cameraRig;
         private GameObject _centerEyeAnchor;
-        private VRController _vrController;
+        private PlayerMovement _playerMovement;
 
 
         private void Awake()
@@ -49,18 +49,14 @@ namespace Network
         
         private void SyncUserPositionAndRotation()
         {
-            var playerViewportPosition = _centerEyeAnchor.transform.localPosition;
+            if (_playerMovement == null || !_playerMovement.enabled)
+            {
+                return;
+            }
+            
             var playerViewportRotation = _centerEyeAnchor.transform.localRotation;
-
-            rtCamera.transform.rotation = playerViewportRotation;
-            rtWideCamera.transform.rotation = playerViewportRotation;
-
-
-            var playerPosition = _cameraRig.transform.position;
-            rtCamera.transform.position = playerViewportPosition;
-            rtWideCamera.transform.position = playerViewportPosition;
-            rtTopCamera.transform.position = new Vector3(playerPosition.x, 30f, playerPosition.z);
-            rtWideTopCamera.transform.position = new Vector3(playerPosition.x, 30f, playerPosition.z);
+            
+            rtCamera.transform.localRotation = playerViewportRotation;
         }
 
 

@@ -1,16 +1,20 @@
-﻿using PathCreation;
+﻿using Network;
+using PathCreation;
 using UnityEngine;
 
 namespace Player
 {
+    /**
+     * Handles VR player movement in the VR scenes. Uses the PathCreator package
+     */
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] public float speed = 2f;
         [SerializeField] private EndOfPathInstruction endOfPathInstruction;
-        [SerializeField] private GameObject player;
+        [SerializeField] private PlayerCamera player;
         [SerializeField] private Vector3 offset = new Vector3(0, 5, 0);
         [SerializeField] private bool rotateCamera = true;
-
+        
         private Animator _animator;
         private PathCreator _pathCreator;
         private VRController _controller;
@@ -24,7 +28,7 @@ namespace Player
         {
             if (player == null)
             {
-                player = GameObject.FindWithTag("NetworkCamera");
+                player = FindObjectOfType<PlayerCamera>();
             }
         }
 

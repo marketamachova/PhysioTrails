@@ -11,5 +11,8 @@
     public const string CenterEyeAnchor = "CenterEyeAnchor";
     public const string NetworkPlayerAttachCamera = "NetworkPlayerAttachCamera";
     public const string Terrain = "Terrain";
+    public const string Forest = "MainScene";
+    public const string Winter = "WinterScene";
+    public const string Rural = "RuralScene";
   }
 }
