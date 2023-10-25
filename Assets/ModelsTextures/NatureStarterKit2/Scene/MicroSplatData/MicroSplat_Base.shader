@@ -11,7 +11,7 @@
 ////////////////////////////////////////
 
 
-Shader "Hidden/Terrain3_Base31039122"
+Shader "Hidden/Terrain3_Base745993381"
 {
    Properties
    {
@@ -114,6 +114,7 @@ Shader "Hidden/Terrain3_Base31039122"
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -4265,6 +4266,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -8370,6 +8372,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -12390,6 +12393,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -16406,6 +16410,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -20426,6 +20431,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1

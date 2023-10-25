@@ -114,6 +114,7 @@ Shader "Terrain (1)"
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -4264,6 +4265,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -8368,6 +8370,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -12387,6 +12390,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -16402,6 +16406,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -20421,6 +20426,7 @@ float3 GetTessFactors ()
       #define _USEGRADMIP 1
       #define _MAX4TEXTURES 1
       #define _PERTEXUVSCALEOFFSET 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -24447,7 +24453,7 @@ float3 GetTessFactors ()
 
         UsePass "Hidden/Nature/Terrain/Utilities/PICKING"
    }
-   Dependency "BaseMapShader" =  "Hidden/Terrain (1)_Base31039122"
-   Fallback "Hidden/Terrain (1)_Base31039122"
+   Dependency "BaseMapShader" =  "Hidden/Terrain (1)_Base-13959371"
+   Fallback "Hidden/Terrain (1)_Base-13959371"
    CustomEditor "MicroSplatShaderGUI"
 }
