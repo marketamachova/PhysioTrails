@@ -116,9 +116,9 @@ Shader "Terrain"
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -4265,9 +4265,9 @@ float3 GetTessFactors ()
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -8368,9 +8368,9 @@ float3 GetTessFactors ()
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -12386,9 +12386,9 @@ float3 GetTessFactors ()
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -16400,9 +16400,9 @@ float3 GetTessFactors ()
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -20418,9 +20418,9 @@ float3 GetTessFactors ()
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
       #define _PERTEXTINT 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
-      #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYLD 1
       #define _MSRENDERLOOP_UNITYURP2020 1
       #define _MSRENDERLOOP_UNITYURP2021 1
@@ -24444,7 +24444,7 @@ float3 GetTessFactors ()
 
         UsePass "Hidden/Nature/Terrain/Utilities/PICKING"
    }
-   Dependency "BaseMapShader" =  "Hidden/Terrain_Base2102955123"
-   Fallback "Hidden/Terrain_Base2102955123"
+   Dependency "BaseMapShader" =  "Hidden/Terrain_Base-1477057914"
+   Fallback "Hidden/Terrain_Base-1477057914"
    CustomEditor "MicroSplatShaderGUI"
 }
