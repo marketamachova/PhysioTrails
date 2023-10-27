@@ -49,10 +49,10 @@ namespace Network
         
         private void SyncUserPositionAndRotation()
         {
-            if (_playerMovement == null || !_playerMovement.enabled)
-            {
-                return;
-            }
+            // if (_playerMovement == null || !_playerMovement.enabled)
+            // {
+            //     return;
+            // }
             
             var playerViewportRotation = _centerEyeAnchor.transform.localRotation;
             
@@ -81,5 +81,5 @@ namespace Network
             _cameraRig = GameObject.FindWithTag(GameConstants.MainCamera);
             _cameraRig.transform.parent = this.transform;
         }
-    }
+    } 
 }
