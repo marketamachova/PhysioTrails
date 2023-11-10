@@ -45,7 +45,7 @@ MonoBehaviour:
       filterMode: 1
       Aniso: 1
     normalSettings:
-      textureSize: 128
+      textureSize: 512
       compression: 0
       compressionQuality: 1
       filterMode: 2

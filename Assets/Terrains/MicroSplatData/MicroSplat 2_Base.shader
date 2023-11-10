@@ -11,7 +11,7 @@
 ////////////////////////////////////////
 
 
-Shader "Hidden/Terrain_Base-1477057914"
+Shader "Hidden/Terrain_Base1030175524"
 {
    Properties
    {
@@ -19,9 +19,6 @@ Shader "Hidden/Terrain_Base-1477057914"
       [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
       [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
             [HideInInspector] _Control0 ("Control0", 2D) = "red" {}
-      [HideInInspector] _Control1 ("Control1", 2D) = "black" {}
-      [HideInInspector] _Control2 ("Control2", 2D) = "black" {}
-      [HideInInspector] _Control3 ("Control3", 2D) = "black" {}
       
 
       // Splats
@@ -44,7 +41,7 @@ Shader "Hidden/Terrain_Base-1477057914"
    }
    SubShader
    {
-            Tags {"RenderPipeline" = "UniversalPipeline"  "RenderType" = "UniversalLitShader" "Queue" = "Geometry+100" "IgnoreProjector" = "False"  "TerrainCompatible" = "true" "SplatCount" = "16"}
+            Tags {"RenderPipeline" = "UniversalPipeline"  "RenderType" = "UniversalLitShader" "Queue" = "Geometry+100" "IgnoreProjector" = "False"  "TerrainCompatible" = "true" "SplatCount" = "4"}
       
 
       
@@ -115,10 +112,7 @@ Shader "Hidden/Terrain_Base-1477057914"
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1
@@ -4266,10 +4260,7 @@ float3 GetTessFactors ()
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1
@@ -8371,10 +8362,7 @@ float3 GetTessFactors ()
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1
@@ -12391,10 +12379,7 @@ float3 GetTessFactors ()
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1
@@ -16407,10 +16392,7 @@ float3 GetTessFactors ()
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1
@@ -20427,10 +20409,7 @@ float3 GetTessFactors ()
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
       #define _USEGRADMIP 1
-      #define _PERTEXTINT 1
-      #define _PERTEXSMOOTHSTR 1
-      #define _BRANCHSAMPLES 1
-      #define _BRANCHSAMPLESAGR 1
+      #define _MAX4TEXTURES 1
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MICROSPLATBASEMAP 1
       #define _MSRENDERLOOP_UNITYLD 1

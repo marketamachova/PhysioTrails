@@ -16,11 +16,11 @@ MonoBehaviour:
   antiTileArray: 0
   emisMetalArray: 0
   traxArray: 0
-  textureMode: 0
+  textureMode: 1
   clusterMode: 0
   packingMode: 0
   pbrWorkflow: 0
-  hash: 128946176
+  hash: 1154580480
   splatArray: {fileID: 0}
   diffuseArray: {fileID: 18700000, guid: 8c2a03644228163428013a5eb7fd7380, type: 2}
   normalSAOArray: {fileID: 18700000, guid: 2e904051eddd316409afe049c03660a5, type: 2}
@@ -39,17 +39,17 @@ MonoBehaviour:
   emisArray3: {fileID: 0}
   defaultTextureSettings:
     diffuseSettings:
-      textureSize: 2048
+      textureSize: 1024
       compression: 0
-      compressionQuality: 1
+      compressionQuality: 0
       filterMode: 1
       Aniso: 1
     normalSettings:
-      textureSize: 2048
+      textureSize: 1024
       compression: 0
       compressionQuality: 1
       filterMode: 2
-      Aniso: 1
+      Aniso: 5
     smoothSettings:
       textureSize: 1024
       compression: 0
