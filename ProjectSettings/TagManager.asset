@@ -16,6 +16,7 @@ TagManager:
   - Terrain
   - RTCamera
   - SamplesInfoPanel
+  - LoopTorus
   layers:
   - Default
   - TransparentFX
