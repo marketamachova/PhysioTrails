@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Oculus.Interaction.HandGrab;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utils;
 
 namespace Interactions.WireLoop
 {
@@ -10,10 +11,14 @@ namespace Interactions.WireLoop
         [SerializeField] private bool startCollisionDetectionOnGrab;
         [FormerlySerializedAs("pathCollider")] [SerializeField] private WireLoopCollider wireLoopCollider;
         [SerializeField] private WireLoopVisualiser wireLoopVisualiser;
+        [SerializeField] private PathController pathController;
         [SerializeField] private ScoreController scoreController;
         [SerializeField] private List<HandGrabInteractor> handGrabInteractors;
+        [SerializeField] private GameObject torus;
+        [SerializeField] private GameObject torusGhost;
         
         private bool _enableCollisions = false;
+        private bool _isIdle = true;
 
 
         private void Awake()
@@ -28,8 +33,17 @@ namespace Interactions.WireLoop
             {
                 wireLoopCollider.EnableCollisionDetection(true);
             }
-        
+            
+            pathController.GeneratePath();
+            torusGhost.SetActive(false);
+
             // TODO implement listening for ring grab by hands
+        }
+        
+        [ContextMenu("Generate Path")]
+        public void GeneratePath()
+        {
+            pathController.GeneratePath();
         }
 
         private void OnTorusCollisionStart(bool isTrigger)
@@ -41,7 +55,9 @@ namespace Interactions.WireLoop
             if (isTrigger)
             {
                 // Force disable grab from controllers
-                handGrabInteractors.ForEach(interactor => interactor.Unselect());
+                // handGrabInteractors.ForEach(interactor => interactor.Unselect());
+                torus.transform.localPosition = Vector3.zero;
+                torusGhost.SetActive(true);
             }
         }
 
@@ -49,7 +65,16 @@ namespace Interactions.WireLoop
         {
             wireLoopVisualiser.OnCollisionEnd();
             // Start trail ghost?
+            torusGhost.SetActive(false);
         }
+
+        // private void OnTorusCollisionStay(bool isTrigger)
+        // {
+        //     if (isTrigger)
+        //     {
+        //         torus.transform.localPosition = Vector3.zero;
+        //     }
+        // }
 
     }
 }

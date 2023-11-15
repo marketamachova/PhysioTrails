@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,14 @@ namespace Interactions.WireLoop
         // The bool signifies if the collision is trigger
         public UnityEvent<bool> collisionStart = new UnityEvent<bool>();
         public UnityEvent<bool> collisionEnd = new UnityEvent<bool>();
-        
+        public UnityEvent<bool> collisionStay = new UnityEvent<bool>();
+
+        private List<Collider> _activeColliders = new List<Collider>();
+        private void Start()
+        {
+            
+        }
+
         public void EnableCollisionDetection(bool enable)
         {
             //colliders.ForEach(col => col.enabled = enable);
@@ -45,6 +53,11 @@ namespace Interactions.WireLoop
             Debug.Log("Path started trigger with " + other.gameObject.name);
             if (other.gameObject.CompareTag(torusTagName))
             {
+                if (!_activeColliders.Find(col => col.name == other.gameObject.name))
+                {
+                    _activeColliders.Add(other);
+                }
+                
                 collisionStart.Invoke(true);
             }
         }
@@ -54,8 +67,24 @@ namespace Interactions.WireLoop
             Debug.Log("Path ended trigger with " + other.gameObject.name);
             if (other.gameObject.CompareTag(torusTagName))
             {
-                collisionEnd.Invoke(true);
+                if (_activeColliders.Find(col => col.name == other.gameObject.name) != null)
+                {
+                    _activeColliders.Remove(other);
+                }
+
+                if (_activeColliders.Count == 0)
+                {
+                    collisionEnd.Invoke(true);
+                }
             }
         }
+
+        // private void OnTriggerStay(Collider other)
+        // {
+        //     if (other.gameObject.CompareTag(torusTagName))
+        //     {
+        //         collisionStay.Invoke(true);
+        //     }
+        // }
     }
 }
