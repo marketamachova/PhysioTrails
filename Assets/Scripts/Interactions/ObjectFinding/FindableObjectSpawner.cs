@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utils;
 
 namespace Interactions.ObjectFinding
 {
@@ -22,7 +23,7 @@ namespace Interactions.ObjectFinding
          */
         private void SpawnObjectsRandomly()
         {
-            Shuffle(spawnPoints);
+            ListUtils.Shuffle(spawnPoints);
 
             // iterate through the spawn points and spawn an object at each one
             for (int i = 0; i < spawnPoints.Count; i++)
@@ -49,15 +50,7 @@ namespace Interactions.ObjectFinding
                 mesh.gameObject.GetComponent<MeshRenderer>().material = objectData.Material;
             }
         }
-        
-        private static void Shuffle<T>(List<T> list)
-        {
-            var random = new System.Random();
-            var n = list.Count;
-            
-            list.Sort((x, y) => random.Next(n * 2) - n);
-        }
-        
+
         private GameObject InstantiateObject(string objectName, Transform parent)
         {
             GameObject prefabToInstantiate = Resources.Load<GameObject>(objectName);
