@@ -34,7 +34,7 @@ namespace Interactions.WireLoop
                 wireLoopCollider.EnableCollisionDetection(true);
             }
             
-            pathController.GeneratePath();
+            //pathController.GeneratePath();
             torusGhost.SetActive(false);
 
             // TODO implement listening for ring grab by hands

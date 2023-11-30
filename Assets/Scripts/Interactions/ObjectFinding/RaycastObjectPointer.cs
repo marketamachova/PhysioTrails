@@ -13,7 +13,7 @@ namespace Interactions.ObjectFinding
 
         [Header("Settings")]
         [SerializeField] private Transform indexFingerTip;
-        [SerializeField] private float maxDistance = 10f;
+        [SerializeField] private float maxDistance = 20f;
         [SerializeField] private bool enableRaycastOnlyWhenPointingGesture = true;
         
         private FindableObject _currentPointedObject;
@@ -84,7 +84,7 @@ namespace Interactions.ObjectFinding
                 }
                 else
                 {
-                    Debug.Log("Kuk " + hit.collider.name);
+                    // Debug.Log("Kuk " + hit.collider.name);
                 }
                 
                 // Update Line Renderer positions

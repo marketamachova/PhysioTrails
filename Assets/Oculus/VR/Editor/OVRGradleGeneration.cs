@@ -299,7 +299,7 @@ public class OVRGradleGeneration
 			}
 		}
 		// Comment out this line for mobile build
-		OVRManifestPreprocessor.PatchAndroidManifest(file, enableSecurity: patchedSecurityConfig);
+		//OVRManifestPreprocessor.PatchAndroidManifest(file, enableSecurity: patchedSecurityConfig);
 	}
 
 	private static string GetOculusProjectNetworkSecConfigPath()
