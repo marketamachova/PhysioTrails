@@ -2,9 +2,16 @@ using UnityEngine;
 
 namespace Interactions.AvoidObstacles
 {
-    public class AvoidObstaclesController : MonoBehaviour
+    public class AvoidObstaclesController : InteractionControllerBase
     {
         [SerializeField] private AvoidObstaclesScoreController scoreController;
+        
+        private AvoidObstaclesSceneManager _avoidObstaclesSceneManager;
+        
+        public void OnSceneLoaded()
+        {
+            InvokeInteractionReady();
+        }
         
         public void OnHit()
         {
@@ -21,6 +28,21 @@ namespace Interactions.AvoidObstacles
         {
             Debug.Log("Kuk avoid INCORRECT");
 
+        }
+
+        protected override void InvokeInteractionReady()
+        {
+            onInteractionReady.Invoke();
+        }
+
+        public override void SetSpeed(int speed)
+        {
+        }
+
+        public AvoidObstaclesSceneManager AvoidObstaclesSceneManager
+        {
+            get => _avoidObstaclesSceneManager;
+            set => _avoidObstaclesSceneManager = value;
         }
     }
 }

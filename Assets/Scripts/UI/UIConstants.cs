@@ -17,6 +17,7 @@ namespace UI
         public const string PlayerCameraRT = "PlayerCameraRT";
         public const string VideoControls = "VideoControls";
         public const string SceneSelection = "SceneSelection";
+        public const string InteractionSelection = "InteractionSelection";
         public const string Calibration = "Calibration";
         public const string ErrorPanel = "ErrorPanel";
         public const string ErrorBackdrop = "ErrorBackdrop";

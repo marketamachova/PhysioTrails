@@ -146,6 +146,10 @@ namespace Player
             {
                 LocalNetworkPlayer.CmdSetCalibrationComplete(true);
                 OnCalibrationComplete();
+            } else if (_vrPlayer.interactionSelectionComplete) //interaction selection complete in VR
+            {
+                LocalNetworkPlayer.CmdSetInteractionSelectionComplete(true);
+                OnInteractionSelectionComplete();
             }
             else //calibration in process
             {

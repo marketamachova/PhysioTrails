@@ -16,18 +16,18 @@ namespace Interactions
 
         protected void Start()
         {
-            if (voPlayer == null)
-            {
-                voPlayer = FindObjectOfType<VOPlayer>();
-            }
-            
-            if (scoreVisualiser == null)
-            {
-                scoreVisualiser = FindObjectOfType<ScoreVisualiser>();
-            }
-            
-            InitializeScore();
-            scoreVisualiser.UpdateScore(CurrentScore);
+            // if (voPlayer == null)
+            // {
+            //     voPlayer = FindObjectOfType<VOPlayer>();
+            // }
+            //
+            // if (scoreVisualiser == null)
+            // {
+            //     scoreVisualiser = FindObjectOfType<ScoreVisualiser>();
+            // }
+            //
+            // InitializeScore();
+            // scoreVisualiser.UpdateScore(CurrentScore);
         }
 
         public void OnMiss()

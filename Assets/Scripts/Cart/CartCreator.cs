@@ -202,7 +202,7 @@ namespace Cart
             }
 
             networkCamera.transform.Rotate(cartRotation);
-            _cart.transform.parent = networkCamera.transform;
+            _cart.transform.parent = networkCamera.transform.GetChild(0);
 
             OnCartCreatorCalibrationComplete?.Invoke();
         }

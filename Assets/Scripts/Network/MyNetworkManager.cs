@@ -89,7 +89,7 @@ namespace Network
 
 
             var mainCamera = GameObject.FindWithTag(GameConstants.MainCamera);
-            mainCamera.transform.parent = PlayerCamera.transform;
+            mainCamera.transform.parent = PlayerCamera.transform.GetChild(0); // Parent it under the wrapper so that we can work with some offsetting
             
             DontDestroyOnLoad(PlayerCamera);
         }
