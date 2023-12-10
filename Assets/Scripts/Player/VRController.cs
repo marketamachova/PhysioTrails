@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Analytics;
+using Interactions;
 using Network;
 using PathCreation;
 using Scenes;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using NetworkPlayer = Network.NetworkPlayer;
@@ -44,9 +46,12 @@ namespace Player
         private AnalyticsController _analyticsController;
         
         private int _customSpeed = 10;
+        private bool _interactionReady = false;
 
         private static readonly int Idle = Animator.StringToHash("Idle");
         private static readonly int Drive = Animator.StringToHash("Drive");
+        
+        public UnityEvent<int> onSpeedChange = new UnityEvent<int>();
 
         private void Awake()
         {
@@ -79,6 +84,9 @@ namespace Player
                 script.SetPathCreator(_pathCreator);
                 script.speed = _customSpeed;
             }
+            
+            onSpeedChange.Invoke(_customSpeed);
+            Debug.Log("Kuk invoke speed to " + _customSpeed);
 
             if (_cart != null)
             {
@@ -91,7 +99,7 @@ namespace Player
             _networkManager.OnServerAddPlayerAction += AssignPlayers;
         }
 
-        private void OnEnable()
+        private void OnEnable() // Not very nice. Should be done with events
         {
             _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
 
@@ -101,9 +109,16 @@ namespace Player
 
         public IEnumerator Start()
         {
+            // VR is not controlled by the mobile app
             if (_networkManager.numPlayers == 1)
             {
-                yield return new WaitForSecondsRealtime(4);
+                // Wait until interactions are ready
+                while (!_interactionReady)
+                {
+                    yield return null;
+                }
+              
+                // yield return new WaitForSecondsRealtime(4);
                 TriggerPlayerMoving();
             }
             
@@ -232,6 +247,8 @@ namespace Player
             {
                 _customSpeed = speed;
             }
+            
+            onSpeedChange.Invoke(speed);
         }
 
         /**
@@ -251,5 +268,16 @@ namespace Player
         {
             _networkPlayer.CmdSetPlayerMoving(true);
         }
+
+        public bool InteractionReady
+        {
+            get => _interactionReady;
+            set
+            {
+                _interactionReady = value;
+            }
+        }
+
+        public int CustomSpeed => _customSpeed;
     }
 }

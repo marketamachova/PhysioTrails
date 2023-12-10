@@ -16,8 +16,18 @@ namespace Interactions
 
         protected void Start()
         {
-            InitializeScore();
-            scoreVisualiser.UpdateScore(CurrentScore);
+            // if (voPlayer == null)
+            // {
+            //     voPlayer = FindObjectOfType<VOPlayer>();
+            // }
+            //
+            // if (scoreVisualiser == null)
+            // {
+            //     scoreVisualiser = FindObjectOfType<ScoreVisualiser>();
+            // }
+            //
+            // InitializeScore();
+            // scoreVisualiser.UpdateScore(CurrentScore);
         }
 
         public void OnMiss()
@@ -27,8 +37,9 @@ namespace Interactions
                 DecreaseScore();
                 StartCoroutine(EnableScoreDecreaseAfterDelay(delaySecondsBetweenScoreChange));
                 Debug.Log("On miss " + CurrentScore);
-                voPlayer.PlayMiss();
-                scoreVisualiser.UpdateScore(CurrentScore);
+                // TODO assign proper references
+                // voPlayer.PlayMiss();
+                // scoreVisualiser.UpdateScore(CurrentScore);
             }
             
         }
@@ -39,8 +50,9 @@ namespace Interactions
             {
                 IncreaseScore();
                 Debug.Log("On hit " + CurrentScore);
-                voPlayer.PlayHit();
-                scoreVisualiser.UpdateScore(CurrentScore);   
+                // TODO assign proper references
+                // voPlayer.PlayHit();
+                // scoreVisualiser.UpdateScore(CurrentScore);   
             }
         }
 

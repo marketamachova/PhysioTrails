@@ -1,80 +1,70 @@
 using System.Collections.Generic;
 using Oculus.Interaction.HandGrab;
+using PathCreation;
+using PathCreation.Examples;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
 
 namespace Interactions.WireLoop
 {
-    public class WireLoopController : MonoBehaviour
+    public class WireLoopController : InteractionControllerBase
     {
         [SerializeField] private bool startCollisionDetectionOnGrab;
-        [FormerlySerializedAs("pathCollider")] [SerializeField] private WireLoopCollider wireLoopCollider;
-        [SerializeField] private WireLoopVisualiser wireLoopVisualiser;
-        [SerializeField] private PathController pathController;
         [SerializeField] private ScoreController scoreController;
         [SerializeField] private List<HandGrabInteractor> handGrabInteractors;
-        [SerializeField] private GameObject torus;
-        [SerializeField] private GameObject torusGhost;
+
+        [SerializeField] private Transform playerWrapperTransform;
+
+        private WireLoopSceneManager _wireLoopSceneManager;
         
         private bool _enableCollisions = false;
         private bool _isIdle = true;
 
+        private int _customSpeed;
 
-        private void Awake()
+        public void OnSceneLoaded()
         {
-            wireLoopCollider.collisionStart.AddListener(OnTorusCollisionStart);
-            wireLoopCollider.collisionEnd.AddListener(OnTorusCollisionEnd);
+            _wireLoopSceneManager.onTorusGrabStarted.AddListener(OnTorusGrabStart);
+            _wireLoopSceneManager.SetSpeed(_customSpeed);
         }
 
-        private void Start()
+        public void OnMiss()
         {
-            if (!startCollisionDetectionOnGrab)
-            {
-                wireLoopCollider.EnableCollisionDetection(true);
-            }
-            
-            pathController.GeneratePath();
-            torusGhost.SetActive(false);
-
-            // TODO implement listening for ring grab by hands
+            scoreController.OnMiss();
         }
         
         [ContextMenu("Generate Path")]
         public void GeneratePath()
         {
-            pathController.GeneratePath();
+            // pathController.GeneratePath();
         }
 
-        private void OnTorusCollisionStart(bool isTrigger)
+        public WireLoopSceneManager WireLoopSceneManager
         {
-            Debug.Log("ON COLLISION START");
-            wireLoopVisualiser.OnCollisionStart();
-            scoreController.OnMiss();
+            get => _wireLoopSceneManager;
+            set => _wireLoopSceneManager = value;
+        }
 
-            if (isTrigger)
+        private void OnTorusGrabStart()
+        {
+            InvokeInteractionReady();
+            // _wireLoopSceneManager.EnableTorusMovement();
+        }
+        
+
+        protected override void InvokeInteractionReady()
+        {
+            onInteractionReady.Invoke();
+        }
+
+        public override void SetSpeed(int speed)
+        {
+            _customSpeed = speed;
+            if (_wireLoopSceneManager != null)
             {
-                // Force disable grab from controllers
-                // handGrabInteractors.ForEach(interactor => interactor.Unselect());
-                torus.transform.localPosition = Vector3.zero;
-                torusGhost.SetActive(true);
+                _wireLoopSceneManager.SetSpeed(speed);
             }
         }
-
-        private void OnTorusCollisionEnd(bool isTrigger)
-        {
-            wireLoopVisualiser.OnCollisionEnd();
-            // Start trail ghost?
-            torusGhost.SetActive(false);
-        }
-
-        // private void OnTorusCollisionStay(bool isTrigger)
-        // {
-        //     if (isTrigger)
-        //     {
-        //         torus.transform.localPosition = Vector3.zero;
-        //     }
-        // }
-
     }
 }

@@ -47,6 +47,7 @@ namespace Player
                 {
                     LocalNetworkPlayer = networkPlayer;
                     LocalNetworkPlayer.OnCalibrationComplete += OnCalibrationComplete;
+                    LocalNetworkPlayer.OnInteractionSelectionComplete += OnInteractionSelectionComplete;
                 }
                 else
                 {
@@ -56,6 +57,8 @@ namespace Player
         }
 
         protected virtual void OnCalibrationComplete() { }
+        
+        protected virtual void OnInteractionSelectionComplete() { }
 
         public virtual void SkipCalibration() { }
 
@@ -72,6 +75,22 @@ namespace Player
             foreach (var networkPlayer in NetworkPlayers)
             {
                 networkPlayer.CmdSetCalibrationComplete(true);
+            }
+        }
+        
+        /**
+         * synchronises interaction selection complete syncVar with all NetworkPlayers in the scene
+         */
+        protected virtual void SetInteractionSelectionComplete()
+        {
+            if (NetworkPlayers.Length < 2)
+            {
+                AssignPlayers();
+            }
+            
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdSetInteractionSelectionComplete(true);
             }
         }
 

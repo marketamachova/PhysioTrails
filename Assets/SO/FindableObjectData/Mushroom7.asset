@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a05cfc861d30a048bfcdb9ab61bd3ea, type: 3}
+  m_Name: Mushroom7
+  m_EditorClassIdentifier: 
+  objectName: Mushroom7
+  type: 0
+  mesh: {fileID: 2150868775609318458, guid: 82d44e71e822347da9698a14dddc5005, type: 3}
+  material: {fileID: 2100000, guid: 34400755bbbb2461da780a05e1579cd0, type: 2}

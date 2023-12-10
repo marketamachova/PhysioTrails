@@ -43,8 +43,8 @@ namespace Scenes
 
             if (_mainCamera)
             {
-                _mainCamera.transform.parent = _player.transform;
-                _mainCamera.transform.position = _player.transform.position;
+                _mainCamera.transform.parent = _player.transform.GetChild(0); // Move camera rig under player wrapper which enables some offseting
+                // _mainCamera.transform.position = _player.transform.GetChild(0).transform.position;
                 // _mainCamera.transform.localPosition = new Vector3(0, 1.5f, 0);
             }
         }
