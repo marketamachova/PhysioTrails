@@ -126,7 +126,10 @@ namespace Interactions
         
         private void HangListeners()
         {
-            _currentInteractionController.onInteractionReady.AddListener(OnInteractionReady);
+            if (_currentInteractionController != null)
+            {
+                _currentInteractionController.onInteractionReady.AddListener(OnInteractionReady);
+            }
         }
         
         public InteractionConfigurator.InteractionType CurrentInteractionType

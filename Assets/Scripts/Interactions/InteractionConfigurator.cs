@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Interactions
@@ -10,9 +11,13 @@ namespace Interactions
         public enum HandType {Right, Left}
         public enum DifficultyType {Easy, Medium, Hard}
 
+
         [SerializeField] private InteractionType type = InteractionType.None;
         [SerializeField] private HandType hand = HandType.Right;
         [SerializeField] private DifficultyType difficulty = DifficultyType.Easy;
+        [SerializeField] private bool displayArrowsAvoidObstacles = true;
+        [Tooltip("0 - Edible (Herbivorous), 1 - Inedible (Omnivorous), 2 - Poisonous (Carnivorous)")]
+        [SerializeField] private int findableObjectType = 0;
         
         [SerializeField] private  InteractionManager interactionManager;
         
@@ -61,6 +66,26 @@ namespace Interactions
         public void SetDifficultyTypeHard()
         {
             Difficulty = DifficultyType.Hard;
+        }
+        
+        public void SetDisplayArrowsAvoidObstacles(bool display)
+        {
+            displayArrowsAvoidObstacles = display;
+        }
+        
+        public void SetFindableObjectTypeEdible()
+        {
+            findableObjectType = 0;
+        }
+        
+        public void SetFindableObjectTypeInedible()
+        {
+            findableObjectType = 1;
+        }
+        
+        public void SetFindableObjectTypePoisonous()
+        {
+            findableObjectType = 2;
         }
 
         public void Submit()
