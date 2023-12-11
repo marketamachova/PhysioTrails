@@ -24,6 +24,8 @@ namespace Interactions
         private List<InteractionSceneManagerBase> _interactionSceneManagers;
         private InteractionSceneManagerBase _currentInteractionSceneManager; // Interaction manager situated in the VR world scene (Forest, Winter, Rural)
         private InteractionConfigurator.InteractionType _type = InteractionConfigurator.InteractionType.None;
+        
+        private bool _shouldWaitForInteractionStart = false;
 
         // TODO delete this, will be job of configurator
         private void Start()
@@ -43,11 +45,20 @@ namespace Interactions
                 if (_currentInteractionController != null)
                 {
                     _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
+                    // _vrController.WaitForInteractions = _currentInteractionController.ShouldWaitForInteractionStart;
+                    if (!_currentInteractionController.ShouldWaitForInteractionStart)
+                    {
+                        _vrController.InteractionReady = true;
+                    }
+                }
+                else
+                {
+                    _vrController.InteractionReady = true;
                 }
 
                 _interactionSceneManagers = new List<InteractionSceneManagerBase>(FindObjectsOfType<InteractionSceneManagerBase>());
                 AssignInteractionSceneManager(CurrentInteractionType);
-                EnableSceneInteractionManager();                
+                EnableSceneInteractionManager();
             }
         }
 
@@ -109,6 +120,7 @@ namespace Interactions
             {
                 case InteractionConfigurator.InteractionType.WireLoop:
                     _currentInteractionController = interactionControllers[0];
+                    _shouldWaitForInteractionStart = true;
                     break;
                 case InteractionConfigurator.InteractionType.ObjectFinding:
                     _currentInteractionController = interactionControllers[1];
@@ -124,6 +136,7 @@ namespace Interactions
             }
         }
         
+
         private void HangListeners()
         {
             if (_currentInteractionController != null)

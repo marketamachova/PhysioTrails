@@ -16,7 +16,7 @@ namespace Analytics
         private void OnEnable()
         {
             _hmdTracker = FindObjectOfType<HmdTracker>();
-            Debug.Assert(_hmdTracker != null, "HmdTracker is null");
+            Debug.Assert(_hmdTracker != null, "AnalyticsController: HmdTracker is null");
         }
 
         public void StartTracking(string sceneName)

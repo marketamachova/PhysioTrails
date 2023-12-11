@@ -37962,6 +37962,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a421381ce87320d48bdf8c81759163b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onInteractionReady:
+    m_PersistentCalls:
+      m_Calls: []
   scoreController: {fileID: 1772603638}
   collectType: 0
 --- !u!114 &1772603640
@@ -51945,6 +51948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4136474210565227092, guid: f464da3fa5e34400fa37736f8b291184, type: 3}
+    - {fileID: 3492790004324802924, guid: f464da3fa5e34400fa37736f8b291184, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f464da3fa5e34400fa37736f8b291184, type: 3}
 --- !u!1 &8856579902889326736 stripped
 GameObject:

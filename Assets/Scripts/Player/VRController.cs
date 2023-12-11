@@ -22,7 +22,6 @@ namespace Player
     /**
      * Controller managing events in VR travelling experience
      */
-    [RequireComponent(typeof(AnalyticsController))]
     public class VRController : BaseController
     {
         [FormerlySerializedAs("currentScene")] [SerializeField] private PTScene currentPtScene;
@@ -46,6 +45,7 @@ namespace Player
         private AnalyticsController _analyticsController;
         
         private int _customSpeed = 10;
+        // private bool _waitForInteractions = false;
         private bool _interactionReady = false;
 
         private static readonly int Idle = Animator.StringToHash("Idle");
@@ -112,16 +112,24 @@ namespace Player
             // VR is not controlled by the mobile app
             if (_networkManager.numPlayers == 1)
             {
-                // Wait until interactions are ready
-                while (!_interactionReady)
+                if (_interactionReady)
                 {
-                    yield return null;
+                    yield return new WaitForSecondsRealtime(3);
                 }
-              
+                else
+                {
+                    // Wait until interactions are ready
+                    while (!_interactionReady)
+                    {
+                        yield return null;
+                    }
+                }
+                
                 // yield return new WaitForSecondsRealtime(4);
                 TriggerPlayerMoving();
             }
-            
+
+            _analyticsController = FindObjectOfType<AnalyticsController>();
             _analyticsController.StartTracking(currentPtScene.ToString());
             Debug.Log("Start tracking in scene " + currentPtScene.ToString());
         }
