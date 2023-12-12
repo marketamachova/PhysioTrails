@@ -3,6 +3,7 @@ using System.Collections;
 using Cart;
 using Interactions;
 using Mirror;
+using PatientManagement_;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,7 @@ namespace Player
     {
         [SerializeField] private CartCreator cartCreator;
         [SerializeField] private InteractionConfigurator interactionConfigurator;
+        [SerializeField] private PatientsManager patientsManager;
         
         private void Awake()
         {
@@ -22,6 +24,7 @@ namespace Player
             networkManager.OnClientDisconnectAction += OnClientDisonnected;
             networkManager.OnMobileClientDisconnectAction += OnClientMobileDisconnected;
             cartCreator.OnCartCreatorCalibrationComplete += SetCalibrationComplete;
+            patientsManager.OnPatientSelectionComplete += SetPatientSelectionComplete;
             interactionConfigurator.OnInteractionsConfigurationComplete += SetInteractionSelectionComplete;
         }
 
@@ -75,6 +78,12 @@ namespace Player
         protected override void OnCalibrationComplete()
         {
             base.OnCalibrationComplete();
+            uiController.EnablePanelExclusive(UIConstants.PatientSelection);
+        }
+        
+        protected override void OnPatientSelectionComplete()
+        {
+            base.OnPatientSelectionComplete();
             uiController.EnablePanelExclusive(UIConstants.InteractionSelection);
         }
         

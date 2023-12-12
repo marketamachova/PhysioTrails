@@ -25,6 +25,17 @@ namespace VRLogger.Classes
 
             return new PositionAndRotation(positionAxis, rotationAxis);
         }
+        
+        public static PositionAndRotation GetLocalPositionAndRotation(GameObject obj)
+        {
+            var position = obj.transform.localPosition;
+            var positionAxis = new Axis(position.x, position.y, position.z);
+
+            var rotation = obj.transform.localRotation; // Are quaternions ok?
+            var rotationAxis = new Axis(rotation.x, rotation.y, rotation.z);
+
+            return new PositionAndRotation(positionAxis, rotationAxis);
+        }
 
         public override string ToString()
         {

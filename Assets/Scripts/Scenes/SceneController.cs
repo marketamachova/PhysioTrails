@@ -1,4 +1,7 @@
-﻿using Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Analytics;
+using Player;
 using Unity.Collections;
 using UnityEngine;
 using NetworkPlayer = Network.NetworkPlayer;
@@ -11,16 +14,19 @@ namespace Scenes
         [SerializeField] private Transform startingPoint;
         [SerializeField] private Vector3 startingPositionLobby;
         [SerializeField] private Quaternion startingRotationLobby;
+        [SerializeField] private GameObject eventTriggersParent;
 
         private GameObject _player;
         private GameObject _mainCamera;
         private GameObject _rtCamera;
         private NetworkPlayer _vrNetworkPlayer;
+        private List<VREventTrigger> _eventTriggers;
         
         void Start()
         {
             _player = GameObject.FindWithTag(GameConstants.NetworkCamera);
             _mainCamera = GameObject.FindWithTag(GameConstants.MainCamera);
+            _eventTriggers = eventTriggersParent.GetComponentsInChildren<VREventTrigger>().ToList();
 
             var players = FindObjectsOfType<NetworkPlayer>();
             
@@ -59,5 +65,7 @@ namespace Scenes
             _player.transform.position = startingPositionLobby;
             _player.transform.rotation = startingRotationLobby;
         }
+
+        public List<VREventTrigger> EventTriggers => _eventTriggers;
     }
 }

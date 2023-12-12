@@ -130,7 +130,7 @@ namespace Player
             }
 
             _analyticsController = FindObjectOfType<AnalyticsController>();
-            _analyticsController.StartTracking(currentPtScene.ToString());
+            _analyticsController.StartTracking(currentPtScene.ToString(), _sceneController.EventTriggers);
             Debug.Log("Start tracking in scene " + currentPtScene.ToString());
         }
 

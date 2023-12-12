@@ -48,6 +48,7 @@ namespace Player
                     LocalNetworkPlayer = networkPlayer;
                     LocalNetworkPlayer.OnCalibrationComplete += OnCalibrationComplete;
                     LocalNetworkPlayer.OnInteractionSelectionComplete += OnInteractionSelectionComplete;
+                    LocalNetworkPlayer.OnPatientSelectionComplete += OnPatientSelectionComplete;
                 }
                 else
                 {
@@ -59,6 +60,7 @@ namespace Player
         protected virtual void OnCalibrationComplete() { }
         
         protected virtual void OnInteractionSelectionComplete() { }
+        protected virtual void OnPatientSelectionComplete() { }
 
         public virtual void SkipCalibration() { }
 
@@ -91,6 +93,22 @@ namespace Player
             foreach (var networkPlayer in NetworkPlayers)
             {
                 networkPlayer.CmdSetInteractionSelectionComplete(true);
+            }
+        }
+        
+        /**
+         * synchronises patient selection complete syncVar with all NetworkPlayers in the scene
+         */
+        protected virtual void SetPatientSelectionComplete()
+        {
+            if (NetworkPlayers.Length < 2)
+            {
+                AssignPlayers();
+            }
+            
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdSetPatientSelectionComplete(true);
             }
         }
 
