@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: ShapesPalette
   m_EditorClassIdentifier: 
   shapes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: d38f8e22f68fb4e43978a078507e3fbd, type: 3}
+  - {fileID: 21300000, guid: 65a2245c1490a714ea1440311f22a680, type: 3}
+  - {fileID: 21300000, guid: a8827c457ba29f343bc60f12d25e9a87, type: 3}
+  - {fileID: 21300000, guid: 82dd1ec6ba76013449805ae38153e3fd, type: 3}
+  - {fileID: 21300000, guid: 2e59e01ed6a1426489d5e6cb9ef21368, type: 3}
+  - {fileID: 21300000, guid: aa91ebfcba44a40409112e0510a8ac16, type: 3}
+  - {fileID: 21300000, guid: 97725ea44b7961241aec5a273757aa3f, type: 3}
+  - {fileID: 21300000, guid: b04eb71c26e13fb49a3ed4551f3becd2, type: 3}
+  - {fileID: 21300000, guid: ff19c502be0fc7544ac00ed21be19c6b, type: 3}
