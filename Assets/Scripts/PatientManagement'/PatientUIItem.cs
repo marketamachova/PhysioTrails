@@ -40,17 +40,36 @@ namespace PatientManagement_
         private void UpdateUI(Participant participant)
         {
             patientName.text = participant.nickname;
-            patientId.text = participant.id;
+        } 
+        
+        private void UpdateUIIndex(int index)
+        {
+            patientId.text = (index + 1).ToString();
         }
 
         private void ChangeColor(int index)
         {
-            backdrop.color = colorPalette.Colors[colorPalette.Colors.Count % index];
+            if (index > 0)
+            {
+                backdrop.color = colorPalette.Colors[index % colorPalette.Colors.Count];
+            }
+            else
+            {
+                backdrop.color = colorPalette.Colors[0]; 
+            }
+            shape.color = colorPalette.Colors[(index + 2) % colorPalette.Colors.Count];
         }
         
-        private void ChangeShape(int index)
+        private void ChangeShape(int index)  
         {
-            shape.sprite = shapesPalette.Shapes[shapesPalette.Shapes.Count % index];
+            if (index > 0)
+            {
+                shape.sprite = shapesPalette.Shapes[index % shapesPalette.Shapes.Count];
+            }
+            else
+            {
+                shape.sprite = shapesPalette.Shapes[0];
+            }
         }
 
         [ContextMenu("Click")]
@@ -77,6 +96,7 @@ namespace PatientManagement_
                 _index = value;
                 ChangeColor(_index);
                 ChangeShape(_index);
+                UpdateUIIndex(_index);
             }
         }
     }

@@ -10,6 +10,7 @@ namespace PatientManagement_
     public class PatientsManagerUI : MonoSingleton<PatientsManagerUI>
     {
         [SerializeField] private GameObject patientPrefab;
+        [SerializeField] private Transform patientsWrapperTransform;
         [SerializeField] private PatientUIItem currentPatientIndicator;
         
         public UnityEvent<string> onPatientChosen = new UnityEvent<string>();
@@ -18,7 +19,7 @@ namespace PatientManagement_
         {
             foreach (var participant in participants)
             {
-                var patient = Instantiate(patientPrefab, transform);
+                var patient = Instantiate(patientPrefab, patientsWrapperTransform);
                 var uiItem = patient.GetComponent<PatientUIItem>();
                 uiItem.PatientData = participant;
                 uiItem.Index = participants.IndexOf(participant);
