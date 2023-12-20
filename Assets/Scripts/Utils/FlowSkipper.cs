@@ -1,5 +1,6 @@
 using Cart;
 using Interactions;
+using PatientManagement_;
 using Player;
 using UnityEngine;
 
@@ -10,12 +11,17 @@ namespace Utils
         [SerializeField] private CartCreator cartCreator;
         [SerializeField] private VRLobbyController vrLobbyController;
         [SerializeField] private InteractionConfigurator interactionConfigurator;
+        [SerializeField] private PatientsManager patientsManager;
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 cartCreator.SkipCalibration();
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                // patientsManager.SetPatient()
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {

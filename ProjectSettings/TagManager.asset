@@ -18,6 +18,7 @@ TagManager:
   - SamplesInfoPanel
   - LoopTorus
   - Floor
+  - PlayerHead
   layers:
   - Default
   - TransparentFX

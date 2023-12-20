@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Interactions.AvoidObstacles
 {
     public class AvoidObstaclesController : InteractionControllerBase
     {
         [SerializeField] private AvoidObstaclesScoreController scoreController;
-        
+        [SerializeField] private bool displayArrows = true;
+
         private AvoidObstaclesSceneManager _avoidObstaclesSceneManager;
+
+        public UnityEvent<bool> onDisplayArrowsChanged = new UnityEvent<bool>();
         
         public void OnSceneLoaded()
         {
@@ -43,6 +47,22 @@ namespace Interactions.AvoidObstacles
         {
             get => _avoidObstaclesSceneManager;
             set => _avoidObstaclesSceneManager = value;
+        }
+
+        public bool DisplayArrows
+        {
+            get => displayArrows;
+            set
+            {
+                displayArrows = value;
+                onDisplayArrowsChanged.Invoke(value);
+            }
+        }
+        
+        [ContextMenu("ToggleDisplayArrows")]
+        public void TestToggleDisplayArrows()
+        {
+            DisplayArrows = !DisplayArrows;
         }
     }
 }
