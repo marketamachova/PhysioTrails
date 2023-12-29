@@ -34,7 +34,8 @@ namespace PatientManagement_
 
         private void OnPatientChosen()
         {
-            PatientsManagerUI.Instance.ChoosePatient(_patientData);
+            Debug.Log("Choosing patient with id: " + _patientData.id + " and index: " + _index);
+            PatientsManagerUI.Instance.ChoosePatient(_patientData, _index);
         }
 
         private void UpdateUI(Participant participant)

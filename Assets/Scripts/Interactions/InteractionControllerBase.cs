@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,10 +8,14 @@ namespace Interactions
     {
         public UnityEvent onInteractionReady = new UnityEvent();
         [SerializeField] protected bool shouldWaitForInteractionStart = false;
+        [SerializeField] protected InteractionConfigurator interactionConfigurator;
+
         protected abstract void InvokeInteractionReady();
         
         public abstract void SetSpeed(int speed);
-
+        
+        public abstract void SetDifficulty(InteractionConfigurator.DifficultyType difficultyType);
+        
         public bool ShouldWaitForInteractionStart => shouldWaitForInteractionStart;
     }
 }

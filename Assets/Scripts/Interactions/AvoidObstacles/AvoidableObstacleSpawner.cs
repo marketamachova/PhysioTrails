@@ -22,22 +22,44 @@ namespace Interactions.AvoidObstacles
 
         private void Start()
         {
-            SpawnObjectsRandomly();
+            var difficulty = avoidObstaclesController.Difficulty;
+            obstaclesCount = GetObstaclesCount(difficulty);
+            
+            SpawnObjectsRandomly(obstaclesCount);
+        }
+
+        private int GetObstaclesCount(InteractionConfigurator.DifficultyType difficulty)
+        {
+            var count = 0;
+            switch (difficulty)
+            {
+                case InteractionConfigurator.DifficultyType.Easy:
+                    count = 15;
+                    break;
+                case InteractionConfigurator.DifficultyType.Medium:
+                    count = 50;
+                    break;
+                case InteractionConfigurator.DifficultyType.Hard:
+                    count = 90;
+                    break;
+            }
+
+            return count;
         }
 
         /**
          * Choose some subset of spawn points and populate those with avoidable obstacles of each type (left, right)
          */
-        private void SpawnObjectsRandomly()
+        private void SpawnObjectsRandomly(int numberOfObstacles)
         {
             spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>().ToList();
             
-            var spawnPointsSubsetAvoidLeft = ListUtils.GetRandomSubset(spawnPoints, obstaclesCount / 2); // Z toho puvodniho listu se musi odebrat ten substet
+            var spawnPointsSubsetAvoidLeft = ListUtils.GetRandomSubset(spawnPoints, numberOfObstacles / 2); // Z toho puvodniho listu se musi odebrat ten substet
             
             // Remove each used spawn point from the spawn points list
             spawnPointsSubsetAvoidLeft.ForEach(usedSpawnPoint => spawnPoints.Remove(usedSpawnPoint));
             
-            var spawnPointsSubsetAvoidRight = ListUtils.GetRandomSubset(spawnPoints, obstaclesCount / 2);
+            var spawnPointsSubsetAvoidRight = ListUtils.GetRandomSubset(spawnPoints, numberOfObstacles / 2);
 
             // iterate through the spawn points and spawn an object at each one
             foreach (var pointAvoidLeft in spawnPointsSubsetAvoidLeft)
@@ -62,7 +84,7 @@ namespace Interactions.AvoidObstacles
             Debug.Log(spawnPointsSubsetAvoidLeft.Count);
             Debug.Log(spawnPointsSubsetAvoidRight.Count);
             
-            Debug.Log("Spawned " + obstaclesCount + " obstacles");
+            Debug.Log("Spawned " + numberOfObstacles + " obstacles");
         }
 
         public int ObstaclesCount

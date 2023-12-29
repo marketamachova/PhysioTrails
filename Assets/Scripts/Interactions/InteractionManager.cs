@@ -24,6 +24,7 @@ namespace Interactions
         private List<InteractionSceneManagerBase> _interactionSceneManagers;
         private InteractionSceneManagerBase _currentInteractionSceneManager; // Interaction manager situated in the VR world scene (Forest, Winter, Rural)
         private InteractionConfigurator.InteractionType _type = InteractionConfigurator.InteractionType.None;
+        private InteractionConfigurator.DifficultyType _difficulty = InteractionConfigurator.DifficultyType.Easy;
         
         private bool _shouldWaitForInteractionStart = false;
 
@@ -31,9 +32,16 @@ namespace Interactions
         private void Start()
         {
             // CurrentInteractionType = InteractionConfigurator.InteractionType.WireLoop;
+            interactionConfigurator.OnInteractionsConfigurationComplete += OnInteractionsConfigurationComplete;
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             CurrentInteractionType = interactionConfigurator.Type;
+        }
+        
+        private void OnInteractionsConfigurationComplete()
+        {
+            CurrentInteractionType = interactionConfigurator.Type;
+            CurrentDifficulty = interactionConfigurator.Difficulty;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -154,6 +162,19 @@ namespace Interactions
                 AssignInteractionController(_type);
                 EnableInteractionController();
                 HangListeners();
+            }
+        }
+        
+        public InteractionConfigurator.DifficultyType CurrentDifficulty
+        {
+            get => _difficulty;
+            set
+            {
+                _difficulty = value;
+                if (_currentInteractionController != null)
+                {
+                    _currentInteractionController.SetDifficulty(_difficulty);
+                }
             }
         }
     }

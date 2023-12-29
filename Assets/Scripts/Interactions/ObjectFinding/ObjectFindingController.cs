@@ -9,6 +9,7 @@ namespace Interactions.ObjectFinding
         [SerializeField] private int collectType = 0; 
         
         private ObjectFindingSceneManager _objectFindingSceneManager;
+        private InteractionConfigurator.DifficultyType _difficulty;
         
         public void OnSceneLoaded()
         {
@@ -37,10 +38,17 @@ namespace Interactions.ObjectFinding
         {
         }
 
+        public override void SetDifficulty(InteractionConfigurator.DifficultyType difficulty)
+        {
+            _difficulty = difficulty;
+        }
+
         public ObjectFindingSceneManager ObjectFindingSceneManager
         {
             get => _objectFindingSceneManager;
             set => _objectFindingSceneManager = value;
         }
+
+        public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
     }
 }

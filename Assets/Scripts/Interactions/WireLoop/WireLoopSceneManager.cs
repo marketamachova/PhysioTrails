@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Oculus.Interaction;
 using PathCreation.Examples;
 using UnityEngine;
@@ -12,11 +13,12 @@ namespace Interactions.WireLoop
         [SerializeField] private WireLoopCollider wireLoopPathCollider;
         
         [Header("Torus")]
-        [SerializeField] private Rigidbody torusGrabbableRigidbody;
+        [SerializeField] private List<Rigidbody> torusGrabbableRigidbodies;
+        [SerializeField] private List<GameObject> torusSizes;
         [SerializeField] private GameObject torusGhost;
         [SerializeField] private PathFollower torusPathFollower;
         [SerializeField] private WireLoopVisualiser wireLoopVisualiser;
-        [SerializeField] private InteractableUnityEventWrapper torusGrabEventsWrapper;
+        [SerializeField] private List<InteractableUnityEventWrapper> torusGrabEventsWrappers;
         
         [Header("Testing")] 
         [SerializeField] private PathFollower playerPathFollower;
@@ -30,8 +32,8 @@ namespace Interactions.WireLoop
         
         private void Awake()
         {
-            torusGrabEventsWrapper.WhenSelect.AddListener(OnTorusGrabStart);
-            torusGrabEventsWrapper.WhenUnselect.AddListener(OnTorusGrabEnd);
+            torusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
+            torusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
         }
         
         private void Start()
@@ -40,8 +42,29 @@ namespace Interactions.WireLoop
             _wireLoopController.WireLoopSceneManager = this;
             _wireLoopController.OnSceneLoaded();
             
+            var difficulty = _wireLoopController.Difficulty;
+            EnableTorusBasedOnDifficulty(difficulty);
+            
             torusGhost.SetActive(false);
             torusPathFollower.enabled = false;
+        }
+        
+        private void EnableTorusBasedOnDifficulty(InteractionConfigurator.DifficultyType difficulty)
+        {
+            torusSizes.ForEach(torusSize => torusSize.SetActive(false));
+
+            switch (difficulty)
+            {
+                case InteractionConfigurator.DifficultyType.Easy:
+                    torusSizes[0].SetActive(true);
+                    break;
+                case InteractionConfigurator.DifficultyType.Medium:
+                    torusSizes[1].SetActive(true);
+                    break;
+                case InteractionConfigurator.DifficultyType.Hard:
+                    torusSizes[2].SetActive(true);
+                    break;
+            }
         }
         
         public void StartTorusMovement(bool enable = true)
@@ -58,9 +81,13 @@ namespace Interactions.WireLoop
             torusPathFollower.enabled = enable;
         }
         
-        private void RecenterTorus()
+        private void RecenterAllTorus()
         {
-            var transform1 = torusGrabbableRigidbody.transform;
+            torusGrabbableRigidbodies.ForEach(rb => RecenterTorus(rb.transform));
+        }
+        
+        private void RecenterTorus(Transform transform1)
+        {
             transform1.localPosition = Vector3.zero;
             transform1.localRotation = Quaternion.identity;
         }
@@ -75,7 +102,7 @@ namespace Interactions.WireLoop
             StartTorusMovement();
             EnablePlayerMovement();
             onTorusGrabStarted.Invoke();
-            torusGrabbableRigidbody.isKinematic = true;
+            torusGrabbableRigidbodies.ForEach(rb => rb.isKinematic = true);
             
             if (_resetTorusRbPositionCoroutine != null)
             {
@@ -86,7 +113,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusGrabEnd()
         {
-            RecenterTorus();
+            RecenterAllTorus();
             StartTorusMovement();
             onTorusGrabEnded.Invoke();
 
@@ -97,7 +124,7 @@ namespace Interactions.WireLoop
         {
             while (true)
             {
-                RecenterTorus();
+                RecenterAllTorus();
                 yield return null;
             }
         }

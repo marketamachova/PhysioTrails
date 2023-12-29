@@ -8,7 +8,6 @@ namespace UI
 {
     public class VRLobbyUIController : BaseUIController
     {
-        [Header("Settings")]
-        [SerializeField] private int enableButtonsDelaySeconds = 1;
+        
     }
 }

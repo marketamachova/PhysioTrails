@@ -15,6 +15,7 @@ namespace Analytics
 
         private List<VREventTrigger> _eventTriggers;
         private bool _vrLoggerInitialized;
+        private bool _tracking;
         
         // TODO have list of AnalyticsTriggers - which each have collider and name and then subsribe here when the collider hits to send event to vrLogger
 
@@ -34,6 +35,8 @@ namespace Analytics
 
         public void StartTracking(string sceneName, List<VREventTrigger> eventTriggers)
         {
+            Debug.Log("Kuk Start tracking");
+            
             EventTriggers = eventTriggers;
             
             vrLogger.InitializeLogger();
@@ -41,6 +44,8 @@ namespace Analytics
             // TODO add other data, dont know which now
             vrLogger.SetCustomData("{\"interaction\": " + interactionManager.CurrentInteractionType + "}");
             vrLogger.StartLogging(sceneName);
+            
+            _tracking = true;
         }
 
         public void GetParticipants(Action<List<Participant>> callback)
@@ -55,12 +60,25 @@ namespace Analytics
 
         public void EndTracking()
         {
-            vrLogger.StopLogging();
+            if (!_tracking)
+            {
+                return;
+            }
             
+            _tracking = false;
+            vrLogger.StopLogging();
+
+#if UNITY_EDITOR
+            vrLogger.SendActivity(response =>
+            {
+                Debug.Log(response);
+            }, false);
+#else
             vrLogger.SendActivity(response =>
             {
                 Debug.Log(response);
             }, true);
+#endif
         }
         
         private void OnTriggerEventEnter(string eventName)

@@ -24,6 +24,7 @@ namespace Player
         public void Awake()
         {
             networkManager.OnServerAddPlayerAction += AssignPlayers;
+            Initialize();
         }
 
         public virtual void OnDisconnect()
@@ -130,7 +131,19 @@ namespace Player
             }
         }
 
-        public virtual void OnGoToLobby(bool wait = true) { }
+        public virtual void OnGoToLobby(bool wait = true)
+        {
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdSetPatientSelectionComplete(false);
+                networkPlayer.CmdSetInteractionSelectionComplete(false);
+            }
+        }
+
+        public virtual void Initialize()
+        {
+            
+        }
 
         /**
          * synchronises triggerGoToLobby  syncVar with all NetworkPlayers in the scene

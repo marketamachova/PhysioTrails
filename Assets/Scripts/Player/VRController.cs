@@ -68,7 +68,7 @@ namespace Player
             if (isVR)
             {
                 _escapeGestureHandler = FindObjectOfType<EscapeGestureHandler>();
-                _analyticsController = GetComponent<AnalyticsController>();
+                _analyticsController = FindObjectOfType<AnalyticsController>();
                 
                 _escapeGestureHandler.VRController = this;
             }
@@ -121,6 +121,7 @@ namespace Player
                     // Wait until interactions are ready
                     while (!_interactionReady)
                     {
+                        Debug.Log("Kuk Waiting for interactions to be ready");
                         yield return null;
                     }
                 }
@@ -196,7 +197,7 @@ namespace Player
 
         public override void OnGoToLobby(bool wait)
         {
-            base.OnGoToLobby();
+            base.OnGoToLobby(wait);
             
             foreach (var script in _playerMovementScripts)
             {
@@ -211,6 +212,11 @@ namespace Player
             _analyticsController.EndTracking();
             
             StartCoroutine(GoToLobbyCoroutine(wait));
+        }
+
+        public override void Initialize()
+        {
+            Debug.Log("VR Controller / initialize - might TODO");
         }
 
         // public void GoToLobby()

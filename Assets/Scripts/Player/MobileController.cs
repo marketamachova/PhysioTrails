@@ -178,6 +178,13 @@ namespace Player
 
         public override void OnGoToLobby(bool wait)
         {
+            base.OnGoToLobby(wait);
+            sceneLoader.UnloadScene();
+            uiControllerMobile.OnGoToLobby();
+        }
+        
+        public override void Initialize()
+        {
             base.OnGoToLobby();
             sceneLoader.UnloadScene();
             uiControllerMobile.OnGoToLobby();

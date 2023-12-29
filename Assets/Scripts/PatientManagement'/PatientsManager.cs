@@ -36,7 +36,7 @@ namespace PatientManagement_
             }));
         }
         
-        private void SetPatient(string participantId)
+        public void SetPatient(string participantId)
         {
             analyticsController.SetParticipant(participantId);
             OnPatientSelectionComplete?.Invoke();

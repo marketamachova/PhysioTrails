@@ -19,6 +19,7 @@ namespace PatientManagement_
         {
             foreach (var participant in participants)
             {
+                Debug.Log(participant.id);
                 var patient = Instantiate(patientPrefab, patientsWrapperTransform);
                 var uiItem = patient.GetComponent<PatientUIItem>();
                 uiItem.PatientData = participant;
@@ -26,9 +27,10 @@ namespace PatientManagement_
             }
         }
         
-        public void ChoosePatient(Participant participant)
+        public void ChoosePatient(Participant participant, int index)
         {
             currentPatientIndicator.PatientData = participant;
+            currentPatientIndicator.Index = index;
             onPatientChosen.Invoke(participant.id);
         }
     }

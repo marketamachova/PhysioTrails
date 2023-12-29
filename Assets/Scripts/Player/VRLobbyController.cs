@@ -110,6 +110,13 @@ namespace Player
         public override void OnGoToLobby(bool wait)
         {
             uiController.gameObject.SetActive(true);
+            uiController.EnablePanelExclusive(UIConstants.PatientSelection);
+            LocalNetworkPlayer.CmdSetWorldLoaded(false);
+        }
+
+        public override void Initialize()
+        {
+            uiController.gameObject.SetActive(true);
             LocalNetworkPlayer.CmdSetWorldLoaded(false);
         }
     }

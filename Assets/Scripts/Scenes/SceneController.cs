@@ -26,7 +26,7 @@ namespace Scenes
         {
             _player = GameObject.FindWithTag(GameConstants.NetworkCamera);
             _mainCamera = GameObject.FindWithTag(GameConstants.MainCamera);
-            _eventTriggers = eventTriggersParent.GetComponentsInChildren<VREventTrigger>().ToList();
+            _eventTriggers = eventTriggersParent.GetComponentsInChildren<VREventTrigger>()?.ToList();
 
             var players = FindObjectsOfType<NetworkPlayer>();
             
