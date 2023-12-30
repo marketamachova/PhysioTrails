@@ -19,6 +19,7 @@ namespace Interactions.WireLoop
 
         public void OnCollisionStart()
         {
+            Debug.Log("Collision start");
             _renderer.material = collidedMaterial;
         }
         

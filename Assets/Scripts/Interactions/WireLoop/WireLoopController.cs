@@ -20,7 +20,6 @@ namespace Interactions.WireLoop
         private int _customSpeed;
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
-        private Transform _playerWrapperTransform;
 
         public void OnSceneLoaded()
         {
@@ -47,9 +46,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusGrabStart()
         {
-            Debug.Log("Kuk grab start");
             InvokeInteractionReady();
-            // _wireLoopSceneManager.EnableTorusMovement();
         }
         
 
@@ -82,12 +79,6 @@ namespace Interactions.WireLoop
         
         public InteractionConfigurator.HandType HandType => _handType;
 
-        public Transform PlayerWrapperTransform
-        {
-            get => _playerWrapperTransform;
-            set => _playerWrapperTransform = value;
-        }
-        
-        
+
     }
 }

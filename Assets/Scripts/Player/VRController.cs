@@ -121,7 +121,6 @@ namespace Player
                     // Wait until interactions are ready
                     while (!_interactionReady)
                     {
-                        Debug.Log("Kuk Waiting for interactions to be ready");
                         yield return null;
                     }
                 }

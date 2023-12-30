@@ -83,7 +83,6 @@ namespace Interactions.WireLoop
         
         private void PositionPlayerBasedOnHandType(InteractionConfigurator.HandType handType)
         {
-            Debug.Log("Kuk position player based on hand type");
             if (handType == InteractionConfigurator.HandType.Right)
             {
                 _playerPositionHandler.MovePlayerToLeft();
@@ -123,7 +122,6 @@ namespace Interactions.WireLoop
         {
             Debug.Log("Kuk grab start");
             StartTorusMovement();
-            // EnablePlayerMovement();
             onTorusGrabStarted.Invoke();
             torusGrabbableRigidbodies.ForEach(rb => rb.isKinematic = true);
             
@@ -155,7 +153,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusCollisionStart(bool isTrigger)
         {
-            wireLoopVisualisers.ForEach(visualiser => visualiser.OnCollisionStart());
+            wireLoopVisualisers.Find(visualiser => visualiser.isActiveAndEnabled).OnCollisionStart();
             _wireLoopController.OnMiss();
 
             if (isTrigger)

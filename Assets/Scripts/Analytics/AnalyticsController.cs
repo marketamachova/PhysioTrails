@@ -35,6 +35,10 @@ namespace Analytics
 
         public void StartTracking(string sceneName, List<VREventTrigger> eventTriggers)
         {
+            if (_tracking)
+            {
+                return;
+            }
             
             EventTriggers = eventTriggers;
             
@@ -111,7 +115,7 @@ namespace Analytics
             set
             {
                 _eventTriggers = value;
-                if (_eventTriggers != null)
+                if (_eventTriggers != null && _eventTriggers.Count > 0)
                 {
                     _eventTriggers.ForEach(trigger => trigger.onTriggerEnter.AddListener(OnTriggerEventEnter));
                 }
