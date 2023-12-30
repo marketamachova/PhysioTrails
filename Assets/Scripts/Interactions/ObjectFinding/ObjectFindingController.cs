@@ -5,12 +5,19 @@ namespace Interactions.ObjectFinding
     public class ObjectFindingController : InteractionControllerBase
     {
         [SerializeField] private ScoreController scoreController;
-        
-        [SerializeField] private int collectType = 0; 
+        [SerializeField] private GameObject leftHandPointer;
+        [SerializeField] private GameObject rightHandPointer;
         
         private ObjectFindingSceneManager _objectFindingSceneManager;
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
+        private int _collectType;
+        
+        private void Start()
+        {
+            leftHandPointer.SetActive(false);
+            rightHandPointer.SetActive(false);
+        }
         
         public void OnSceneLoaded()
         {
@@ -29,7 +36,7 @@ namespace Interactions.ObjectFinding
             scoreController.OnMiss();
         }
 
-        public int CollectType => collectType;
+        public int CollectType => _collectType;
         protected override void InvokeInteractionReady()
         {
             onInteractionReady.Invoke();
@@ -47,6 +54,14 @@ namespace Interactions.ObjectFinding
         public override void SetHandType(InteractionConfigurator.HandType handType)
         {
             _handType = handType;
+            leftHandPointer.SetActive(handType == InteractionConfigurator.HandType.Left);
+            rightHandPointer.SetActive(handType == InteractionConfigurator.HandType.Right);
+        }
+        
+        public override void SetFindableObjectType(int findableObjectType)
+        {
+            base.SetFindableObjectType(findableObjectType);
+            _collectType = findableObjectType;
         }
 
         public ObjectFindingSceneManager ObjectFindingSceneManager
@@ -56,5 +71,9 @@ namespace Interactions.ObjectFinding
         }
 
         public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
+        
+        public InteractionConfigurator.HandType HandType => _handType;
+        
+        public int FindableObjectType => _collectType;
     }
 }

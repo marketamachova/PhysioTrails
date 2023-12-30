@@ -15,6 +15,10 @@ namespace Interactions
         
         public abstract void SetDifficulty(InteractionConfigurator.DifficultyType difficultyType);
         public abstract void SetHandType(InteractionConfigurator.HandType handType);
+
+        public virtual void SetFindableObjectType(int findableObjectType)
+        {
+        }
         
         public bool ShouldWaitForInteractionStart => shouldWaitForInteractionStart;
     }

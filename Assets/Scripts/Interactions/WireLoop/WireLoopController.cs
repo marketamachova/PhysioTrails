@@ -79,7 +79,7 @@ namespace Interactions.WireLoop
         {
             _handType = handType;
         }
-
+        
         public InteractionConfigurator.HandType HandType => _handType;
 
         public Transform PlayerWrapperTransform

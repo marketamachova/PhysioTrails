@@ -11,7 +11,6 @@ namespace Interactions
         public enum HandType {Right, Left}
         public enum DifficultyType {Easy, Medium, Hard}
 
-
         [SerializeField] private InteractionType type = InteractionType.None;
         [SerializeField] private HandType hand = HandType.Right;
         [SerializeField] private DifficultyType difficulty = DifficultyType.Easy;

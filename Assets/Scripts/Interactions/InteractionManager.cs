@@ -28,6 +28,7 @@ namespace Interactions
         private InteractionConfigurator.InteractionType _type = InteractionConfigurator.InteractionType.None;
         private InteractionConfigurator.DifficultyType _difficulty = InteractionConfigurator.DifficultyType.Easy;
         private InteractionConfigurator.HandType _handType = InteractionConfigurator.HandType.Right;
+        private int _findableObjectType = 0;
         
         private bool _shouldWaitForInteractionStart = false;
 
@@ -49,7 +50,7 @@ namespace Interactions
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name.Contains("Scene")) // TODO stupid check, change to something better
+            if (scene.name.Contains("Scene")) // TODO stupid check, change to something better, maybe get rid of this check
             {
                 _vrController = FindObjectOfType<VRController>();
                 _vrController.onSpeedChange.AddListener(OnSpeedChange);
@@ -193,6 +194,19 @@ namespace Interactions
                 if (_currentInteractionController != null)
                 {
                     _currentInteractionController.SetHandType(_handType);
+                }
+            }
+        }
+        
+        public int CurrentFindableObjectType
+        {
+            get => _findableObjectType;
+            set
+            {
+                _findableObjectType = value;
+                if (_currentInteractionController != null)
+                {
+                    _currentInteractionController.SetFindableObjectType(_findableObjectType);
                 }
             }
         }

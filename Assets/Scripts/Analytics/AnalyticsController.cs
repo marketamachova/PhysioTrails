@@ -111,7 +111,10 @@ namespace Analytics
             set
             {
                 _eventTriggers = value;
-                _eventTriggers.ForEach(trigger => trigger.onTriggerEnter.AddListener(OnTriggerEventEnter));
+                if (_eventTriggers != null)
+                {
+                    _eventTriggers.ForEach(trigger => trigger.onTriggerEnter.AddListener(OnTriggerEventEnter));
+                }
             }
         }
     }

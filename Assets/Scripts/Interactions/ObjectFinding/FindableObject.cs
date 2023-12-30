@@ -9,7 +9,7 @@ namespace Interactions.ObjectFinding
         [SerializeField] private FindableObjectVisual findableObjectVisual;
         [SerializeField] private GameObject meshHolder;
 
-        [SerializeField] private ObjectFindingController objectFindingController;
+        private ObjectFindingController _objectFindingController;
         
         private bool _collected = false;
 
@@ -27,12 +27,12 @@ namespace Interactions.ObjectFinding
                 // _collected = true;
                 if (PointingValid())
                 {
-                    objectFindingController.OnPointedCorrectly();
+                    _objectFindingController.OnPointedCorrectly();
                     findableObjectVisual.HighlightCorrect();
                 }
                 else
                 {
-                    objectFindingController.OnPointedIncorrectly();
+                    _objectFindingController.OnPointedIncorrectly();
                     findableObjectVisual.HighlightIncorrect();
                 }
             }
@@ -45,7 +45,7 @@ namespace Interactions.ObjectFinding
 
         private bool PointingValid()
         {
-            return objectFindingController.CollectType == data.Type;
+            return _objectFindingController.CollectType == data.Type;
         }
 
         public FindableObjectData Data
@@ -68,8 +68,8 @@ namespace Interactions.ObjectFinding
         
         public ObjectFindingController ObjectFindingController
         {
-            get => objectFindingController;
-            set => objectFindingController = value;
+            get => _objectFindingController;
+            set => _objectFindingController = value;
         }
     }
 }

@@ -42193,7 +42193,6 @@ GameObject:
   - component: {fileID: 1182262321}
   - component: {fileID: 1182262320}
   - component: {fileID: 1182262319}
-  - component: {fileID: 1182262318}
   - component: {fileID: 1182262317}
   m_Layer: 0
   m_Name: AvoidObstaclesInteractionController
@@ -42222,21 +42221,6 @@ MonoBehaviour:
   spawnPointsParent: {fileID: 575698434}
   scaleFactor: 5
   obstaclesCount: 50
---- !u!114 &1182262318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182262316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f18a73c6dd7c24c8db415086aa6cf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voPlayer: {fileID: 0}
-  scoreVisualiser: {fileID: 0}
-  delaySecondsBetweenScoreChange: 2
 --- !u!114 &1182262319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42265,7 +42249,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   shouldWaitForInteractionStart: 0
-  scoreController: {fileID: 1182262318}
+  scoreController: {fileID: 0}
   displayArrows: 1
   onDisplayArrowsChanged:
     m_PersistentCalls:
@@ -61260,49 +61244,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1772603641}
+  - component: {fileID: 1772603642}
   - component: {fileID: 1772603640}
-  - component: {fileID: 1772603639}
-  - component: {fileID: 1772603638}
   m_Layer: 0
-  m_Name: FindingObjectsInteractionController
+  m_Name: FindingObjectsSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1772603638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772603637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 872eefaf4362d2e4eae21adbeeee1e35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voPlayer: {fileID: 0}
-  scoreVisualiser: {fileID: 0}
-  delaySecondsBetweenScoreChange: 2
---- !u!114 &1772603639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772603637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a421381ce87320d48bdf8c81759163b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onInteractionReady:
-    m_PersistentCalls:
-      m_Calls: []
-  shouldWaitForInteractionStart: 0
-  scoreController: {fileID: 1772603638}
-  collectType: 0
 --- !u!114 &1772603640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61315,6 +61265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ee395fe98d65c4d81e7afca5435776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectFindingSceneManager: {fileID: 1772603642}
   objectDataList:
   - {fileID: 11400000, guid: ef56ac40817b6764ba04f670351bcaf4, type: 2}
   - {fileID: 11400000, guid: 91741347fac695044a84a41a382344cd, type: 2}
@@ -61331,7 +61282,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 545ffe2fae9882745bfac166c03a2f1f, type: 2}
   - {fileID: 11400000, guid: ad1bf755048f75a40b860e8b231afead, type: 2}
   - {fileID: 11400000, guid: 1fed05fa62bed0646b3c5c7120a94b4f, type: 2}
-  objectFindingController: {fileID: 1772603639}
   spawnPointsParent: {fileID: 780819510}
   scaleFactor: 1.5
 --- !u!4 &1772603641
@@ -61349,6 +61299,19 @@ Transform:
   m_Father: {fileID: 1849183561}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1772603642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772603637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0a6f08dec4f2d44b7e43b0b1efcdab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findableObjectSpawner: {fileID: 1772603640}
 --- !u!1 &1773313703
 GameObject:
   m_ObjectHideFlags: 0

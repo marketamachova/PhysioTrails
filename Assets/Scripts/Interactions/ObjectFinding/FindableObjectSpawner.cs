@@ -9,23 +9,24 @@ namespace Interactions.ObjectFinding
 {
     public class FindableObjectSpawner : MonoBehaviour
     {
-        [SerializeField] private List<FindableObjectData> objectDataList;
-        [SerializeField] private ObjectFindingController objectFindingController;
+        [SerializeField] private List<FindableObjectData> objectDataList; 
         [SerializeField] private GameObject spawnPointsParent;
 
         [SerializeField] private float scaleFactor = 5f;
         
+        private ObjectFindingController _objectFindingController;
         private List<Transform> _spawnPoints;
 
-        
-        private void Start()
+        public void Initialize(ObjectFindingController objectFindingController)
         {
-            var difficulty = objectFindingController.Difficulty;
+            _objectFindingController = objectFindingController;
+            var difficulty = _objectFindingController.Difficulty;
+            
             var spawnPointsCount = GetSpawnPointsCount(difficulty);
             
             SpawnObjectsRandomly(spawnPointsCount);
         }
-        
+
         private int GetSpawnPointsCount(InteractionConfigurator.DifficultyType difficulty)
         {
             var count = 0;
@@ -65,7 +66,7 @@ namespace Interactions.ObjectFinding
                 FindableObjectData objectData = objectDataList[i % objectDataList.Count];
                 var spawnedObject = InstantiateObject("FindableObjectWrapper", spawnPoint);
                 FindableObject findableObject = spawnedObject.GetComponent<FindableObject>();
-                findableObject.ObjectFindingController = objectFindingController;
+                findableObject.ObjectFindingController = _objectFindingController;
                 findableObject.Data = objectData;
 
                 var spawnedObjectTransform = spawnedObject.transform;
@@ -80,7 +81,7 @@ namespace Interactions.ObjectFinding
                 mesh.gameObject.GetComponent<MeshFilter>().mesh = objectData.Mesh;
                 mesh.gameObject.GetComponent<MeshRenderer>().material = objectData.Material;
                 
-                Debug.Log("Spawned object " + objectData.ObjectName + " at " + spawnPoint.name + " with scale " + scaleFactor + " and mesh " + objectData.Mesh.name + " and material " + objectData.Material.name);
+                // Debug.Log("Spawned object " + objectData.ObjectName + " at " + spawnPoint.name + " with scale " + scaleFactor + " and mesh " + objectData.Mesh.name + " and material " + objectData.Material.name);
             }
             
             Debug.Log("Spawned "  + spawnPointsSubset.Count + " objects");
