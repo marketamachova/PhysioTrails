@@ -19,12 +19,9 @@ namespace Analytics
         
         // TODO have list of AnalyticsTriggers - which each have collider and name and then subsribe here when the collider hits to send event to vrLogger
 
-        private void Awake()
-        {
-        }
-
         private void Start()
         {
+            Debug.Log("Kuk AnalyticsController start"); 
             InitializeVrLogger();
         }
 
@@ -40,14 +37,16 @@ namespace Analytics
                 return;
             }
             
+            Debug.Log("vrLogger " + vrLogger.name);
+            vrLogger.InitializeLogger();
+
             EventTriggers = eventTriggers;
             
-            vrLogger.InitializeLogger();
-            
             // TODO add other data, dont know which now
-            vrLogger.SetCustomData("{\"interaction\": " + interactionManager.CurrentInteractionType + "}");
+            vrLogger.SetCustomData("{\"custom\": " + interactionManager.CurrentInteractionType + "}");
             vrLogger.StartLogging(sceneName);
             
+            _vrLoggerInitialized = true;
             _tracking = true;
         }
 
@@ -87,7 +86,9 @@ namespace Analytics
         private void OnTriggerEventEnter(string eventName)
         {
             Debug.Log("Kuk Trigger event enter: " + eventName);
-            vrLogger.SetEvent(eventName);
+            var translatedEventName = EventTriggerNameTranslator.Instance.TranslateEventName(eventName);
+            vrLogger.SetRecordCustomData("{\"custom\": \"" + translatedEventName + "\"}");
+            vrLogger.SetEvent(translatedEventName);
         }
 
         // [ContextMenu("Test Tracking")]

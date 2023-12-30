@@ -3267,7 +3267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: Curve2
+  eventName: Curve
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -4624,7 +4624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: DownHillMiddle1
+  eventName: DownHillMiddle
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -9892,7 +9892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: DownHillEnd1
+  eventName: DownHillEnd
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -18735,7 +18735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: UphillMiddle1
+  eventName: UphillMiddle
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -35628,7 +35628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: DownHillStart1
+  eventName: DownHillStart
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -57167,7 +57167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: UphillStart1
+  eventName: UphillStart
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -61265,7 +61265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ee395fe98d65c4d81e7afca5435776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectFindingSceneManager: {fileID: 1772603642}
   objectDataList:
   - {fileID: 11400000, guid: ef56ac40817b6764ba04f670351bcaf4, type: 2}
   - {fileID: 11400000, guid: 91741347fac695044a84a41a382344cd, type: 2}
@@ -65848,7 +65847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: Curve1
+  eventName: Curve
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -65963,7 +65962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: Curve3
+  eventName: Curve
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
@@ -70313,7 +70312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2336966a50e60409f671de422efd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventName: LongDownhillMiddle2
+  eventName: LongDownhillMiddle
   tagToCompare: NetworkCamera
   onTriggerEnter:
     m_PersistentCalls:
