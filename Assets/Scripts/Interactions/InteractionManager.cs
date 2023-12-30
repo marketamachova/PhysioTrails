@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Interactions.AvoidObstacles;
+using Interactions.ObjectFinding;
 using Interactions.WireLoop;
 using Player;
 using UnityEngine;
@@ -32,7 +34,6 @@ namespace Interactions
         // TODO delete this, will be job of configurator
         private void Start()
         {
-            // CurrentInteractionType = InteractionConfigurator.InteractionType.WireLoop;
             interactionConfigurator.OnInteractionsConfigurationComplete += OnInteractionsConfigurationComplete;
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -108,13 +109,16 @@ namespace Interactions
             switch (newInteractionType)
             {
                 case InteractionConfigurator.InteractionType.WireLoop:
-                    _currentInteractionSceneManager = _interactionSceneManagers[0];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is WireLoopSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.ObjectFinding:
-                    _currentInteractionSceneManager = _interactionSceneManagers[1];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is ObjectFindingSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.AvoidObstacles:
-                    _currentInteractionSceneManager = _interactionSceneManagers[2];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is AvoidObstaclesSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.None:
                     _currentInteractionSceneManager = null;

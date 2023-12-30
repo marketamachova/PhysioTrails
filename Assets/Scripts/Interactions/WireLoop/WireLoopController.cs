@@ -11,7 +11,6 @@ namespace Interactions.WireLoop
     public class WireLoopController : InteractionControllerBase
     {
         [SerializeField] private ScoreController scoreController;
-        [SerializeField] private string playerWrapperTag = "NetworkCamera";
         
         private WireLoopSceneManager _wireLoopSceneManager;
         

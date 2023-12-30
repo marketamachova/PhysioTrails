@@ -23,9 +23,6 @@ namespace Interactions.WireLoop
         [SerializeField] private List<WireLoopVisualiser> wireLoopVisualisers;
         [SerializeField] private List<InteractableUnityEventWrapper> torusGrabEventsWrappers;
 
-        [Header("Testing")] 
-        [SerializeField] private PathFollower playerPathFollower;
-
         public UnityEvent onTorusGrabStarted = new UnityEvent();
         public UnityEvent onTorusGrabEnded = new UnityEvent();
 
@@ -121,12 +118,7 @@ namespace Interactions.WireLoop
             transform1.localPosition = Vector3.zero;
             transform1.localRotation = Quaternion.identity;
         }
-        
-        private void EnablePlayerMovement(bool enable = true)
-        {
-            playerPathFollower.enabled = enable;
-        }
-        
+
         private void OnTorusGrabStart()
         {
             Debug.Log("Kuk grab start");

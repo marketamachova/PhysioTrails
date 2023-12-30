@@ -8,7 +8,6 @@ namespace Interactions
     {
         public UnityEvent onInteractionReady = new UnityEvent();
         [SerializeField] protected bool shouldWaitForInteractionStart = false;
-        [SerializeField] protected InteractionConfigurator interactionConfigurator;
 
         protected abstract void InvokeInteractionReady();
         

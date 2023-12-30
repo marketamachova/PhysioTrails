@@ -4,25 +4,26 @@ namespace UI
 {
     public class FollowPlayerRotation : MonoBehaviour
     {
-        public Transform playerTransform;
-        public float rotationSpeed = 5f;
-        public float rotationDelay = 0.5f;
+        [SerializeField] private string playerTag = "MainCamera";
+        [SerializeField] private float rotationSpeed = 5f;
+        [SerializeField] private float rotationDelay = 0.5f;
 
-        private Quaternion targetRotation;
+        private Quaternion _targetRotation;
+        private Transform _playerTransform;
 
         void Start()
         {
-            if (playerTransform == null)
+            if (_playerTransform == null)
             {
-                Debug.LogError("Asign transform.");
+                _playerTransform = GameObject.FindWithTag(playerTag).transform;
             }
         }
 
         void Update()
         {
-            Vector3 lookAtPlayer = playerTransform.position - transform.position;
-            targetRotation = Quaternion.LookRotation(lookAtPlayer, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Vector3 lookAtPlayer = _playerTransform.position - transform.position;
+            _targetRotation = Quaternion.LookRotation(lookAtPlayer, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 }
