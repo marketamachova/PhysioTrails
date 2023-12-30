@@ -120,6 +120,7 @@ namespace Cart
          */
         private IEnumerator ChangeCartMaterial(Material startMaterial, Material finalMaterial)
         {
+            Debug.Log("cart renderer compoennts count: " + _cartRendererComponents.Count);
             _cartRendererComponents.ForEach(component => component.material = startMaterial);
             
             float timeElapsed = 0.0f; 

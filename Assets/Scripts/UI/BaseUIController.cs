@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Network;
@@ -21,7 +22,6 @@ namespace UI
         
         [SerializeField] protected MyNetworkManager networkManager;
         [SerializeField] protected BaseController controller;
-
 
         public void DisplayLoader(bool active)
         {

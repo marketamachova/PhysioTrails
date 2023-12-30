@@ -1,13 +1,18 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Interactions.AvoidObstacles
 {
     public class AvoidObstaclesController : InteractionControllerBase
     {
         [SerializeField] private AvoidObstaclesScoreController scoreController;
-        
+        [SerializeField] private bool displayArrows = true;
+
         private AvoidObstaclesSceneManager _avoidObstaclesSceneManager;
-        
+        private InteractionConfigurator.DifficultyType _difficulty;
+
+        public UnityEvent<bool> onDisplayArrowsChanged = new UnityEvent<bool>();
+
         public void OnSceneLoaded()
         {
             InvokeInteractionReady();
@@ -39,10 +44,37 @@ namespace Interactions.AvoidObstacles
         {
         }
 
+        public override void SetDifficulty(InteractionConfigurator.DifficultyType difficultyType)
+        {
+            _difficulty = difficultyType;
+        }
+
+        public override void SetHandType(InteractionConfigurator.HandType handType)
+        {
+        }
+
         public AvoidObstaclesSceneManager AvoidObstaclesSceneManager
         {
             get => _avoidObstaclesSceneManager;
             set => _avoidObstaclesSceneManager = value;
+        }
+
+        public bool DisplayArrows
+        {
+            get => displayArrows;
+            set
+            {
+                displayArrows = value;
+                onDisplayArrowsChanged.Invoke(value);
+            }
+        }
+
+        public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
+
+        [ContextMenu("ToggleDisplayArrows")]
+        public void TestToggleDisplayArrows()
+        {
+            DisplayArrows = !DisplayArrows;
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Interactions.AvoidObstacles
     [RequireComponent(typeof(Collider))]
     public class AvoidableObstacleCollider : MonoBehaviour
     {
+        [SerializeField] private string playerHeadColliderTag = "PlayerHead";
         public enum ObstacleColliderType
         {
             Left,
@@ -19,7 +20,7 @@ namespace Interactions.AvoidObstacles
         public UnityEvent<ObstacleColliderType> onHit = new UnityEvent<ObstacleColliderType>();
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Head")) // TODO update the tags
+            if (other.CompareTag(playerHeadColliderTag)) // TODO update the tags
             {
                 Debug.Log("Head entered collider " + obstacleColliderType);
                 onHit.Invoke(obstacleColliderType);

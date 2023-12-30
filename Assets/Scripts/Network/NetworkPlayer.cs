@@ -25,6 +25,9 @@ namespace Network
         [SyncVar(hook = "SetCalibrationComplete")]
         public bool calibrationComplete;
         
+        [SyncVar(hook = "SetPatientSelectionComplete")]
+        public bool patientSelectionComplete;
+        
         [SyncVar(hook = "SetInteractionSelectionComplete")]
         public bool interactionSelectionComplete;
 
@@ -45,6 +48,7 @@ namespace Network
 
         public event Action OnCalibrationComplete;
         public event Action OnInteractionSelectionComplete;
+        public event Action OnPatientSelectionComplete;
         public event Action OnSceneLoadedAction;
 
         private void Awake()
@@ -218,6 +222,11 @@ namespace Network
         {
             OnInteractionSelectionComplete?.Invoke();
         }
+        
+        private void SetPatientSelectionComplete(bool oldValue, bool complete)
+        {
+            OnPatientSelectionComplete?.Invoke();
+        }
 
         /**
          * syncs the time spent in an ongoing VR experience in case the mobile player joins during an ongoing VR experience
@@ -320,6 +329,12 @@ namespace Network
         public void CmdSetInteractionSelectionComplete(bool complete)
         {
             interactionSelectionComplete = complete;
+        }
+        
+        [Command(requiresAuthority = false)]
+        public void CmdSetPatientSelectionComplete(bool complete)
+        {
+            patientSelectionComplete = complete;
         }
 
         [Command]

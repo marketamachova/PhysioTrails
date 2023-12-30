@@ -16,6 +16,7 @@ namespace UI
         public const string TopCameraRT = "TopCameraRT";
         public const string PlayerCameraRT = "PlayerCameraRT";
         public const string VideoControls = "VideoControls";
+        public const string PatientSelection = "PatientSelection";
         public const string SceneSelection = "SceneSelection";
         public const string InteractionSelection = "InteractionSelection";
         public const string Calibration = "Calibration";

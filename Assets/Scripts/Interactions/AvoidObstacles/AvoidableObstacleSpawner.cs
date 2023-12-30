@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Interactions.ObjectFinding;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,26 +9,58 @@ namespace Interactions.AvoidObstacles
 {
     public class AvoidableObstacleSpawner : MonoBehaviour
     {
-        [SerializeField] private List<Transform> spawnPoints;
         [SerializeField] private GameObject avoidableObstacleLeftPrefab;
         [SerializeField] private GameObject avoidableObstacleRightPrefab;
         [SerializeField] private AvoidObstaclesController avoidObstaclesController; // TODO maybe assign the other way around
+        [SerializeField] private GameObject spawnPointsParent;
 
         [SerializeField] private float scaleFactor = 5f;
-        [SerializeField] private int spawnPointsCount = 5;
+        [SerializeField] private int obstaclesCount = 50;
+        
+        private List<Transform> spawnPoints;
+        private int spawnPointsCount;
+
         private void Start()
         {
-            SpawnObjectsRandomly();
+            var difficulty = avoidObstaclesController.Difficulty;
+            obstaclesCount = GetObstaclesCount(difficulty);
+            
+            SpawnObjectsRandomly(obstaclesCount);
+        }
+
+        private int GetObstaclesCount(InteractionConfigurator.DifficultyType difficulty)
+        {
+            var count = 0;
+            switch (difficulty)
+            {
+                case InteractionConfigurator.DifficultyType.Easy:
+                    count = 15;
+                    break;
+                case InteractionConfigurator.DifficultyType.Medium:
+                    count = 50;
+                    break;
+                case InteractionConfigurator.DifficultyType.Hard:
+                    count = 90;
+                    break;
+            }
+
+            return count;
         }
 
         /**
          * Choose some subset of spawn points and populate those with avoidable obstacles of each type (left, right)
          */
-        private void SpawnObjectsRandomly()
+        private void SpawnObjectsRandomly(int numberOfObstacles)
         {
-            var spawnPointsSubsetAvoidLeft = ListUtils.GetRandomSubset(spawnPoints, spawnPointsCount / 2); // Z toho puvodniho listu se musi odebrat ten substet
-            var spawnPointsSubsetAvoidRight = ListUtils.GetRandomSubset(spawnPoints, spawnPointsCount / 2);
+            spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>().ToList();
             
+            var spawnPointsSubsetAvoidLeft = ListUtils.GetRandomSubset(spawnPoints, numberOfObstacles / 2); // Z toho puvodniho listu se musi odebrat ten substet
+            
+            // Remove each used spawn point from the spawn points list
+            spawnPointsSubsetAvoidLeft.ForEach(usedSpawnPoint => spawnPoints.Remove(usedSpawnPoint));
+            
+            var spawnPointsSubsetAvoidRight = ListUtils.GetRandomSubset(spawnPoints, numberOfObstacles / 2);
+
             // iterate through the spawn points and spawn an object at each one
             foreach (var pointAvoidLeft in spawnPointsSubsetAvoidLeft)
             {
@@ -37,10 +70,6 @@ namespace Interactions.AvoidObstacles
 
                 var spawnedObjectTransform = spawnedObject.transform;
                 spawnedObjectTransform.parent = pointAvoidLeft;
-                // // Make sure the object's position and rotation is oriented as the parent
-                // spawnedObjectTransform.localPosition = Vector3.zero;
-                // spawnedObjectTransform.localRotation = Quaternion.identity;
-                // spawnedObjectTransform.localScale = Vector3.one * scaleFactor;
             }
             
             foreach (var pointAvoidRight in spawnPointsSubsetAvoidRight)
@@ -51,14 +80,20 @@ namespace Interactions.AvoidObstacles
 
                 var spawnedObjectTransform = spawnedObject.transform;
                 spawnedObjectTransform.parent = pointAvoidRight;
-                // // Make sure the object's position and rotation is oriented as the parent
-                // spawnedObjectTransform.localPosition = Vector3.zero;
-                // spawnedObjectTransform.localRotation = Quaternion.identity;
-                // spawnedObjectTransform.localScale = Vector3.one * scaleFactor;
             }
+            Debug.Log(spawnPointsSubsetAvoidLeft.Count);
+            Debug.Log(spawnPointsSubsetAvoidRight.Count);
+            
+            Debug.Log("Spawned " + numberOfObstacles + " obstacles");
         }
 
-        public int SpawnPointsCount
+        public int ObstaclesCount
+        {
+            get => obstaclesCount;
+            set => obstaclesCount = value;
+        }
+        
+        public int MaxObstaclesCount
         {
             get => spawnPointsCount;
             set => spawnPointsCount = value;

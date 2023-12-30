@@ -12,7 +12,7 @@ namespace Interactions.WireLoop
 
         private Renderer _renderer;
 
-        private void Start()
+        private void OnEnable()
         {
             _renderer = GetComponent<Renderer>();
         }

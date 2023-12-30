@@ -24,6 +24,7 @@ namespace Player
         public void Awake()
         {
             networkManager.OnServerAddPlayerAction += AssignPlayers;
+            Initialize();
         }
 
         public virtual void OnDisconnect()
@@ -48,6 +49,7 @@ namespace Player
                     LocalNetworkPlayer = networkPlayer;
                     LocalNetworkPlayer.OnCalibrationComplete += OnCalibrationComplete;
                     LocalNetworkPlayer.OnInteractionSelectionComplete += OnInteractionSelectionComplete;
+                    LocalNetworkPlayer.OnPatientSelectionComplete += OnPatientSelectionComplete;
                 }
                 else
                 {
@@ -59,6 +61,7 @@ namespace Player
         protected virtual void OnCalibrationComplete() { }
         
         protected virtual void OnInteractionSelectionComplete() { }
+        protected virtual void OnPatientSelectionComplete() { }
 
         public virtual void SkipCalibration() { }
 
@@ -93,6 +96,22 @@ namespace Player
                 networkPlayer.CmdSetInteractionSelectionComplete(true);
             }
         }
+        
+        /**
+         * synchronises patient selection complete syncVar with all NetworkPlayers in the scene
+         */
+        protected virtual void SetPatientSelectionComplete()
+        {
+            if (NetworkPlayers.Length < 2)
+            {
+                AssignPlayers();
+            }
+            
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdSetPatientSelectionComplete(true);
+            }
+        }
 
         /**
          * handles selecting a scene (if no world scene is loaded/loading)
@@ -112,7 +131,19 @@ namespace Player
             }
         }
 
-        public virtual void OnGoToLobby(bool wait = true) { }
+        public virtual void OnGoToLobby(bool wait = true)
+        {
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdSetPatientSelectionComplete(false);
+                networkPlayer.CmdSetInteractionSelectionComplete(false);
+            }
+        }
+
+        public virtual void Initialize()
+        {
+            
+        }
 
         /**
          * synchronises triggerGoToLobby  syncVar with all NetworkPlayers in the scene

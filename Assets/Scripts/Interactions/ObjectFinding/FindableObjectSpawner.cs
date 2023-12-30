@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
@@ -8,30 +9,60 @@ namespace Interactions.ObjectFinding
 {
     public class FindableObjectSpawner : MonoBehaviour
     {
-        [SerializeField] private List<Transform> spawnPoints;
         [SerializeField] private List<FindableObjectData> objectDataList;
         [SerializeField] private ObjectFindingController objectFindingController;
+        [SerializeField] private GameObject spawnPointsParent;
 
         [SerializeField] private float scaleFactor = 5f;
+        
+        private List<Transform> _spawnPoints;
+
+        
         private void Start()
         {
-            SpawnObjectsRandomly();
+            var difficulty = objectFindingController.Difficulty;
+            var spawnPointsCount = GetSpawnPointsCount(difficulty);
+            
+            SpawnObjectsRandomly(spawnPointsCount);
+        }
+        
+        private int GetSpawnPointsCount(InteractionConfigurator.DifficultyType difficulty)
+        {
+            var count = 0;
+            switch (difficulty)
+            {
+                case InteractionConfigurator.DifficultyType.Easy:
+                    count = 30;
+                    break;
+                case InteractionConfigurator.DifficultyType.Medium:
+                    count = 60;
+                    break;
+                case InteractionConfigurator.DifficultyType.Hard:
+                    count = 84;
+                    break;
+            }
+
+            return count;
         }
 
         /**
          * Spawns objects randomly at the spawn points
          */
-        private void SpawnObjectsRandomly()
+        private void SpawnObjectsRandomly(int spawnPointsCount)
         {
-            ListUtils.Shuffle(spawnPoints);
+            _spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>().ToList();
+            
+            var spawnPointsSubset = ListUtils.GetRandomSubset(_spawnPoints, spawnPointsCount);
+            
+            ListUtils.Shuffle(spawnPointsSubset);
 
             // iterate through the spawn points and spawn an object at each one
-            for (int i = 0; i < spawnPoints.Count; i++)
+            for (int i = 0; i < spawnPointsSubset.Count; i++)
             {
-                Transform spawnPoint = spawnPoints[i];
+                Transform spawnPoint = spawnPointsSubset[i];
                 
                 // Get a random object from the list
-                FindableObjectData objectData = objectDataList[i];
+                FindableObjectData objectData = objectDataList[i % objectDataList.Count];
                 var spawnedObject = InstantiateObject("FindableObjectWrapper", spawnPoint);
                 FindableObject findableObject = spawnedObject.GetComponent<FindableObject>();
                 findableObject.ObjectFindingController = objectFindingController;
@@ -48,7 +79,11 @@ namespace Interactions.ObjectFinding
                 mesh.transform.localScale = Vector3.one;
                 mesh.gameObject.GetComponent<MeshFilter>().mesh = objectData.Mesh;
                 mesh.gameObject.GetComponent<MeshRenderer>().material = objectData.Material;
+                
+                Debug.Log("Spawned object " + objectData.ObjectName + " at " + spawnPoint.name + " with scale " + scaleFactor + " and mesh " + objectData.Mesh.name + " and material " + objectData.Material.name);
             }
+            
+            Debug.Log("Spawned "  + spawnPointsSubset.Count + " objects");
         }
 
         private GameObject InstantiateObject(string objectName, Transform parent)

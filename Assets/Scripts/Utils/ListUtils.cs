@@ -21,7 +21,10 @@ namespace Utils
             
             for (int i = 0; i < subsetSize; i++)
             {
-                subset.Add(list[random.Next(n)]);
+                var randomIndex = random.Next(n);
+                subset.Add(list[randomIndex]);
+                list.RemoveAt(randomIndex);
+                n--;
             }
 
             return subset;

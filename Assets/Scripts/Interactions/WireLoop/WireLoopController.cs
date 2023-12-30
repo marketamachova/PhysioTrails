@@ -10,18 +10,17 @@ namespace Interactions.WireLoop
 {
     public class WireLoopController : InteractionControllerBase
     {
-        [SerializeField] private bool startCollisionDetectionOnGrab;
         [SerializeField] private ScoreController scoreController;
-        [SerializeField] private List<HandGrabInteractor> handGrabInteractors;
-
-        [SerializeField] private Transform playerWrapperTransform;
-
+        
         private WireLoopSceneManager _wireLoopSceneManager;
         
         private bool _enableCollisions = false;
         private bool _isIdle = true;
 
         private int _customSpeed;
+        private InteractionConfigurator.DifficultyType _difficulty;
+        private InteractionConfigurator.HandType _handType;
+        private Transform _playerWrapperTransform;
 
         public void OnSceneLoaded()
         {
@@ -48,6 +47,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusGrabStart()
         {
+            Debug.Log("Kuk grab start");
             InvokeInteractionReady();
             // _wireLoopSceneManager.EnableTorusMovement();
         }
@@ -66,5 +66,28 @@ namespace Interactions.WireLoop
                 _wireLoopSceneManager.SetSpeed(speed);
             }
         }
+
+        public override void SetDifficulty(InteractionConfigurator.DifficultyType difficulty)
+        {
+            Debug.Log("Kuk set difficulty");
+            _difficulty = difficulty;
+        }
+
+        public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
+
+        public override void SetHandType(InteractionConfigurator.HandType handType)
+        {
+            _handType = handType;
+        }
+
+        public InteractionConfigurator.HandType HandType => _handType;
+
+        public Transform PlayerWrapperTransform
+        {
+            get => _playerWrapperTransform;
+            set => _playerWrapperTransform = value;
+        }
+        
+        
     }
 }

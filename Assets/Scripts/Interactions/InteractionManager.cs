@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Interactions.AvoidObstacles;
+using Interactions.ObjectFinding;
 using Interactions.WireLoop;
 using Player;
 using UnityEngine;
@@ -24,14 +26,25 @@ namespace Interactions
         private List<InteractionSceneManagerBase> _interactionSceneManagers;
         private InteractionSceneManagerBase _currentInteractionSceneManager; // Interaction manager situated in the VR world scene (Forest, Winter, Rural)
         private InteractionConfigurator.InteractionType _type = InteractionConfigurator.InteractionType.None;
+        private InteractionConfigurator.DifficultyType _difficulty = InteractionConfigurator.DifficultyType.Easy;
+        private InteractionConfigurator.HandType _handType = InteractionConfigurator.HandType.Right;
+        
+        private bool _shouldWaitForInteractionStart = false;
 
         // TODO delete this, will be job of configurator
         private void Start()
         {
-            // CurrentInteractionType = InteractionConfigurator.InteractionType.WireLoop;
+            interactionConfigurator.OnInteractionsConfigurationComplete += OnInteractionsConfigurationComplete;
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             CurrentInteractionType = interactionConfigurator.Type;
+        }
+        
+        private void OnInteractionsConfigurationComplete()
+        {
+            CurrentInteractionType = interactionConfigurator.Type;
+            CurrentDifficulty = interactionConfigurator.Difficulty;
+            CurrentHandType = interactionConfigurator.Hand;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -43,11 +56,20 @@ namespace Interactions
                 if (_currentInteractionController != null)
                 {
                     _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
+                    // _vrController.WaitForInteractions = _currentInteractionController.ShouldWaitForInteractionStart;
+                    if (!_currentInteractionController.ShouldWaitForInteractionStart)
+                    {
+                        _vrController.InteractionReady = true;
+                    }
+                }
+                else
+                {
+                    _vrController.InteractionReady = true;
                 }
 
                 _interactionSceneManagers = new List<InteractionSceneManagerBase>(FindObjectsOfType<InteractionSceneManagerBase>());
                 AssignInteractionSceneManager(CurrentInteractionType);
-                EnableSceneInteractionManager();                
+                EnableSceneInteractionManager();
             }
         }
 
@@ -87,13 +109,16 @@ namespace Interactions
             switch (newInteractionType)
             {
                 case InteractionConfigurator.InteractionType.WireLoop:
-                    _currentInteractionSceneManager = _interactionSceneManagers[0];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is WireLoopSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.ObjectFinding:
-                    _currentInteractionSceneManager = _interactionSceneManagers[1];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is ObjectFindingSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.AvoidObstacles:
-                    _currentInteractionSceneManager = _interactionSceneManagers[2];
+                    _currentInteractionSceneManager =
+                        _interactionSceneManagers.Find(sceneManager => sceneManager is AvoidObstaclesSceneManager);
                     break;
                 case InteractionConfigurator.InteractionType.None:
                     _currentInteractionSceneManager = null;
@@ -109,6 +134,7 @@ namespace Interactions
             {
                 case InteractionConfigurator.InteractionType.WireLoop:
                     _currentInteractionController = interactionControllers[0];
+                    _shouldWaitForInteractionStart = true;
                     break;
                 case InteractionConfigurator.InteractionType.ObjectFinding:
                     _currentInteractionController = interactionControllers[1];
@@ -124,6 +150,7 @@ namespace Interactions
             }
         }
         
+
         private void HangListeners()
         {
             if (_currentInteractionController != null)
@@ -141,6 +168,32 @@ namespace Interactions
                 AssignInteractionController(_type);
                 EnableInteractionController();
                 HangListeners();
+            }
+        }
+        
+        public InteractionConfigurator.DifficultyType CurrentDifficulty
+        {
+            get => _difficulty;
+            set
+            {
+                _difficulty = value;
+                if (_currentInteractionController != null)
+                {
+                    _currentInteractionController.SetDifficulty(_difficulty);
+                }
+            }
+        }
+        
+        public InteractionConfigurator.HandType CurrentHandType
+        {
+            get => _handType;
+            set
+            {
+                _handType = value;
+                if (_currentInteractionController != null)
+                {
+                    _currentInteractionController.SetHandType(_handType);
+                }
             }
         }
     }
