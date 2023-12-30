@@ -51,7 +51,7 @@ namespace Interactions.WireLoop
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("Path started trigger with " + other.gameObject.name);
-            if (other.gameObject.CompareTag(torusTagName))
+            if (other.gameObject.CompareTag(torusTagName) && other.gameObject.activeSelf)
             {
                 if (!_activeColliders.Find(col => col.name == other.gameObject.name))
                 {
@@ -65,7 +65,7 @@ namespace Interactions.WireLoop
         private void OnTriggerExit(Collider other)
         {
             Debug.Log("Path ended trigger with " + other.gameObject.name);
-            if (other.gameObject.CompareTag(torusTagName))
+            if (other.gameObject.CompareTag(torusTagName) && other.gameObject.activeSelf)
             {
                 if (_activeColliders.Find(col => col.name == other.gameObject.name) != null)
                 {

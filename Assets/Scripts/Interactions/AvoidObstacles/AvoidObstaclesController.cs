@@ -49,6 +49,10 @@ namespace Interactions.AvoidObstacles
             _difficulty = difficultyType;
         }
 
+        public override void SetHandType(InteractionConfigurator.HandType handType)
+        {
+        }
+
         public AvoidObstaclesSceneManager AvoidObstaclesSceneManager
         {
             get => _avoidObstaclesSceneManager;

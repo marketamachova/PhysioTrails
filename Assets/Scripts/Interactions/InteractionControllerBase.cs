@@ -15,6 +15,7 @@ namespace Interactions
         public abstract void SetSpeed(int speed);
         
         public abstract void SetDifficulty(InteractionConfigurator.DifficultyType difficultyType);
+        public abstract void SetHandType(InteractionConfigurator.HandType handType);
         
         public bool ShouldWaitForInteractionStart => shouldWaitForInteractionStart;
     }

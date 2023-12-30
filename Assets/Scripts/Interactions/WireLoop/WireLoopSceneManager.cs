@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Oculus.Interaction;
 using PathCreation.Examples;
+using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using Utils;
@@ -16,10 +17,12 @@ namespace Interactions.WireLoop
         [SerializeField] private List<Rigidbody> torusGrabbableRigidbodies;
         [SerializeField] private List<GameObject> torusSizes;
         [SerializeField] private GameObject torusGhost;
+        [SerializeField] private GameObject torusGhostRightHand;
+        [SerializeField] private GameObject torusGhostLeftHand;
         [SerializeField] private PathFollower torusPathFollower;
-        [SerializeField] private WireLoopVisualiser wireLoopVisualiser;
+        [SerializeField] private List<WireLoopVisualiser> wireLoopVisualisers;
         [SerializeField] private List<InteractableUnityEventWrapper> torusGrabEventsWrappers;
-        
+
         [Header("Testing")] 
         [SerializeField] private PathFollower playerPathFollower;
 
@@ -30,6 +33,8 @@ namespace Interactions.WireLoop
         private InteractionManager _interactionManager;
         private Coroutine _resetTorusRbPositionCoroutine;
         
+        private PlayerPositionHandler _playerPositionHandler;
+        
         private void Awake()
         {
             torusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
@@ -38,12 +43,18 @@ namespace Interactions.WireLoop
         
         private void Start()
         {
+            _playerPositionHandler = FindObjectOfType<PlayerPositionHandler>();
+
             _wireLoopController = FindObjectOfType<WireLoopController>();
             _wireLoopController.WireLoopSceneManager = this;
             _wireLoopController.OnSceneLoaded();
             
             var difficulty = _wireLoopController.Difficulty;
             EnableTorusBasedOnDifficulty(difficulty);
+            
+            var handType = _wireLoopController.HandType;
+            EnableTorusGhostHand(handType);
+            PositionPlayerBasedOnHandType(handType);
             
             torusGhost.SetActive(false);
             torusPathFollower.enabled = false;
@@ -64,6 +75,25 @@ namespace Interactions.WireLoop
                 case InteractionConfigurator.DifficultyType.Hard:
                     torusSizes[2].SetActive(true);
                     break;
+            }
+        }
+
+        private void EnableTorusGhostHand(InteractionConfigurator.HandType handType)
+        {
+            torusGhostRightHand.SetActive(handType == InteractionConfigurator.HandType.Right);
+            torusGhostLeftHand.SetActive(handType == InteractionConfigurator.HandType.Left);
+        }
+        
+        private void PositionPlayerBasedOnHandType(InteractionConfigurator.HandType handType)
+        {
+            Debug.Log("Kuk position player based on hand type");
+            if (handType == InteractionConfigurator.HandType.Right)
+            {
+                _playerPositionHandler.MovePlayerToLeft();
+            }
+            else
+            {
+                _playerPositionHandler.MovePlayerToRight();
             }
         }
         
@@ -99,8 +129,9 @@ namespace Interactions.WireLoop
         
         private void OnTorusGrabStart()
         {
+            Debug.Log("Kuk grab start");
             StartTorusMovement();
-            EnablePlayerMovement();
+            // EnablePlayerMovement();
             onTorusGrabStarted.Invoke();
             torusGrabbableRigidbodies.ForEach(rb => rb.isKinematic = true);
             
@@ -113,6 +144,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusGrabEnd()
         {
+            Debug.Log("Kuk grab end");
             RecenterAllTorus();
             StartTorusMovement();
             onTorusGrabEnded.Invoke();
@@ -131,7 +163,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusCollisionStart(bool isTrigger)
         {
-            wireLoopVisualiser.OnCollisionStart();
+            wireLoopVisualisers.ForEach(visualiser => visualiser.OnCollisionStart());
             _wireLoopController.OnMiss();
 
             if (isTrigger)
@@ -142,7 +174,7 @@ namespace Interactions.WireLoop
 
         private void OnTorusCollisionEnd(bool isTrigger)
         {
-            wireLoopVisualiser.OnCollisionEnd();
+            wireLoopVisualisers.ForEach(visualiser => visualiser.OnCollisionEnd());
             
             // Start trail ghost?
             torusGhost.SetActive(false);

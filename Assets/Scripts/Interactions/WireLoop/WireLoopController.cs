@@ -20,6 +20,7 @@ namespace Interactions.WireLoop
 
         private int _customSpeed;
         private InteractionConfigurator.DifficultyType _difficulty;
+        private InteractionConfigurator.HandType _handType;
         private Transform _playerWrapperTransform;
 
         public void OnSceneLoaded()
@@ -74,6 +75,13 @@ namespace Interactions.WireLoop
         }
 
         public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
+
+        public override void SetHandType(InteractionConfigurator.HandType handType)
+        {
+            _handType = handType;
+        }
+
+        public InteractionConfigurator.HandType HandType => _handType;
 
         public Transform PlayerWrapperTransform
         {
