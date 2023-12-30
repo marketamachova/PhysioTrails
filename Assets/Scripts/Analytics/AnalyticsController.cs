@@ -30,12 +30,11 @@ namespace Analytics
 
         public void InitializeVrLogger()
         {
-            vrLogger.SetOrganisation("KOyLfT");
+            vrLogger.SetOrganisation("13FgFz");
         }
 
         public void StartTracking(string sceneName, List<VREventTrigger> eventTriggers)
         {
-            Debug.Log("Kuk Start tracking");
             
             EventTriggers = eventTriggers;
             
