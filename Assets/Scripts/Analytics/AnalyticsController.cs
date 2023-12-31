@@ -88,7 +88,7 @@ namespace Analytics
 #endif
         }
         
-        private void OnTriggerEventEnter(string eventName)
+        public void OnTriggerEventEnter(string eventName)
         {
             Debug.Log("Kuk Trigger event enter: " + eventName);
             var translatedEventName = EventTriggerNameTranslator.Instance.TranslateEventName(eventName);

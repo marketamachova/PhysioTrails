@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Analytics;
 using Oculus.Interaction.HandGrab;
 using PathCreation;
 using PathCreation.Examples;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Utils;
 
@@ -11,6 +13,7 @@ namespace Interactions.WireLoop
     public class WireLoopController : InteractionControllerBase
     {
         [SerializeField] private ScoreController scoreController;
+        [SerializeField] private string collisionEventName = "WireLoopCollision";
         
         private WireLoopSceneManager _wireLoopSceneManager;
         
@@ -21,6 +24,8 @@ namespace Interactions.WireLoop
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
 
+        // public UnityEvent<string> onCollision = new UnityEvent<string>();
+
         public void OnSceneLoaded()
         {
             _wireLoopSceneManager.onTorusGrabStarted.AddListener(OnTorusGrabStart);
@@ -30,6 +35,8 @@ namespace Interactions.WireLoop
         public void OnMiss()
         {
             scoreController.OnMiss();
+            // onCollision.Invoke(collisionEventName);
+            AnalyticsController.Instance.OnTriggerEventEnter(collisionEventName);
         }
         
         [ContextMenu("Generate Path")]
