@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
-using TMPro;
+using PatientManagement_;
 using UnityEngine;
 using UnityEngine.Events;
 using Utils;
 using VRLogger.Classes;
 
-namespace PatientManagement_
+namespace PatientManagement
 {
     public class PatientsManagerUI : MonoSingleton<PatientsManagerUI>
     {
@@ -13,13 +14,16 @@ namespace PatientManagement_
         [SerializeField] private Transform patientsWrapperTransform;
         [SerializeField] private PatientUIItem currentPatientIndicator;
         
+        private List<Participant> _participants;
+        
         public UnityEvent<string> onPatientChosen = new UnityEvent<string>();
 
         public void SetPatients(List<Participant> participants)
         {
+            _participants = participants;
+            
             foreach (var participant in participants)
             {
-                Debug.Log(participant.id);
                 var patient = Instantiate(patientPrefab, patientsWrapperTransform);
                 var uiItem = patient.GetComponent<PatientUIItem>();
                 uiItem.PatientData = participant;
@@ -27,11 +31,23 @@ namespace PatientManagement_
             }
         }
         
+        public void OnPatientChosen(string participantId)
+        {
+            var participantTuple = GetParticipant(participantId);
+            currentPatientIndicator.PatientData = participantTuple.Item1;
+            currentPatientIndicator.Index = participantTuple.Item2;
+        }
+        
         public void ChoosePatient(Participant participant, int index)
         {
-            currentPatientIndicator.PatientData = participant;
-            currentPatientIndicator.Index = index;
             onPatientChosen.Invoke(participant.id);
+        }
+        
+        public static Tuple<Participant, int> GetParticipant(string participantId)
+        {
+            var participant = Instance._participants.Find(p => p.id == participantId);
+            var index = Instance._participants.IndexOf(participant);
+            return new Tuple<Participant, int>(participant, index);
         }
     }
 }

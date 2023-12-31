@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Network;
+using PatientManagement;
 using Scenes;
 using UI;
 using UnityEngine;
@@ -18,8 +19,10 @@ namespace Player
         private NetworkPlayer _vrPlayer;
         private GameObject[] _cameras;
 
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _sceneLoader = GetComponent<SceneLoader>();
 
             _sceneLoader.SceneLoadingEnd += OnSceneLoaded;
@@ -140,19 +143,30 @@ namespace Player
             
             if (!string.IsNullOrEmpty(_vrPlayer.chosenWorld)) //scene selected in VR
             {
+                Debug.Log("Kuk Scene selected in VR");
                 DisplaySceneSelected(_vrPlayer.chosenWorld);
             }
-            else if (_vrPlayer.calibrationComplete) //calibration complete in VR
+            else if (_vrPlayer.interactionSelectionComplete) //interaction selection complete in VR
             {
-                LocalNetworkPlayer.CmdSetCalibrationComplete(true);
-                OnCalibrationComplete();
-            } else if (_vrPlayer.interactionSelectionComplete) //interaction selection complete in VR
-            {
+                Debug.Log("Kuk Interaction selection complete in VR");
                 LocalNetworkPlayer.CmdSetInteractionSelectionComplete(true);
                 OnInteractionSelectionComplete();
             }
+            else if (_vrPlayer.patientSelectionComplete) //patient selection complete in VR
+            {
+                Debug.Log("Kuk Patient selection complete in VR");
+                LocalNetworkPlayer.CmdSetPatientSelectionComplete(true);
+                OnPatientSelectionComplete();
+            }
+            else if (_vrPlayer.calibrationComplete) //calibration complete in VR
+            {
+                Debug.Log("Kuk Calibration complete in VR");
+                LocalNetworkPlayer.CmdSetCalibrationComplete(true);
+                OnCalibrationComplete();
+            }
             else //calibration in process
             {
+                Debug.Log("Kuk Calibration in process in VR");
                 uiControllerMobile.EnableTrue(UIConstants.Calibration); // display "Calibration in process message"
                 LocalNetworkPlayer.OnCalibrationComplete +=
                     OnCalibrationComplete; //observe calibration complete process 
@@ -163,18 +177,50 @@ namespace Player
 
         protected override void OnCalibrationComplete()
         {
+            Debug.Log("Kuk Calibration complete now");
             base.OnCalibrationComplete();
+            
+            // TODO do i need these checks?
+            // If scene is selected
             if (!string.IsNullOrEmpty(_vrPlayer.chosenWorld))
             {
+                Debug.Log("Kuk Scene selected in VR");
                 DisplaySceneSelected(_vrPlayer.chosenWorld);
             }
+            // If interaction is selected
+            else if (_vrPlayer.interactionSelectionComplete)
+            {
+                Debug.Log("Kuk Interaction selection complete in VR");
+                OnInteractionSelectionComplete();
+            }
+            // if patient is selected
+            else if (_vrPlayer.patientSelectionComplete)
+            {
+                Debug.Log("Kuk Patient selection complete in VR");
+                OnPatientSelectionComplete();
+            }
+            // patient is not selected yet
             else
             {
-                uiController.EnableTrue(UIConstants.SceneSelection);
+                Debug.Log("Kuk Patient selection not complete in VR");
+                uiControllerMobile.DisplayPatientSelection();
             }
 
-            uiController.EnableFalse(UIConstants.Calibration);
+            // uiController.EnableFalse(UIConstants.Calibration);
         }
+        
+        protected override void OnPatientSelectionComplete()
+        {
+            base.OnPatientSelectionComplete();
+            uiControllerMobile.DisplayInteractionSelection();
+        }
+        
+        protected override void OnInteractionSelectionComplete()
+        {
+            base.OnInteractionSelectionComplete();
+            uiControllerMobile.DisplaySceneSelection();
+        }
+        
 
         public override void OnGoToLobby(bool wait)
         {
@@ -200,6 +246,8 @@ namespace Player
         {
             OnSceneSelected(_vrPlayer.chosenWorld);
         }
+        
+        
 
         public void SetSpeed(float value)
         {

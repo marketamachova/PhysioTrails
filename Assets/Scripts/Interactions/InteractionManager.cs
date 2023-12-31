@@ -17,8 +17,11 @@ namespace Interactions
     {
         [SerializeField] private InteractionConfigurator interactionConfigurator;
         [SerializeField] private List<InteractionControllerBase> interactionControllers;
+        [SerializeField] private bool isVr = true;
 
+        // TODO merge it into one controller base controller
         private VRController _vrController;
+        private MobileController _mobileController;
 
         private int _playerMovementSpeed;
         private InteractionControllerBase _currentInteractionController;
@@ -31,6 +34,7 @@ namespace Interactions
         private int _findableObjectType = 0;
         
         private bool _shouldWaitForInteractionStart = false;
+        
 
         // TODO delete this, will be job of configurator
         private void Start()
@@ -52,8 +56,17 @@ namespace Interactions
         {
             if (scene.name.Contains("Scene")) // TODO stupid check, change to something better, maybe get rid of this check
             {
-                _vrController = FindObjectOfType<VRController>();
-                _vrController.onSpeedChange.AddListener(OnSpeedChange);
+                if (isVr)
+                {
+                    _vrController = FindObjectOfType<VRController>();
+                    _vrController.onSpeedChange.AddListener(OnSpeedChange);
+                }
+                else
+                {
+                    _mobileController = FindObjectOfType<MobileController>();
+                    // _mobileController.onSpeedChange.AddListener(OnSpeedChange); // TODO
+                }
+                
                 if (_currentInteractionController != null)
                 {
                     _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
@@ -65,7 +78,14 @@ namespace Interactions
                 }
                 else
                 {
-                    _vrController.InteractionReady = true;
+                    if (isVr)
+                    {
+                        _vrController.InteractionReady = true;
+                    }
+                    else
+                    {
+                        //TODO
+                    }
                 }
 
                 _interactionSceneManagers = new List<InteractionSceneManagerBase>(FindObjectsOfType<InteractionSceneManagerBase>());

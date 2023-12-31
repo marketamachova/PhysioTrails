@@ -1,8 +1,10 @@
 
+using Interactions;
 using UnityEngine;
 using NetworkPlayer = Network.NetworkPlayer;
 using Mirror.Discovery;
 using Network;
+using PatientManagement;
 using Scenes;
 using UI;
 using UnityEngine.SceneManagement;
@@ -12,19 +14,26 @@ namespace Player
 {
     public class BaseController : MonoBehaviour
     {
-        [SerializeField] protected NetworkDiscovery networkDiscovery;
         [SerializeField] protected MyNetworkManager networkManager;
         [SerializeField] protected SceneLoader sceneLoader;
         [SerializeField] protected BaseUIController uiController;
+        [SerializeField] protected PatientsManager patientsManager;
+        [SerializeField] protected InteractionConfigurator interactionConfigurator;
         
         protected NetworkPlayer[] NetworkPlayers;
         protected NetworkPlayer LocalNetworkPlayer;
         protected NetworkPlayer RemoteNetworkPlayer;
 
-        public void Awake()
+        protected virtual void Awake()
         {
+            Debug.Log("Kuk base controller awake 0");
+
             networkManager.OnServerAddPlayerAction += AssignPlayers;
-            Initialize();
+            patientsManager.onPatientSelectionComplete.AddListener(SetPatientSelectionComplete);
+            interactionConfigurator.OnInteractionsConfigurationComplete += SetInteractionSelectionComplete;
+            
+            Debug.Log("Kuk base controller awake");
+            // Initialize();
         }
 
         public virtual void OnDisconnect()
@@ -100,7 +109,7 @@ namespace Player
         /**
          * synchronises patient selection complete syncVar with all NetworkPlayers in the scene
          */
-        protected virtual void SetPatientSelectionComplete()
+        protected virtual void SetPatientSelectionComplete(string patientId)
         {
             if (NetworkPlayers.Length < 2)
             {
@@ -110,6 +119,7 @@ namespace Player
             foreach (var networkPlayer in NetworkPlayers)
             {
                 networkPlayer.CmdSetPatientSelectionComplete(true);
+                networkPlayer.CmdSetPatientId(patientId);
             }
         }
 
@@ -133,16 +143,18 @@ namespace Player
 
         public virtual void OnGoToLobby(bool wait = true)
         {
-            foreach (var networkPlayer in NetworkPlayers)
+            if (NetworkPlayers != null)
             {
-                networkPlayer.CmdSetPatientSelectionComplete(false);
-                networkPlayer.CmdSetInteractionSelectionComplete(false);
+                foreach (var networkPlayer in NetworkPlayers)
+                {
+                    networkPlayer.CmdSetPatientSelectionComplete(false);
+                    networkPlayer.CmdSetInteractionSelectionComplete(false);
+                }
             }
         }
 
         public virtual void Initialize()
         {
-            
         }
 
         /**

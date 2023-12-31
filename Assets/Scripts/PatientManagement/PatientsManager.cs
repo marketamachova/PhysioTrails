@@ -1,16 +1,19 @@
 using System;
 using Analytics;
+using PatientManagement_;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utils;
 
-namespace PatientManagement_
+namespace PatientManagement
 {
     public class PatientsManager : MonoSingleton<PatientsManager>
     {
         [SerializeField] private AnalyticsController analyticsController;
         [SerializeField] private PatientsManagerUI patientsManagerUI;
 
-        public event Action OnPatientSelectionComplete;
+        public UnityEvent<string> onPatientSelectionComplete = new UnityEvent<string>();
 
         private void Awake()
         {
@@ -39,7 +42,8 @@ namespace PatientManagement_
         public void SetPatient(string participantId)
         {
             analyticsController.SetParticipant(participantId);
-            OnPatientSelectionComplete?.Invoke();
+            patientsManagerUI.OnPatientChosen(participantId);
+            onPatientSelectionComplete?.Invoke(participantId);
         }
     }
 }

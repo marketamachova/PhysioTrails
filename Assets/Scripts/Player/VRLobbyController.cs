@@ -3,6 +3,8 @@ using System.Collections;
 using Cart;
 using Interactions;
 using Mirror;
+using Mirror.Discovery;
+using PatientManagement;
 using PatientManagement_;
 using UI;
 using UnityEngine;
@@ -13,18 +15,19 @@ namespace Player
     public class VRLobbyController : BaseController
     {
         [SerializeField] private CartCreator cartCreator;
-        [SerializeField] private InteractionConfigurator interactionConfigurator;
-        [SerializeField] private PatientsManager patientsManager;
+        [SerializeField] private NetworkDiscovery networkDiscovery;
         
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             sceneLoader.SceneLoadingEnd += OnSceneLoaded;
             networkManager.OnClientConnectAction += OnClientConnected;
             networkManager.OnMobileClientConnectAction += OnClientMobileConnected;
             networkManager.OnClientDisconnectAction += OnClientDisonnected;
             networkManager.OnMobileClientDisconnectAction += OnClientMobileDisconnected;
             cartCreator.OnCartCreatorCalibrationComplete += SetCalibrationComplete;
-            patientsManager.OnPatientSelectionComplete += SetPatientSelectionComplete;
+            patientsManager.onPatientSelectionComplete.AddListener(SetPatientSelectionComplete);
             interactionConfigurator.OnInteractionsConfigurationComplete += SetInteractionSelectionComplete;
         }
 

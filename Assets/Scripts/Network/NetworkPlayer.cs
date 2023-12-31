@@ -1,5 +1,7 @@
 using System;
+using Analytics;
 using Mirror;
+using PatientManagement;
 using Player;
 using Scenes;
 using UI;
@@ -27,6 +29,9 @@ namespace Network
         
         [SyncVar(hook = "SetPatientSelectionComplete")]
         public bool patientSelectionComplete;
+        
+        [SyncVar(hook = "SetPatientId")]
+        public string patientId;
         
         [SyncVar(hook = "SetInteractionSelectionComplete")]
         public bool interactionSelectionComplete;
@@ -227,6 +232,15 @@ namespace Network
         {
             OnPatientSelectionComplete?.Invoke();
         }
+        
+        private void SetPatientId(string oldValue, string newValue)
+        {
+            // AnalyticsController.Instance.SetParticipant(newValue);
+            var patientManager = FindObjectOfType<PatientsManager>();
+            patientManager.SetPatient(newValue);
+            // PatientsManager.Instance.onPatientSelectionComplete?.Invoke(newValue);
+            Debug.Log("Patient id changed from " + oldValue + " to " + newValue);
+        }
 
         /**
          * syncs the time spent in an ongoing VR experience in case the mobile player joins during an ongoing VR experience
@@ -335,6 +349,12 @@ namespace Network
         public void CmdSetPatientSelectionComplete(bool complete)
         {
             patientSelectionComplete = complete;
+        }
+        
+        [Command(requiresAuthority = false)]
+        public void CmdSetPatientId(string id)
+        {
+            patientId = id;
         }
 
         [Command]

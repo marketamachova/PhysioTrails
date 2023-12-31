@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -51,6 +52,36 @@ namespace UI
             _playerCameraDisplayStrategy = new PlayerCameraDisplayStrategy(this);
             _topCameraDisplayStrategy = new TopCameraDisplayStrategy(this);
             _multiviewDisplayStrategy = new MultiviewDisplayStrategy(this);
+        }
+        
+        public void DisplayPatientSelection()
+        {
+            Debug.Log("Kuk UI DisplayPatientSelection");
+            EnableTrue(UIConstants.PatientSelection);
+            EnableFalse(UIConstants.Calibration);
+            EnableFalse(UIConstants.SceneJoin);
+            EnableFalse(UIConstants.InteractionSelection);
+            EnableFalse(UIConstants.Calibration);
+        }
+        
+        public void DisplayInteractionSelection()
+        {
+            Debug.Log("Kuk UI DisplayInteractionSelection");
+            EnableTrue(UIConstants.InteractionSelection);
+            EnableFalse(UIConstants.PatientSelection);
+            EnableFalse(UIConstants.SceneJoin);
+            EnableFalse(UIConstants.SceneSelection);
+            EnableFalse(UIConstants.Calibration);
+        }
+        
+        public void DisplaySceneSelection()
+        {
+            Debug.Log("Kuk UI DisplaySceneSelection");
+            EnableTrue(UIConstants.SceneSelection);
+            EnableFalse(UIConstants.PatientSelection);
+            EnableFalse(UIConstants.SceneJoin);
+            EnableFalse(UIConstants.InteractionSelection);
+            EnableFalse(UIConstants.Calibration);
         }
 
         public void EnableCameraView(string cameraViewName)
@@ -161,10 +192,11 @@ namespace UI
             StartCoroutine(ActivateButtons(sceneButtons, GameConstants.ReturnToLobbyWaitingTime, true));
 
             EnablePanelExclusive(UIConstants.ConnectScreen);
-            EnableCameraView(UIConstants.PlayerCameraRT);
-            EnableTrue(UIConstants.SceneSelection);
+            EnableFalse(UIConstants.SceneSelection);
             EnableFalse(UIConstants.VideoControls);
             EnableFalse(UIConstants.SceneJoin);
+            EnableFalse(UIConstants.InteractionSelection);
+            EnableTrue(UIConstants.PatientSelection);
 
             timer.ResetTimer();
             currentPlayMode = PlayMode.None;
