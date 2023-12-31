@@ -87,8 +87,8 @@ namespace Analytics
         {
             Debug.Log("Kuk Trigger event enter: " + eventName);
             var translatedEventName = EventTriggerNameTranslator.Instance.TranslateEventName(eventName);
-            vrLogger.SetRecordCustomData("{\"custom\": \"" + translatedEventName + "\"}");
-            vrLogger.SetEvent(translatedEventName);
+            // vrLogger.SetRecordCustomData("{\"custom\": \"" + translatedEventName + "\"}");
+            vrLogger.SetEvent(eventName);
         }
 
         // [ContextMenu("Test Tracking")]
