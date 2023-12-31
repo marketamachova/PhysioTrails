@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Interactions.ObjectFinding
 {
@@ -8,10 +9,13 @@ namespace Interactions.ObjectFinding
         [SerializeField] private FindableObjectData data;
         [SerializeField] private FindableObjectVisual findableObjectVisual;
         [SerializeField] private GameObject meshHolder;
+        [SerializeField] private string objectFoundEventKey = "MushroomFound";
 
         private ObjectFindingController _objectFindingController;
         
         private bool _collected = false;
+        
+        public UnityEvent<string> onObjectFound = new UnityEvent<string>();
 
         private void Start()
         {
@@ -35,6 +39,8 @@ namespace Interactions.ObjectFinding
                     _objectFindingController.OnPointedIncorrectly();
                     findableObjectVisual.HighlightIncorrect();
                 }
+                
+                onObjectFound.Invoke(objectFoundEventKey);
             }
         }
 

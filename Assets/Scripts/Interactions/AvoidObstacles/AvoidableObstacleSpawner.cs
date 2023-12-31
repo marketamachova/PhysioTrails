@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Analytics;
 using Interactions.ObjectFinding;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -54,6 +55,8 @@ namespace Interactions.AvoidObstacles
         {
             spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>().ToList();
             
+            var allObstacles = new List<AvoidableObstacle>();
+            
             var spawnPointsSubsetAvoidLeft = ListUtils.GetRandomSubset(spawnPoints, numberOfObstacles / 2); // Z toho puvodniho listu se musi odebrat ten substet
             
             // Remove each used spawn point from the spawn points list
@@ -70,6 +73,8 @@ namespace Interactions.AvoidObstacles
 
                 var spawnedObjectTransform = spawnedObject.transform;
                 spawnedObjectTransform.parent = pointAvoidLeft;
+                
+                allObstacles.Add(avoidableObstacleLeft);
             }
             
             foreach (var pointAvoidRight in spawnPointsSubsetAvoidRight)
@@ -80,9 +85,13 @@ namespace Interactions.AvoidObstacles
 
                 var spawnedObjectTransform = spawnedObject.transform;
                 spawnedObjectTransform.parent = pointAvoidRight;
+                
+                allObstacles.Add(avoidableObstacleRight);
             }
             Debug.Log(spawnPointsSubsetAvoidLeft.Count);
             Debug.Log(spawnPointsSubsetAvoidRight.Count);
+            
+            AnalyticsController.Instance.AvoidableObstacles = allObstacles;
             
             Debug.Log("Spawned " + numberOfObstacles + " obstacles");
         }

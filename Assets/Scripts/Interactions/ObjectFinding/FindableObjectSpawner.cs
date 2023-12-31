@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Analytics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
@@ -55,6 +56,8 @@ namespace Interactions.ObjectFinding
             
             var spawnPointsSubset = ListUtils.GetRandomSubset(_spawnPoints, spawnPointsCount);
             
+            var allFindableObjects = new List<FindableObject>();
+            
             ListUtils.Shuffle(spawnPointsSubset);
 
             // iterate through the spawn points and spawn an object at each one
@@ -68,7 +71,7 @@ namespace Interactions.ObjectFinding
                 FindableObject findableObject = spawnedObject.GetComponent<FindableObject>();
                 findableObject.ObjectFindingController = _objectFindingController;
                 findableObject.Data = objectData;
-
+                
                 var spawnedObjectTransform = spawnedObject.transform;
                 spawnedObjectTransform.parent = spawnPoint;
                 // Make sure the object's position and rotation is oriented as the parent
@@ -81,8 +84,12 @@ namespace Interactions.ObjectFinding
                 mesh.gameObject.GetComponent<MeshFilter>().mesh = objectData.Mesh;
                 mesh.gameObject.GetComponent<MeshRenderer>().material = objectData.Material;
                 
+                allFindableObjects.Add(findableObject);
+
                 // Debug.Log("Spawned object " + objectData.ObjectName + " at " + spawnPoint.name + " with scale " + scaleFactor + " and mesh " + objectData.Mesh.name + " and material " + objectData.Material.name);
             }
+            
+            AnalyticsController.Instance.FindableObjects = allFindableObjects;
             
             Debug.Log("Spawned "  + spawnPointsSubset.Count + " objects");
         }

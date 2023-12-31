@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Interactions;
+using Interactions.AvoidObstacles;
+using Interactions.ObjectFinding;
 using UnityEngine;
 using Utils;
 using VRLogger;
@@ -14,6 +16,9 @@ namespace Analytics
         [SerializeField] private InteractionManager interactionManager;
 
         private List<VREventTrigger> _eventTriggers;
+        private List<FindableObject> _findableObjects;
+        private List<AvoidableObstacle> _avoidableObstacles;
+        
         private bool _vrLoggerInitialized;
         private bool _tracking;
         
@@ -119,6 +124,32 @@ namespace Analytics
                 if (_eventTriggers != null && _eventTriggers.Count > 0)
                 {
                     _eventTriggers.ForEach(trigger => trigger.onTriggerEnter.AddListener(OnTriggerEventEnter));
+                }
+            }
+        }
+        
+        public List<FindableObject> FindableObjects
+        {
+            get => _findableObjects;
+            set
+            {
+                _findableObjects = value;
+                if (_findableObjects != null && _findableObjects.Count > 0)
+                {
+                    _findableObjects.ForEach(obj => obj.onObjectFound.AddListener(OnTriggerEventEnter));
+                }
+            }
+        }
+        
+        public List<AvoidableObstacle> AvoidableObstacles
+        {
+            get => _avoidableObstacles;
+            set
+            {
+                _avoidableObstacles = value;
+                if (_avoidableObstacles != null && _avoidableObstacles.Count > 0)
+                {
+                    _avoidableObstacles.ForEach(obj => obj.onHit.AddListener(OnTriggerEventEnter));
                 }
             }
         }

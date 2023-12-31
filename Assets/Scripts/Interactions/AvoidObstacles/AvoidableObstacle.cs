@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Interactions.AvoidObstacles
 {
@@ -21,9 +22,14 @@ namespace Interactions.AvoidObstacles
         [SerializeField] private Material materialWithoutArrows;
         [SerializeField] private string hitAnimationName = "Deflate";
         [SerializeField] private int deflateAnimationSpeedFactor = 2;
+        [SerializeField] private string hitEventName = "ObstacleHit";
+        [SerializeField] private string avoidCorrectEventName = "ObstacleAvoidCorrect";
+        [SerializeField] private string avoidIncorrectEventName = "ObstacleAvoidIncorrect";
         
         private AvoidObstaclesController _avoidObstaclesController;
         private bool useArrows = true;
+        
+        public UnityEvent<string> onHit = new UnityEvent<string>();
 
         private void Awake()
         {
@@ -56,16 +62,19 @@ namespace Interactions.AvoidObstacles
                 _avoidObstaclesController.OnHit();
                 EnableColliders(false);
                 DeflateBalloon();
+                onHit.Invoke(hitEventName);
             }
             else if (_expectedColliderType == obstacleColliderType)
             {
                 _avoidObstaclesController.OnAvoidCorrect();
                 // TODO play sound, update visuals
+                onHit.Invoke(avoidCorrectEventName);
             }
             else // Avoided the wrong way
             {
                 _avoidObstaclesController.OnAvoidIncorrect();
                 // TODO play sound, update visuals
+                onHit.Invoke(avoidIncorrectEventName);
             }
         }
 
