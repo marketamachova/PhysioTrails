@@ -14,7 +14,7 @@ namespace Interactions.WireLoop
     {
         [SerializeField] private ScoreController scoreController;
         [SerializeField] private string collisionEventName = "WireLoopCollision";
-        
+
         private WireLoopSceneManager _wireLoopSceneManager;
         
         private bool _enableCollisions = false;
@@ -23,6 +23,8 @@ namespace Interactions.WireLoop
         private int _customSpeed;
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
+        private TorusDataHolder _networkTorusDataHolder;
+        private InteractionNetworkDataHolder _interactionNetworkDataHolder;
 
         // public UnityEvent<string> onCollision = new UnityEvent<string>();
 
@@ -75,6 +77,7 @@ namespace Interactions.WireLoop
         {
             Debug.Log("Kuk set difficulty");
             _difficulty = difficulty;
+            _interactionNetworkDataHolder.EnableTorusSizeBasedOnDifficulty(_difficulty);
         }
 
         public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
@@ -85,5 +88,23 @@ namespace Interactions.WireLoop
         }
         
         public InteractionConfigurator.HandType HandType => _handType;
+
+        public TorusDataHolder NetworkTorusDataHolder
+        {
+            get
+            { 
+                return _networkTorusDataHolder;
+            }
+            set
+            {
+                _networkTorusDataHolder = value;
+            }
+        }
+
+        public InteractionNetworkDataHolder InteractionNetworkDataHolder
+        {
+            get => _interactionNetworkDataHolder;
+            set => _interactionNetworkDataHolder = value;
+        }
     }
 }

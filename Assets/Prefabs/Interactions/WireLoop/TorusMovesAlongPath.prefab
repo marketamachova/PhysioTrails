@@ -1347,17 +1347,17 @@ MonoBehaviour:
   - {fileID: 2467353186325788740}
   - {fileID: 2919686317571627737}
   torusSizes:
+  - {fileID: 1606497263044492967}
   - {fileID: 3385762952986314002}
   - {fileID: 4179594186226427981}
-  - {fileID: 1606497263044492967}
   torusGhost: {fileID: 1812839601710537481}
   torusGhostRightHand: {fileID: 1857776058157174765}
   torusGhostLeftHand: {fileID: 7288720050026411834}
   torusPathFollower: {fileID: 1449955079}
   wireLoopVisualisers:
+  - {fileID: 1611812202008987728}
   - {fileID: 2467353185217301950}
   - {fileID: 4608254047300152847}
-  - {fileID: 1611812202008987728}
   torusGrabEventsWrappers:
   - {fileID: 1569037136}
   - {fileID: 1449955075}

@@ -7,7 +7,7 @@ namespace Interactions.WireLoop
 {
     public class TorusDataHolder : MonoBehaviour
     {
-        [Header("Torus")]
+        [SerializeField] private List<GameObject> torusGrabbables;
         [SerializeField] private List<Rigidbody> torusGrabbableRigidbodies;
         [SerializeField] private List<GameObject> torusSizes;
         [SerializeField] private GameObject torusGhost;
@@ -16,6 +16,9 @@ namespace Interactions.WireLoop
         [SerializeField] private PathFollower torusPathFollower;
         [SerializeField] private List<WireLoopVisualiser> wireLoopVisualisers;
         [SerializeField] private List<InteractableUnityEventWrapper> torusGrabEventsWrappers;
+        [SerializeField] private bool hasRigidbody = true;
+        
+        public List<GameObject> TorusGrabbables => torusGrabbables;
         
         public List<Rigidbody> TorusGrabbableRigidbodies => torusGrabbableRigidbodies;
         

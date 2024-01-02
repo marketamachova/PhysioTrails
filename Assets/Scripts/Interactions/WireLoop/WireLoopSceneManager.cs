@@ -17,12 +17,14 @@ namespace Interactions.WireLoop
 
         public UnityEvent onTorusGrabStarted = new UnityEvent();
         public UnityEvent onTorusGrabEnded = new UnityEvent();
+        public UnityEvent onTorusCollisionStart = new UnityEvent();
+        public UnityEvent onTorusCollisionEnd = new UnityEvent();
 
         private WireLoopController _wireLoopController;
-        private InteractionManager _interactionManager;
         private Coroutine _resetTorusRbPositionCoroutine;
         
         private PlayerPositionHandler _playerPositionHandler;
+        private InteractionConfigurator.DifficultyType _difficulty;
         
         
         private void Start()
@@ -36,8 +38,8 @@ namespace Interactions.WireLoop
             torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
             torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
             
-            var difficulty = _wireLoopController.Difficulty;
-            EnableTorusBasedOnDifficulty(difficulty);
+            _difficulty = _wireLoopController.Difficulty;
+            EnableTorusBasedOnDifficulty(_difficulty);
             
             var handType = _wireLoopController.HandType;
             EnableTorusGhostHand(handType);
@@ -150,6 +152,8 @@ namespace Interactions.WireLoop
             {
                 torusDataHolder.TorusGhost.SetActive(true);
             }
+            
+            onTorusCollisionStart.Invoke();
         }
 
         private void OnTorusCollisionEnd(bool isTrigger)
@@ -158,11 +162,17 @@ namespace Interactions.WireLoop
             
             // Start trail ghost?
             torusDataHolder.TorusGhost.SetActive(false);
+            
+            onTorusCollisionEnd.Invoke();
         }
         
         public void SetSpeed(int speed)
         {
             torusDataHolder.TorusPathFollower.speed = speed;
         }
+
+        public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
+
+        public WireLoopController WireLoopController => _wireLoopController;
     }
 }

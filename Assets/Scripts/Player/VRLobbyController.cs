@@ -35,26 +35,14 @@ namespace Player
         {
             yield return new WaitForSecondsRealtime(1);
             NetworkManager.singleton.StartHost();
-            networkDiscovery.AdvertiseServer();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.W))
+            try
             {
-                OnSceneSelected("WinterScene");
-            }
-
-            if (Input.GetKeyDown(KeyCode.M))
+                networkDiscovery.AdvertiseServer();
+            } catch (Exception e)
             {
-                OnSceneSelected("MainScene");
+                Debug.LogError(e);
+                uiController.DisplayError();
             }
-            
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                OnSceneSelected("RuralScene");
-            }
-            
         }
 
         private void OnClientConnected()

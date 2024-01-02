@@ -109,6 +109,9 @@ namespace Interactions
             findableObjectType = deserializedData.FindableObjectType;
             
             interactionUIItem.UpdateUI(Type, Hand, Difficulty);
+            
+            // To sync with local Interaction Manager
+            onInteractionsConfigurationComplete?.Invoke(data);
         }
         
         public InteractionType Type

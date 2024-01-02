@@ -20,6 +20,5 @@ namespace Interactions.WireLoop
         {
             CurrentScore = initScore;
         }
-        
     }
 }

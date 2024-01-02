@@ -193,6 +193,7 @@ namespace Interactions
                 _difficulty = value;
                 if (_currentInteractionController != null)
                 {
+                    Debug.Log("Kuk Setting difficulty to " + _difficulty + " in interaction manager, DONW");
                     _currentInteractionController.SetDifficulty(_difficulty);
                 }
             }
