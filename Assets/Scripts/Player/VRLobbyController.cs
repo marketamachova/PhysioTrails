@@ -28,7 +28,7 @@ namespace Player
             networkManager.OnMobileClientDisconnectAction += OnClientMobileDisconnected;
             cartCreator.OnCartCreatorCalibrationComplete += SetCalibrationComplete;
             patientsManager.onPatientSelectionComplete.AddListener(SetPatientSelectionComplete);
-            interactionConfigurator.OnInteractionsConfigurationComplete += SetInteractionSelectionComplete;
+            interactionConfigurator.onInteractionsConfigurationComplete.AddListener(SetInteractionSelectionComplete);
         }
 
         private IEnumerator Start()

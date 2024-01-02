@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Utils;
 
@@ -18,10 +19,11 @@ namespace Interactions
         [Tooltip("0 - Edible (Herbivorous), 1 - Inedible (Omnivorous), 2 - Poisonous (Carnivorous)")]
         [SerializeField] private int findableObjectType = 0;
         
-        [SerializeField] private  InteractionManager interactionManager;
+        [SerializeField] private  InteractionUIItem interactionUIItem;
         
-        public event Action OnInteractionsConfigurationComplete;
+        public UnityEvent<string> onInteractionsConfigurationComplete = new UnityEvent<string>();
 
+        
         public void SetInteractionTypeWireLoop()
         {
             Type = InteractionType.WireLoop;
@@ -89,7 +91,24 @@ namespace Interactions
 
         public void Submit()
         {
-            OnInteractionsConfigurationComplete?.Invoke();
+            // Serialize data
+            var serializedData = InteractionDataSerializer.SerializeToJson(Type, Hand, Difficulty,
+                displayArrowsAvoidObstacles, findableObjectType);
+            Debug.Log("Submitted interaction data: " + serializedData);
+            interactionUIItem.UpdateUI(Type, Hand, Difficulty);
+            onInteractionsConfigurationComplete?.Invoke(serializedData);
+        }
+
+        public void SetData(string data)
+        {
+            InteractionData deserializedData = InteractionDataSerializer.DeserializeFromJson(data);
+            Type = deserializedData.Type;
+            Hand = deserializedData.Hand;
+            Difficulty = deserializedData.Difficulty;
+            displayArrowsAvoidObstacles = deserializedData.DisplayArrowsAvoidObstacles;
+            findableObjectType = deserializedData.FindableObjectType;
+            
+            interactionUIItem.UpdateUI(Type, Hand, Difficulty);
         }
         
         public InteractionType Type
@@ -98,7 +117,6 @@ namespace Interactions
             set
             {
                 type = value;
-                interactionManager.CurrentInteractionType = type;
             }
         }
 
@@ -113,5 +131,7 @@ namespace Interactions
             get => difficulty;
             set => difficulty = value;
         }
+        
+        
     }
 }

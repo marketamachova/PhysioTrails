@@ -14,7 +14,7 @@ namespace Utils
         [SerializeField] private InteractionConfigurator interactionConfigurator;
         [SerializeField] private PatientsManager patientsManager;
 
-        [SerializeField] private string testPatientId = "9e7ab45e-546d-4d6f-b78b-70f81f4bdfca";
+        [SerializeField] private string testPatientId = "155fcb8b-78f2-4cb3-bfea-bcef3a0931ff";
         
         private void Update()
         {

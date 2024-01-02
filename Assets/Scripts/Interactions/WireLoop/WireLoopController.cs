@@ -85,7 +85,5 @@ namespace Interactions.WireLoop
         }
         
         public InteractionConfigurator.HandType HandType => _handType;
-
-
     }
 }

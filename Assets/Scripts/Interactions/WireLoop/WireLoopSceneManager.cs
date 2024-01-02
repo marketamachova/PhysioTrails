@@ -5,6 +5,7 @@ using PathCreation.Examples;
 using Player;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Interactions.WireLoop
@@ -12,16 +13,7 @@ namespace Interactions.WireLoop
     public class WireLoopSceneManager : InteractionSceneManagerBase
     {
         [SerializeField] private WireLoopCollider wireLoopPathCollider;
-        
-        [Header("Torus")]
-        [SerializeField] private List<Rigidbody> torusGrabbableRigidbodies;
-        [SerializeField] private List<GameObject> torusSizes;
-        [SerializeField] private GameObject torusGhost;
-        [SerializeField] private GameObject torusGhostRightHand;
-        [SerializeField] private GameObject torusGhostLeftHand;
-        [SerializeField] private PathFollower torusPathFollower;
-        [SerializeField] private List<WireLoopVisualiser> wireLoopVisualisers;
-        [SerializeField] private List<InteractableUnityEventWrapper> torusGrabEventsWrappers;
+        [SerializeField] private TorusDataHolder torusDataHolder;
 
         public UnityEvent onTorusGrabStarted = new UnityEvent();
         public UnityEvent onTorusGrabEnded = new UnityEvent();
@@ -32,11 +24,6 @@ namespace Interactions.WireLoop
         
         private PlayerPositionHandler _playerPositionHandler;
         
-        private void Awake()
-        {
-            torusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
-            torusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
-        }
         
         private void Start()
         {
@@ -46,6 +33,9 @@ namespace Interactions.WireLoop
             _wireLoopController.WireLoopSceneManager = this;
             _wireLoopController.OnSceneLoaded();
             
+            torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
+            torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
+            
             var difficulty = _wireLoopController.Difficulty;
             EnableTorusBasedOnDifficulty(difficulty);
             
@@ -53,32 +43,32 @@ namespace Interactions.WireLoop
             EnableTorusGhostHand(handType);
             PositionPlayerBasedOnHandType(handType);
             
-            torusGhost.SetActive(false);
-            torusPathFollower.enabled = false;
+            torusDataHolder.TorusGhost.SetActive(false);
+            torusDataHolder.TorusPathFollower.enabled = false;
         }
         
         private void EnableTorusBasedOnDifficulty(InteractionConfigurator.DifficultyType difficulty)
         {
-            torusSizes.ForEach(torusSize => torusSize.SetActive(false));
+            torusDataHolder.TorusSizes.ForEach(torusSize => torusSize.SetActive(false));
 
             switch (difficulty)
             {
                 case InteractionConfigurator.DifficultyType.Easy:
-                    torusSizes[0].SetActive(true);
+                    torusDataHolder.TorusSizes[0].SetActive(true);
                     break;
                 case InteractionConfigurator.DifficultyType.Medium:
-                    torusSizes[1].SetActive(true);
+                    torusDataHolder.TorusSizes[1].SetActive(true);
                     break;
                 case InteractionConfigurator.DifficultyType.Hard:
-                    torusSizes[2].SetActive(true);
+                    torusDataHolder.TorusSizes[2].SetActive(true);
                     break;
             }
         }
 
         private void EnableTorusGhostHand(InteractionConfigurator.HandType handType)
         {
-            torusGhostRightHand.SetActive(handType == InteractionConfigurator.HandType.Right);
-            torusGhostLeftHand.SetActive(handType == InteractionConfigurator.HandType.Left);
+            torusDataHolder.TorusGhostRightHand.SetActive(handType == InteractionConfigurator.HandType.Right);
+            torusDataHolder.TorusGhostLeftHand.SetActive(handType == InteractionConfigurator.HandType.Left);
         }
         
         private void PositionPlayerBasedOnHandType(InteractionConfigurator.HandType handType)
@@ -99,17 +89,17 @@ namespace Interactions.WireLoop
             wireLoopPathCollider.collisionEnd.AddListener(OnTorusCollisionEnd);
             
             wireLoopPathCollider.EnableCollisionDetection(enable);
-            torusPathFollower.enabled = enable;
+            torusDataHolder.TorusPathFollower.enabled = enable;
         }
 
         public void EnableTorusMovement(bool enable = true)
         {
-            torusPathFollower.enabled = enable;
+            torusDataHolder.TorusPathFollower.enabled = enable;
         }
         
         private void RecenterAllTorus()
         {
-            torusGrabbableRigidbodies.ForEach(rb => RecenterTorus(rb.transform));
+            torusDataHolder.TorusGrabbableRigidbodies.ForEach(rb => RecenterTorus(rb.transform));
         }
         
         private void RecenterTorus(Transform transform1)
@@ -123,7 +113,7 @@ namespace Interactions.WireLoop
             Debug.Log("Kuk grab start");
             StartTorusMovement();
             onTorusGrabStarted.Invoke();
-            torusGrabbableRigidbodies.ForEach(rb => rb.isKinematic = true);
+            torusDataHolder.TorusGrabbableRigidbodies.ForEach(rb => rb.isKinematic = true);
             
             if (_resetTorusRbPositionCoroutine != null)
             {
@@ -153,26 +143,26 @@ namespace Interactions.WireLoop
 
         private void OnTorusCollisionStart(bool isTrigger)
         {
-            wireLoopVisualisers.Find(visualiser => visualiser.isActiveAndEnabled).OnCollisionStart();
+            torusDataHolder.WireLoopVisualisers.Find(visualiser => visualiser.isActiveAndEnabled).OnCollisionStart();
             _wireLoopController.OnMiss();
 
             if (isTrigger)
             {
-                torusGhost.SetActive(true);
+                torusDataHolder.TorusGhost.SetActive(true);
             }
         }
 
         private void OnTorusCollisionEnd(bool isTrigger)
         {
-            wireLoopVisualisers.ForEach(visualiser => visualiser.OnCollisionEnd());
+            torusDataHolder.WireLoopVisualisers.ForEach(visualiser => visualiser.OnCollisionEnd());
             
             // Start trail ghost?
-            torusGhost.SetActive(false);
+            torusDataHolder.TorusGhost.SetActive(false);
         }
         
         public void SetSpeed(int speed)
         {
-            torusPathFollower.speed = speed;
+            torusDataHolder.TorusPathFollower.speed = speed;
         }
     }
 }

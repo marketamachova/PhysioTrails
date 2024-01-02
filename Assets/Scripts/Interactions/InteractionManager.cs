@@ -6,6 +6,7 @@ using Interactions.WireLoop;
 using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Interactions
 {
@@ -15,9 +16,7 @@ namespace Interactions
      */
     public class InteractionManager : MonoBehaviour
     {
-        [SerializeField] private InteractionConfigurator interactionConfigurator;
         [SerializeField] private List<InteractionControllerBase> interactionControllers;
-        [SerializeField] private bool isVr = true;
 
         // TODO merge it into one controller base controller
         private VRController _vrController;
@@ -32,24 +31,26 @@ namespace Interactions
         private InteractionConfigurator.DifficultyType _difficulty = InteractionConfigurator.DifficultyType.Easy;
         private InteractionConfigurator.HandType _handType = InteractionConfigurator.HandType.Right;
         private int _findableObjectType = 0;
-        
-        private bool _shouldWaitForInteractionStart = false;
-        
+        [SerializeField] private bool isVr = true;
 
-        // TODO delete this, will be job of configurator
+        private InteractionConfigurator _interactionConfigurator;
+
         private void Start()
         {
-            interactionConfigurator.OnInteractionsConfigurationComplete += OnInteractionsConfigurationComplete;
+            _interactionConfigurator = FindObjectOfType<InteractionConfigurator>();
+            Debug.Assert(_interactionConfigurator != null, nameof(_interactionConfigurator) + " != null");
+            
+            _interactionConfigurator.onInteractionsConfigurationComplete.AddListener(OnInteractionsConfigurationComplete);
             SceneManager.sceneLoaded += OnSceneLoaded;
 
-            CurrentInteractionType = interactionConfigurator.Type;
+            CurrentInteractionType = _interactionConfigurator.Type;
         }
         
-        private void OnInteractionsConfigurationComplete()
+        private void OnInteractionsConfigurationComplete(string serializedData)
         {
-            CurrentInteractionType = interactionConfigurator.Type;
-            CurrentDifficulty = interactionConfigurator.Difficulty;
-            CurrentHandType = interactionConfigurator.Hand;
+            CurrentInteractionType = _interactionConfigurator.Type;
+            CurrentDifficulty = _interactionConfigurator.Difficulty;
+            CurrentHandType = _interactionConfigurator.Hand;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -60,32 +61,25 @@ namespace Interactions
                 {
                     _vrController = FindObjectOfType<VRController>();
                     _vrController.onSpeedChange.AddListener(OnSpeedChange);
+                    
+                    if (_currentInteractionController != null)
+                    {
+                        _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
+                        // _vrController.WaitForInteractions = _currentInteractionController.ShouldWaitForInteractionStart;
+                        if (!_currentInteractionController.ShouldWaitForInteractionStart)
+                        {
+                            _vrController.InteractionReady = true;
+                        }
+                    }
+                    else
+                    {
+                        _vrController.InteractionReady = true;
+                    }
                 }
                 else
                 {
                     _mobileController = FindObjectOfType<MobileController>();
                     // _mobileController.onSpeedChange.AddListener(OnSpeedChange); // TODO
-                }
-                
-                if (_currentInteractionController != null)
-                {
-                    _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
-                    // _vrController.WaitForInteractions = _currentInteractionController.ShouldWaitForInteractionStart;
-                    if (!_currentInteractionController.ShouldWaitForInteractionStart)
-                    {
-                        _vrController.InteractionReady = true;
-                    }
-                }
-                else
-                {
-                    if (isVr)
-                    {
-                        _vrController.InteractionReady = true;
-                    }
-                    else
-                    {
-                        //TODO
-                    }
                 }
 
                 _interactionSceneManagers = new List<InteractionSceneManagerBase>(FindObjectsOfType<InteractionSceneManagerBase>());
@@ -155,7 +149,6 @@ namespace Interactions
             {
                 case InteractionConfigurator.InteractionType.WireLoop:
                     _currentInteractionController = interactionControllers[0];
-                    _shouldWaitForInteractionStart = true;
                     break;
                 case InteractionConfigurator.InteractionType.ObjectFinding:
                     _currentInteractionController = interactionControllers[1];

@@ -9,6 +9,7 @@ using Scenes;
 using UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -30,7 +31,12 @@ namespace Player
 
             networkManager.OnServerAddPlayerAction += AssignPlayers;
             patientsManager.onPatientSelectionComplete.AddListener(SetPatientSelectionComplete);
-            interactionConfigurator.OnInteractionsConfigurationComplete += SetInteractionSelectionComplete;
+            
+            if (interactionConfigurator == null)
+            {
+                interactionConfigurator = FindObjectOfType<InteractionConfigurator>();
+            }
+            interactionConfigurator.onInteractionsConfigurationComplete.AddListener(SetInteractionSelectionComplete);
             
             Debug.Log("Kuk base controller awake");
             // Initialize();
@@ -93,7 +99,7 @@ namespace Player
         /**
          * synchronises interaction selection complete syncVar with all NetworkPlayers in the scene
          */
-        protected virtual void SetInteractionSelectionComplete()
+        protected virtual void SetInteractionSelectionComplete(string serializedInteractionData)
         {
             if (NetworkPlayers.Length < 2)
             {
@@ -103,6 +109,7 @@ namespace Player
             foreach (var networkPlayer in NetworkPlayers)
             {
                 networkPlayer.CmdSetInteractionSelectionComplete(true);
+                networkPlayer.CmdSetInteractionData(serializedInteractionData);
             }
         }
         

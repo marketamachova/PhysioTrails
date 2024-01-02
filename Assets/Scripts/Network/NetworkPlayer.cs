@@ -1,10 +1,12 @@
 using System;
 using Analytics;
+using Interactions;
 using Mirror;
 using PatientManagement;
 using Player;
 using Scenes;
 using UI;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +34,9 @@ namespace Network
         
         [SyncVar(hook = "SetPatientId")]
         public string patientId;
+        
+        [SyncVar(hook = "SetInteractionData")]
+        public string interactionData;
         
         [SyncVar(hook = "SetInteractionSelectionComplete")]
         public bool interactionSelectionComplete;
@@ -228,6 +233,13 @@ namespace Network
             OnInteractionSelectionComplete?.Invoke();
         }
         
+        private void SetInteractionData(string oldValue, string newValue)
+        {
+            var interactionConfigurator = FindObjectOfType<InteractionConfigurator>();
+            interactionConfigurator.SetData(newValue);
+            Debug.Log("Set Interaction data from " + oldValue + " to " + newValue);
+        }
+        
         private void SetPatientSelectionComplete(bool oldValue, bool complete)
         {
             OnPatientSelectionComplete?.Invoke();
@@ -343,6 +355,12 @@ namespace Network
         public void CmdSetInteractionSelectionComplete(bool complete)
         {
             interactionSelectionComplete = complete;
+        }
+        
+        [Command(requiresAuthority = false)]
+        public void CmdSetInteractionData(string data)
+        {
+            interactionData = data;
         }
         
         [Command(requiresAuthority = false)]
