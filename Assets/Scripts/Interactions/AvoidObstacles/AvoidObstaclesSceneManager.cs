@@ -6,7 +6,9 @@ namespace Interactions.AvoidObstacles
     public class AvoidObstaclesSceneManager : InteractionSceneManagerBase
     {
         private AvoidObstaclesController _avoidObstaclesController;
-        private List<AvoidableObstacle> _avoidableObstacles;
+        
+        [SerializeField] private AvoidableObstacleSpawner avoidableObstacleSpawner;
+        [SerializeField] private bool isVr = true;
         
         void Start()
         {
@@ -14,14 +16,8 @@ namespace Interactions.AvoidObstacles
             _avoidObstaclesController.AvoidObstaclesSceneManager = this;
             _avoidObstaclesController.OnSceneLoaded();
             
-            _avoidableObstacles = new List<AvoidableObstacle>(FindObjectsOfType<AvoidableObstacle>());
             
-        }
-
-        public List<AvoidableObstacle> AvoidableObstacles
-        {
-            get => _avoidableObstacles;
-            set => _avoidableObstacles = value;
+            avoidableObstacleSpawner.Initialize(_avoidObstaclesController, isVr);
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Interactions.WireLoop
 
             _currentNetworkTorusSizeTransform.position = torusPosition;
             _currentNetworkTorusSizeTransform.rotation = torusRotation;
-            Debug.Log("kuk Syncing torus position and rotation");
         }
 
         private void OnTorusCollisionStart()
@@ -77,8 +76,6 @@ namespace Interactions.WireLoop
                     _currentNetworkTorusSizeTransform = _torusNetworkDataHolder.TorusSizes[0].transform;
                     break;
                 case InteractionConfigurator.DifficultyType.Medium:
-                    Debug.Log("Kuk medium");
-                    Debug.Log("torus size medium " + _torusNetworkDataHolder.TorusSizes[1].name);
                     _torusNetworkDataHolder.TorusSizes[1].SetActive(true);
                     _currentTorusSizeTransform = torusDataHolder.TorusGrabbableRigidbodies[1].transform;
                     _currentNetworkTorusSizeTransform = _torusNetworkDataHolder.TorusSizes[1].transform;

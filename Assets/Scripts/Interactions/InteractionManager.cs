@@ -110,7 +110,10 @@ namespace Interactions
         [ContextMenu("Invoke interaction ready")]
         private void OnInteractionReady()
         {
-            _vrController.InteractionReady = true;
+            if (isVr)
+            {
+                _vrController.InteractionReady = true;
+            }
         }
         
         private void OnSpeedChange(int newSpeed)

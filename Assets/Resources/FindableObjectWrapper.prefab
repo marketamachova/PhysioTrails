@@ -326,7 +326,10 @@ MonoBehaviour:
   data: {fileID: 0}
   findableObjectVisual: {fileID: 3239821080902162430}
   meshHolder: {fileID: 433299551919981824}
-  objectFindingController: {fileID: 0}
+  objectFoundEventKey: MushroomFound
+  onObjectFound:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6499497547528448678
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,9 +424,11 @@ Animation:
   m_GameObject: {fileID: 6499497547528448678}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 73846463147bf2746913e6f6027589d5, type: 2}
+  m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: 73846463147bf2746913e6f6027589d5, type: 2}
+  - {fileID: 7400000, guid: 970921194e0e0884c8140807eff53eb6, type: 2}
+  - {fileID: 7400000, guid: 909c2f3e867bb4949b9d662229c101c6, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

@@ -50,13 +50,20 @@ MonoBehaviour:
   avoidRightCollider: {fileID: 5803134058535329275}
   hitCollider: {fileID: 4817270184132426198}
   meshRenderer: {fileID: 4137231695244563877}
-  animator: {fileID: 1389194557123486782}
   balloonAnimator: {fileID: 7509925206728130683}
+  balloonAnimation: {fileID: 0}
   _expectedColliderType: 0
   materialWithArrows: {fileID: 2100000, guid: dfedb6052fcc0394190e73a2327154f8, type: 2}
   materialWithoutArrows: {fileID: 2100000, guid: 1962833d950da564aad1af228de2fb23,
     type: 2}
   hitAnimationName: Hit
+  deflateAnimationSpeedFactor: 2
+  hitEventName: ObstacleHit
+  avoidCorrectEventName: ObstacleAvoidCorrect
+  avoidIncorrectEventName: ObstacleAvoidIncorrect
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1389194557123486782
 Animator:
   serializedVersion: 4
@@ -543,9 +550,10 @@ Animation:
   m_GameObject: {fileID: 9198318958371909862}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 1827226128182048838, guid: 6c5b637d18d489547bff8777cab29d73,
-    type: 3}
-  m_Animations: []
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 1827226128182048838, guid: 6c5b637d18d489547bff8777cab29d73, type: 3}
+  - {fileID: 7400000, guid: 6751f6d850bee5042a9f64ac368fc10f, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

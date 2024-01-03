@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utils;
 
 namespace Interactions.ObjectFinding
 {
-    public class RaycastObjectPointer : MonoBehaviour
+    public class RaycastObjectPointer : MonoSingleton<RaycastObjectPointer>
     {
         [Header("References")]
         [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private PointingGestureHandler pointingGestureHandler;
 
         [Header("Settings")]
+        [SerializeField] private bool isNetworkPointer = false;
         [SerializeField] private Transform indexFingerTip;
         [SerializeField] private float maxDistance = 20f;
         [SerializeField] private bool enableRaycastOnlyWhenPointingGesture = true;
@@ -24,7 +26,7 @@ namespace Interactions.ObjectFinding
         {
             _layersToExclude = LayerMask.GetMask("Floor");
             
-            if (enableRaycastOnlyWhenPointingGesture)
+            if (enableRaycastOnlyWhenPointingGesture && !isNetworkPointer)
             {
                 pointingGestureHandler.onPointGestureStarted.AddListener(StartShootRay);
                 pointingGestureHandler.onPointGestureEnded.AddListener(StopShootRay);
@@ -40,7 +42,7 @@ namespace Interactions.ObjectFinding
             }
         }
 
-        private void StartShootRay()
+        public void StartShootRay()
         {
             if (_shootRayCoroutine == null)
             {
@@ -49,7 +51,7 @@ namespace Interactions.ObjectFinding
             }
         }
 
-        private void StopShootRay()
+        public void StopShootRay()
         {
             if (_shootRayCoroutine != null)
             {

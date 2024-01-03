@@ -1,4 +1,5 @@
 using System;
+using Interactions.ObjectFinding;
 using Interactions.WireLoop;
 using UnityEngine;
 
@@ -9,12 +10,21 @@ namespace Interactions
         [Header("Wire Loop")]
         [SerializeField] private TorusDataHolder networkTorusDataHolder;
         private WireLoopController _wireLoopController;
+        
+        [Header("Object Finding")]
+        [SerializeField] private Transform networkPointerTransform;
+        private ObjectFindingController _objectFindingController;
 
         private void Start()
         {
             _wireLoopController = FindObjectOfType<WireLoopController>(true);
             _wireLoopController.NetworkTorusDataHolder = networkTorusDataHolder;
             _wireLoopController.InteractionNetworkDataHolder = this;
+
+            _objectFindingController = FindObjectOfType<ObjectFindingController>(true);
+            _objectFindingController.NetworkPointerTransform = networkPointerTransform;
+            Debug.Log("InteractionNetworkDataHolder: " + _objectFindingController.NetworkPointerTransform);
+            _objectFindingController.InteractionNetworkDataHolder = this;
         }
 
         public void EnableTorusSizeBasedOnDifficulty(InteractionConfigurator.DifficultyType difficulty)
@@ -27,7 +37,6 @@ namespace Interactions
                     networkTorusDataHolder.TorusSizes[0].SetActive(true);
                     break;
                 case InteractionConfigurator.DifficultyType.Medium:
-                    Debug.Log("Enabling medium torus size " + networkTorusDataHolder.TorusSizes[1].name);
                     networkTorusDataHolder.TorusSizes[1].SetActive(true);
                     break;
                 case InteractionConfigurator.DifficultyType.Hard:
@@ -37,5 +46,7 @@ namespace Interactions
                     throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
             }
         }
+
+        public Transform NetworkPointerTransform => networkPointerTransform;
     }
 }

@@ -391,9 +391,10 @@ Animation:
   m_GameObject: {fileID: 6015818196856910715}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 1827226128182048838, guid: 6c5b637d18d489547bff8777cab29d73,
-    type: 3}
-  m_Animations: []
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 1827226128182048838, guid: 6c5b637d18d489547bff8777cab29d73, type: 3}
+  - {fileID: 7400000, guid: 6751f6d850bee5042a9f64ac368fc10f, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -508,6 +509,12 @@ MonoBehaviour:
     type: 2}
   hitAnimationName: Deflate
   deflateAnimationSpeedFactor: 2
+  hitEventName: ObstacleHit
+  avoidCorrectEventName: ObstacleAvoidCorrect
+  avoidIncorrectEventName: ObstacleAvoidIncorrect
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &4674238357324427458
 Animator:
   serializedVersion: 4

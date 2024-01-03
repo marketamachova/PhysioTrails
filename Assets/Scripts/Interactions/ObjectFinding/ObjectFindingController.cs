@@ -12,7 +12,9 @@ namespace Interactions.ObjectFinding
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
         private int _collectType;
-        
+        private GameObject _currentPointer;
+        private Transform _networkPointerTransform;
+
         private void Start()
         {
             leftHandPointer.SetActive(false);
@@ -21,8 +23,6 @@ namespace Interactions.ObjectFinding
         
         public void OnSceneLoaded()
         {
-            Debug.Log("Kuk Scene loaded");
- 
             InvokeInteractionReady();
         }
         
@@ -56,6 +56,7 @@ namespace Interactions.ObjectFinding
             _handType = handType;
             leftHandPointer.SetActive(handType == InteractionConfigurator.HandType.Left);
             rightHandPointer.SetActive(handType == InteractionConfigurator.HandType.Right);
+            _currentPointer = handType == InteractionConfigurator.HandType.Left ? leftHandPointer : rightHandPointer;
         }
         
         public override void SetFindableObjectType(int findableObjectType)
@@ -75,5 +76,17 @@ namespace Interactions.ObjectFinding
         public InteractionConfigurator.HandType HandType => _handType;
         
         public int FindableObjectType => _collectType;
+        
+        public GameObject CurrentPointer
+        {
+            get => _currentPointer;
+            set => _currentPointer = value;
+        }
+
+        public Transform NetworkPointerTransform
+        {
+            get => _networkPointerTransform;
+            set => _networkPointerTransform = value;
+        }
     }
 }

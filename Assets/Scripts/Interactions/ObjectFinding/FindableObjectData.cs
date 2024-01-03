@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Interactions.ObjectFinding
 {
-    public  abstract class FindableObjectData : ScriptableObject
+    public abstract class FindableObjectData : ScriptableObject
     {
         [SerializeField] private string objectName;
         [SerializeField] private int type;

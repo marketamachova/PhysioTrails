@@ -19,6 +19,10 @@ namespace Utils
             {
                 instance = (T)this;
             }
+            else
+            {
+                Debug.LogError("There is more than one instance of " + typeof(T).Name);
+            }
         }
     }
 }

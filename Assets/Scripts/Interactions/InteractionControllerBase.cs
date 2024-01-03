@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 namespace Interactions
 {
-    public abstract class InteractionControllerBase : MonoBehaviour
+    public abstract class InteractionControllerBase : MonoSingleton<InteractionControllerBase>
     {
         public UnityEvent onInteractionReady = new UnityEvent();
         [SerializeField] protected bool shouldWaitForInteractionStart = false;
+        protected InteractionNetworkDataHolder interactionNetworkDataHolder;
 
         protected abstract void InvokeInteractionReady();
         
@@ -21,5 +23,11 @@ namespace Interactions
         }
         
         public bool ShouldWaitForInteractionStart => shouldWaitForInteractionStart;
+
+        public InteractionNetworkDataHolder InteractionNetworkDataHolder
+        {
+            get => interactionNetworkDataHolder;
+            set => interactionNetworkDataHolder = value;
+        }
     }
 }

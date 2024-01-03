@@ -24,7 +24,6 @@ namespace Interactions.WireLoop
         private InteractionConfigurator.DifficultyType _difficulty;
         private InteractionConfigurator.HandType _handType;
         private TorusDataHolder _networkTorusDataHolder;
-        private InteractionNetworkDataHolder _interactionNetworkDataHolder;
 
         // public UnityEvent<string> onCollision = new UnityEvent<string>();
 
@@ -77,7 +76,7 @@ namespace Interactions.WireLoop
         {
             Debug.Log("Kuk set difficulty");
             _difficulty = difficulty;
-            _interactionNetworkDataHolder.EnableTorusSizeBasedOnDifficulty(_difficulty);
+            interactionNetworkDataHolder.EnableTorusSizeBasedOnDifficulty(_difficulty);
         }
 
         public InteractionConfigurator.DifficultyType Difficulty => _difficulty;
@@ -99,12 +98,6 @@ namespace Interactions.WireLoop
             {
                 _networkTorusDataHolder = value;
             }
-        }
-
-        public InteractionNetworkDataHolder InteractionNetworkDataHolder
-        {
-            get => _interactionNetworkDataHolder;
-            set => _interactionNetworkDataHolder = value;
         }
     }
 }
