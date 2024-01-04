@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.SocialPlatforms.Impl;
 using SpawnPointFindableDataPair = Interactions.ObjectFinding.FindableObjectSpawner.SpawnPointFindableDataPair;
 using SpawnPointObstaclePair = Interactions.AvoidObstacles.AvoidableObstacleSpawner.SpawnPointObstaclePair;
 
@@ -48,6 +49,7 @@ namespace Network
         private FindableObjectSpawner _findableObjectSpawner;
         private AvoidableObstacleSpawner _avoidableObstacleSpawner;
         private List<WireLoopVisualiser> _wireLoopVisualisers = new List<WireLoopVisualiser>();
+        private List<ScoreController> _scoreControllers;
         
         private bool _loadedScene = false;
         
@@ -60,15 +62,21 @@ namespace Network
             spawnPointsObjectFinding.Callback += OnAddToSpawnPointsObjectFinding;
             spawnPointsAvoidObstacles.Callback += OnAddToSpawnPointsAvoidObstacles;
             _findableObjectSpawner = FindObjectOfType<FindableObjectSpawner>();
+            _scoreControllers = FindObjectsOfType<ScoreController>(true).ToList();
+            _scoreControllers.ForEach(scoreController => scoreController.AddNetworkPlayer(this));
         }
 
-        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode arg1)
         {
-            Debug.Log("on scene loaded");
-            _wireLoopVisualisers = FindObjectsOfType<WireLoopVisualiser>().ToList();
-            _findableObjectSpawner = FindObjectOfType<FindableObjectSpawner>();
-            _avoidableObstacleSpawner = FindObjectOfType<AvoidableObstacleSpawner>();
-            _loadedScene = true;
+            if (scene.name.Contains("Scene"))
+            {
+                Debug.Log("on scene loaded");
+                _wireLoopVisualisers = FindObjectsOfType<WireLoopVisualiser>().ToList();
+                _findableObjectSpawner = FindObjectOfType<FindableObjectSpawner>();
+                _avoidableObstacleSpawner = FindObjectOfType<AvoidableObstacleSpawner>();
+                _loadedScene = true;
+            }
+            
         }
         
         private void OnSceneUnloaded(Scene arg0)
@@ -105,9 +113,7 @@ namespace Network
             _uiController = FindObjectOfType<BaseUIController>();
             _networkPlayers = FindObjectsOfType<NetworkPlayer>();
         }
-
-
-
+        
 
         /**
          * CALLBACKS
@@ -117,8 +123,10 @@ namespace Network
 
         public void OnSetScore(int oldScore, int newScore)
         {
-            if (isMobileClient())
+            Debug.Log("Kuk on set score");
+            if (IsMobileClient())
             {
+                Debug.Log("Kuk mobile received score " + newScore);
                 ScoreUIManager.Instance.UpdateScore(newScore);
             }
         }
@@ -128,7 +136,7 @@ namespace Network
          */
         public void OnSetUsingPointingGesture(bool oldValue, bool isPointing)
         {
-            if (isMobileClient())
+            if (IsMobileClient())
             {
                 if (isPointing)
                 {
@@ -147,7 +155,7 @@ namespace Network
 
         public void OnSetWireLoopColliding(bool oldValue, bool isColliding)
         {
-            if (isMobileClient())
+            if (IsMobileClient())
             {
                 if (isColliding)
                 {
@@ -163,7 +171,7 @@ namespace Network
 
         public void OnAddToSpawnPointsObjectFinding(SyncList<SpawnPointFindableDataPair>.Operation op, int index, SpawnPointFindableDataPair oldItem, SpawnPointFindableDataPair newItem)
         {
-            if (isMobileClient())
+            if (IsMobileClient())
             {
                StartCoroutine(SyncSpawnPointToSpawner(newItem));
             }
@@ -183,7 +191,7 @@ namespace Network
 
         public void OnAddToSpawnPointsAvoidObstacles(SyncList<SpawnPointObstaclePair>.Operation op, int index, SpawnPointObstaclePair oldItem, SpawnPointObstaclePair newItem)
         {
-            if (isMobileClient())
+            if (IsMobileClient())
             {
                 StartCoroutine(SyncSpawnPointToObstacleSpawner(newItem));
             }
@@ -203,7 +211,7 @@ namespace Network
         
         public void OnSpawningItemsFinished(bool oldValue, bool finished)
         {
-            if (isMobileClient())
+            if (IsMobileClient())
             {
                 if (finished)  
                 {
@@ -225,6 +233,7 @@ namespace Network
         [Command(requiresAuthority = false)]
         public void CmdSetScore(int newScore)
         {
+            Debug.Log("Kuk cmd set score");
             this.score = newScore;
         }
         
@@ -243,14 +252,12 @@ namespace Network
         [Command(requiresAuthority = false)]
         public void CmdAddPopulatedSpawnPoint(SpawnPointFindableDataPair spawnPointFindableDataPair)
         {
-            Debug.Log("Kuk adding spawn point to sync list");
             spawnPointsObjectFinding.Add(spawnPointFindableDataPair);
         }
         
         [Command(requiresAuthority = false)]
         public void CmdAddPopulatedSpawnPointObstacle(SpawnPointObstaclePair spawnPointObstaclePair)
         {
-            Debug.Log("Kuk adding spawn point to sync list");
             spawnPointsAvoidObstacles.Add(spawnPointObstaclePair);
         }
         
@@ -261,7 +268,7 @@ namespace Network
             this.spawningItemsFinished = isSpawningItemsFinished;
         }
 
-        private bool isMobileClient()
+        private bool IsMobileClient()
         {
             return SceneManager.GetActiveScene().name.Contains("Mobile") || SceneManager.GetActiveScene().name == GameConstants.AppOffline;
         }

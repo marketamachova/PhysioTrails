@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Network;
 using UnityEngine;
 
 namespace Interactions
 {
+    /**
+     * For VR
+     */
     public abstract class ScoreController : MonoBehaviour
     {
         [SerializeField] protected VOPlayer voPlayer;
@@ -13,9 +18,13 @@ namespace Interactions
         
         protected int CurrentScore;
         private bool _enableScoreChange = true;
+        
+        private List<InteractionNetworkPlayer> _interactionNetworkPlayers;
 
         protected void Start()
         {
+            _interactionNetworkPlayers = FindObjectsOfType<InteractionNetworkPlayer>().ToList();
+            
             // if (voPlayer == null)
             // {
             //     voPlayer = FindObjectOfType<VOPlayer>();
@@ -25,8 +34,8 @@ namespace Interactions
             // {
             //     scoreVisualiser = FindObjectOfType<ScoreVisualiser>();
             // }
-            //
-            // InitializeScore();
+            
+            InitializeScore();
             // scoreVisualiser.UpdateScore(CurrentScore);
         }
 
@@ -44,6 +53,7 @@ namespace Interactions
             
         }
 
+        [ContextMenu("OnHit")]
         public void OnHit()
         {
             if (_enableScoreChange)
@@ -55,11 +65,36 @@ namespace Interactions
                 // scoreVisualiser.UpdateScore(CurrentScore);   
             }
         }
+        
+        protected virtual void IncreaseScore()
+        {
+            SyncScore();
+        }
 
-        protected abstract void IncreaseScore();
-        protected abstract void DecreaseScore();
+        protected virtual void DecreaseScore()
+        {
+            SyncScore();
+        }
 
-        protected abstract void InitializeScore();
+        protected virtual void InitializeScore()
+        {
+            SyncScore();
+        }
+        
+        private void SyncScore()
+        {
+            if (_interactionNetworkPlayers != null)
+            {
+                foreach (var interactionNetworkPlayer in _interactionNetworkPlayers)
+                {
+                    interactionNetworkPlayer.CmdSetScore(CurrentScore);
+                }
+            }
+            else
+            {
+                Debug.LogError("InteractionNetworkPlayers null");
+            }
+        }
         
             
         private IEnumerator EnableScoreDecreaseAfterDelay(int delaySeconds)
@@ -67,6 +102,16 @@ namespace Interactions
             _enableScoreChange = false;
             yield return new WaitForSecondsRealtime(delaySeconds);
             _enableScoreChange = true;
+        }
+        
+        public void AddNetworkPlayer(InteractionNetworkPlayer interactionNetworkPlayer)
+        {
+            if (_interactionNetworkPlayers == null)
+            {
+                _interactionNetworkPlayers = new List<InteractionNetworkPlayer>();
+            }
+            Debug.Log("Adding network player");
+            _interactionNetworkPlayers.Add(interactionNetworkPlayer);
         }
     }
 }
