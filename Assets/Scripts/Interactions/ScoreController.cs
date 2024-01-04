@@ -113,5 +113,7 @@ namespace Interactions
             Debug.Log("Adding network player");
             _interactionNetworkPlayers.Add(interactionNetworkPlayer);
         }
+
+        public int CurrentScore1 => CurrentScore;
     }
 }

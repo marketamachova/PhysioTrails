@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRLogger.Classes;
+using Object = System.Object;
 
 namespace VRLogger
 {
@@ -14,7 +15,7 @@ namespace VRLogger
         
         protected readonly List<string> Events = new List<string>();
         protected string Environment;
-        protected string RecordCustomData;
+        protected Object RecordCustomData;
         protected Activity Activity;
         
         protected LoggerHelper LoggerHelper= new LoggerHelper();
@@ -45,7 +46,7 @@ namespace VRLogger
         private void Logging()
         {
             string[] events = null;
-            string customData = null;
+            Object customData = null;
             PositionAndRotation headData = null;
             PositionAndRotation leftHandData = null;
             PositionAndRotation rightHandData = null;
@@ -56,7 +57,14 @@ namespace VRLogger
                 Events.Clear();
             }
 
-            if (!string.IsNullOrEmpty(RecordCustomData))
+            // if (!string.IsNullOrEmpty(RecordCustomData))
+            // {
+            //     customData = RecordCustomData;
+            //     RecordCustomData = null;
+            // }
+            
+
+            if (RecordCustomData != null)
             {
                 customData = RecordCustomData;
                 RecordCustomData = null;

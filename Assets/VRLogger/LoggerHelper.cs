@@ -76,6 +76,7 @@ namespace VRLogger
             yield return wr.SendWebRequest();
 
             responseCallback.Invoke(wr.result == UnityWebRequest.Result.Success);
+            Debug.Log("Sent activity " + activity.data.custom_data);
             Debug.Log("Activity sent.");
         }
 

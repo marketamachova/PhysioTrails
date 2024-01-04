@@ -34,6 +34,7 @@ namespace Interactions
         [SerializeField] private bool isVr = true;
 
         private InteractionConfigurator _interactionConfigurator;
+        private ScoreController _currentScoreController;
 
         private void Start()
         {
@@ -65,6 +66,7 @@ namespace Interactions
                     if (_currentInteractionController != null)
                     {
                         _currentInteractionController.SetSpeed(_vrController.CustomSpeed);
+                        _currentScoreController = _currentInteractionController.CurrentScoreController;
                         // _vrController.WaitForInteractions = _currentInteractionController.ShouldWaitForInteractionStart;
                         if (!_currentInteractionController.ShouldWaitForInteractionStart)
                         {
@@ -227,5 +229,7 @@ namespace Interactions
                 }
             }
         }
+
+        public ScoreController CurrentScoreController => _currentScoreController;
     }
 }

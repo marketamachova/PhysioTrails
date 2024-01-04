@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using VRLogger.Classes;
+using Object = System.Object;
 
 namespace VRLogger
 {
@@ -16,9 +18,8 @@ namespace VRLogger
         private string _organisationCode;
         private string _participantId;
         private bool _isAnonymous = true;
-        private string _customData;
+        private Object _customData;
         private bool _logging;
-
         
         /// <summary>
         /// This method is for initialize logger.
@@ -42,7 +43,7 @@ namespace VRLogger
                 participant = _participantId;
             }
 
-            var vrData = new VrData(applicationIdentifier, logVersion, logRate, _customData);
+            var vrData = new VrData(applicationIdentifier, logVersion, logRate);
             Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
             
             Debug.Log("Vr Logger Initialized.");
@@ -108,6 +109,10 @@ namespace VRLogger
         /// <param name="savetoLocalFile">If true then save activity into local file</param>
         public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile = false)
         {
+            Activity.data.custom_data = _customData;
+            Debug.Log("Send activity with custom data: " + _customData);
+            Debug.Log("Record custom data: " + RecordCustomData);
+            
             if (savetoLocalFile)
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
@@ -185,7 +190,16 @@ namespace VRLogger
         /// <seealso cref="StartLogging"/>
         public void SetCustomData(string customDataJson)
         {
-            _customData = customDataJson;
+            Debug.Log("Setting custom data: " + customDataJson);
+            try
+            {
+                _customData = JsonConvert.DeserializeObject<Object>(customDataJson);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[Vr Logger] Wrong string value: " + e);
+                throw;
+            }
         }
 
         /*
@@ -211,7 +225,18 @@ namespace VRLogger
         /// <param name="eventCustomDataJson">Environment custom data in Json format</param>
         public void SetRecordCustomData(string eventCustomDataJson)
         {
-            RecordCustomData = eventCustomDataJson;
+            Debug.Log("Setting record custom data: " + eventCustomDataJson);
+
+            try
+            {
+                var deserialized = JsonConvert.DeserializeObject<Object>(eventCustomDataJson);
+                RecordCustomData = deserialized;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("[Vr Logger] Wrong string value: " + e);
+            }
+            
         }
         
         /// <summary>

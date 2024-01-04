@@ -5,8 +5,9 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using Object = System.Object;
 
-    [Serializable]
+[Serializable]
     public class VrData
     {
         public string application_identifier;
@@ -15,19 +16,18 @@ using UnityEngine.Networking;
         public DateTime end;
         public int log_rate;
         public List<Record> records;
-        [CanBeNull] public string custom_data;
+        [CanBeNull] public Object custom_data;
 
         public VrData()
         {
         }
 
-        public VrData(string applicationIdentifier, string logVersion, int logRate, [CanBeNull] string customData)
+        public VrData(string applicationIdentifier, string logVersion, int logRate)
         {
             application_identifier = applicationIdentifier;
             log_version = logVersion;
             log_rate = logRate;
             records = new List<Record>();
-            custom_data = customData;
         }
 
         public override string ToString()

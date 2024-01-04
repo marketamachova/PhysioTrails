@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Interactions;
 using Interactions.AvoidObstacles;
 using Interactions.ObjectFinding;
+using Newtonsoft.Json;
 using UnityEngine;
 using Utils;
 using VRLogger;
@@ -24,10 +25,30 @@ namespace Analytics
         
         // TODO have list of AnalyticsTriggers - which each have collider and name and then subsribe here when the collider hits to send event to vrLogger
 
+        public class InteractionData
+        {
+            public string InteractionType { get; set; }
+            public string Difficulty { get; set; }
+            public string HandType { get; set; }
+        }
+        
         private void Start()
         {
-            Debug.Log("Kuk AnalyticsController start"); 
             InitializeVrLogger();
+        }
+
+        private void SendInteractionData()
+        {
+            var data = new InteractionData
+            {
+                InteractionType = interactionManager.CurrentInteractionType.ToString(),
+                Difficulty = interactionManager.CurrentDifficulty.ToString(),
+                HandType = interactionManager.CurrentHandType.ToString()
+            };
+
+
+            var jsonString = JsonConvert.SerializeObject(data);
+            vrLogger.SetCustomData(jsonString);
         }
 
         public void InitializeVrLogger()
@@ -42,15 +63,13 @@ namespace Analytics
                 return;
             }
             
-            Debug.Log("vrLogger " + vrLogger.name);
             vrLogger.InitializeLogger();
+            SendInteractionData();
 
             EventTriggers = eventTriggers;
-            
-            // TODO add other data, dont know which now
-            vrLogger.SetCustomData("{\"custom\": " + interactionManager.CurrentInteractionType + "}");
+
             vrLogger.StartLogging(sceneName);
-            
+
             _vrLoggerInitialized = true;
             _tracking = true;
         }
@@ -74,7 +93,9 @@ namespace Analytics
             
             _tracking = false;
             vrLogger.StopLogging();
-
+            Debug.Log("Kuk End tracking. Current score: " + interactionManager.CurrentScoreController.CurrentScore1);
+            vrLogger.SetRecordCustomData("{\"score\": " + 2 + "}");
+            
 #if UNITY_EDITOR
             vrLogger.SendActivity(response =>
             {
@@ -92,7 +113,6 @@ namespace Analytics
         {
             Debug.Log("Kuk Trigger event enter: " + eventName);
             var translatedEventName = EventTriggerNameTranslator.Instance.TranslateEventName(eventName);
-            // vrLogger.SetRecordCustomData("{\"custom\": \"" + translatedEventName + "\"}");
             vrLogger.SetEvent(eventName);
         }
 
