@@ -1,10 +1,11 @@
 using System;
 using JetBrains.Annotations;
 using UnityEngine;
-using VRLogger.Classes;
 using Object = System.Object;
 
-[Serializable]
+namespace VRLogger.Classes
+{
+    [Serializable]
     public class Record
     {
         public DateTime timestamp;
@@ -35,4 +36,4 @@ using Object = System.Object;
                 timestamp, tick, environment, head, left_hand, right_hand, custom_data ?? "null", (object)events ?? "null");
         }
     }
-
+}

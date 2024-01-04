@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace VRLogger
         private bool _isAnonymous = true;
         private Object _customData;
         private bool _logging;
+
         
         /// <summary>
         /// This method is for initialize logger.
@@ -46,7 +48,7 @@ namespace VRLogger
             var vrData = new VrData(applicationIdentifier, logVersion, logRate);
             Activity = new Activity(vrData, _isAnonymous, _organisationCode, participant);
             
-            Debug.Log("Vr Logger Initialized.");
+            Debug.Log("[Vr Logger] Initialized.");
         }
 
         
@@ -63,12 +65,12 @@ namespace VRLogger
         {
             if (_logging)
             {
-                throw new Exception("Logging is active!");
+                throw new Exception("[Vr Logger] Logging is active!");
             }
             
             if (Activity == null)
             {
-                throw new Exception("Logger is not Initialized!");
+                throw new Exception("[Vr Logger] Logger is not Initialized!");
             }
 
             _logging = true;
@@ -78,7 +80,7 @@ namespace VRLogger
             var logRateInSeconds = logRate / 1000f;
 
             StartCoroutine(LoggingCoroutine(logRateInSeconds));
-            Debug.Log("Logging started.");
+            Debug.Log("[Vr Logger] Logging started.");
         }
         
         
@@ -90,14 +92,14 @@ namespace VRLogger
         {
             if (_logging == false)
             {
-                throw new Exception("Logging is not active!");
+                throw new Exception("[Vr Logger] Logging is not active!");
             }
             
             Activity.data.end = DateTime.Now;
             
             StopCoroutine(LoggingCoroutine(0));
             _logging = false;
-            Debug.Log("Logging stopped.");
+            Debug.Log("[Vr Logger] Logging stopped.");
         }
 
         /// <summary>
@@ -109,14 +111,14 @@ namespace VRLogger
         /// <param name="savetoLocalFile">If true then save activity into local file</param>
         public void SendActivity(Action<bool> responseCallback, bool savetoLocalFile = false)
         {
+            
             Activity.data.custom_data = _customData;
-            Debug.Log("Send activity with custom data: " + _customData);
-            Debug.Log("Record custom data: " + RecordCustomData);
             
             if (savetoLocalFile)
             {
                 LoggerHelper.SaveActivityIntoFile(Activity);
             }
+            
             StartCoroutine(LoggerHelper.SendActivity(apiBaseUrl, applicationIdentifier, Activity, responseCallback));
         }
 
@@ -176,7 +178,7 @@ namespace VRLogger
         /// <seealso cref="InitializeLogger"/>
         public void SetParticipant(string participantId)
         {
-            Debug.Log("Set participant with Id: " + participantId);
+            Debug.Log("[Vr Logger] Set participant with Id: " + participantId);
             _participantId = participantId;
             _isAnonymous = false;
         }
@@ -190,13 +192,13 @@ namespace VRLogger
         /// <seealso cref="StartLogging"/>
         public void SetCustomData(string customDataJson)
         {
-            Debug.Log("Setting custom data: " + customDataJson);
             try
             {
                 _customData = JsonConvert.DeserializeObject<Object>(customDataJson);
             }
             catch (Exception e)
             {
+                Debug.Log("Was trying to parse: " + customDataJson);
                 Debug.LogError("[Vr Logger] Wrong string value: " + e);
                 throw;
             }
@@ -225,18 +227,16 @@ namespace VRLogger
         /// <param name="eventCustomDataJson">Environment custom data in Json format</param>
         public void SetRecordCustomData(string eventCustomDataJson)
         {
-            Debug.Log("Setting record custom data: " + eventCustomDataJson);
-
             try
             {
-                var deserialized = JsonConvert.DeserializeObject<Object>(eventCustomDataJson);
-                RecordCustomData = deserialized;
+                RecordCustomData = JsonConvert.DeserializeObject<Object>(eventCustomDataJson);
             }
             catch (Exception e)
             {
+                Debug.Log("Was trying to parse: " + eventCustomDataJson);
                 Debug.LogError("[Vr Logger] Wrong string value: " + e);
+                throw;
             }
-            
         }
         
         /// <summary>

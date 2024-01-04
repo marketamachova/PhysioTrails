@@ -2,23 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 using VRLogger.Classes;
 using Object = System.Object;
 
 namespace VRLogger
 {
-    public class LoggerBase : MonoBehaviour
+    public class LoggerBase: MonoSingleton<LoggerBase>
     {
         public GameObject head;
         public GameObject leftHand;
         public GameObject rightHand;
+        public bool globalPositionAndRotation = true;
         
         protected readonly List<string> Events = new List<string>();
         protected string Environment;
         protected Object RecordCustomData;
         protected Activity Activity;
         
-        protected LoggerHelper LoggerHelper= new LoggerHelper();
+        protected LoggerHelper LoggerHelper = new LoggerHelper();
         
         private bool _isHeadNotNull;
         private bool _isLeftHandNotNull;
@@ -57,13 +59,6 @@ namespace VRLogger
                 Events.Clear();
             }
 
-            // if (!string.IsNullOrEmpty(RecordCustomData))
-            // {
-            //     customData = RecordCustomData;
-            //     RecordCustomData = null;
-            // }
-            
-
             if (RecordCustomData != null)
             {
                 customData = RecordCustomData;
@@ -72,17 +67,17 @@ namespace VRLogger
 
             if (_isHeadNotNull)
             {
-                headData = PositionAndRotation.GetLocalPositionAndRotation(head);
+                headData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(head) : PositionAndRotation.GetLocalPositionAndRotation(head);
             }
 
             if (_isLeftHandNotNull)
             {
-                leftHandData = PositionAndRotation.GetLocalPositionAndRotation(leftHand);
+                leftHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(leftHand) : PositionAndRotation.GetLocalPositionAndRotation(leftHand);
             }
 
             if (_isRightHandNotNull)
             {
-                rightHandData = PositionAndRotation.GetLocalPositionAndRotation(rightHand);
+                rightHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(rightHand) : PositionAndRotation.GetLocalPositionAndRotation(rightHand);
             }
 
             var record = new Record(DateTime.Now, _tick, Environment, headData, leftHandData, rightHandData,
@@ -93,4 +88,3 @@ namespace VRLogger
         }
     }
 }
-

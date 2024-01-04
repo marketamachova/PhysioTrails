@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace VRLogger.Classes
 {
@@ -22,4 +23,3 @@ namespace VRLogger.Classes
         }
     }
 }
-

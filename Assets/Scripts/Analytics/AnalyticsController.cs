@@ -48,6 +48,7 @@ namespace Analytics
 
 
             var jsonString = JsonConvert.SerializeObject(data);
+            Debug.Log("Kuk Interaction data: " + jsonString);
             vrLogger.SetCustomData(jsonString);
         }
 

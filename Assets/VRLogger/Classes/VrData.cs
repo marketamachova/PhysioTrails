@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Object = System.Object;
 
-[Serializable]
+namespace VRLogger.Classes
+{
+    [Serializable]
     public class VrData
     {
         public string application_identifier;
@@ -37,3 +39,4 @@ using Object = System.Object;
                 application_identifier, log_version, start, end, log_rate, custom_data ?? "null");
         }
     }
+}

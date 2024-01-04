@@ -12,7 +12,7 @@ namespace VRLogger
             var webGlData = new WebGLData();
             
             var hostedUrl = Application.absoluteURL;
-            Debug.Log("Hosted URL: " + hostedUrl);
+            Debug.Log("[Vr Logger] Hosted URL: " + hostedUrl);
             
             if (customServerUrl != "")
             {
@@ -35,7 +35,7 @@ namespace VRLogger
         
             webGLData.ServerUrl = hostnameParts[0] + "/" + hostnameParts[1] + "/" + hostnameParts[2];
         
-            Debug.Log("Server url: " + webGLData.ServerUrl);
+            Debug.Log("[Vr Logger] Server url: " + webGLData.ServerUrl);
         }
 
 
@@ -47,7 +47,7 @@ namespace VRLogger
             var paramsDict = new Dictionary<string, string>();
             foreach (var param in parameters)
             {
-                Debug.Log("Parameter: " + param);
+                Debug.Log("[Vr Logger] Parameter: " + param);
                 var sepParam = param.Split("=");
                 paramsDict.Add(sepParam[0], sepParam[1]);
             }
@@ -62,7 +62,7 @@ namespace VRLogger
             }
             else
             {
-                throw new Exception("Wrong parameters!");
+                throw new Exception("[Vr Logger] Wrong parameters!");
             }
         }
         

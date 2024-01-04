@@ -24,14 +24,14 @@ namespace VRLogger
                 url += "/" + environmentId;
             }
 
-            Debug.Log("Getting data from: " + url);
+            Debug.Log("[Vr Logger] Getting data from: " + url);
             UnityWebRequest request = UnityWebRequest.Get(url);
 
             yield return request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError(request.error + "with error message: " + request.downloadHandler.text);
+                Debug.LogError("[Vr Logger] " + request.error + "with error message: " + request.downloadHandler.text);
                 responseCallback.Invoke(null);
             }
             else
@@ -56,7 +56,7 @@ namespace VRLogger
             var now = DateTime.Now.ToString("yyyy-MM-dd\\THH:mm:ss\\Z");
             System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/vr-dashboard");
             var filePath = Application.persistentDataPath + "/vr-dashboard/" + now + ".json";
-            Debug.Log("Saving Activity into file with path: " + filePath);
+            Debug.Log("[Vr Logger] Saving Activity into file with path: " + filePath);
             System.IO.File.WriteAllText(filePath, json);
         }
 
@@ -76,8 +76,7 @@ namespace VRLogger
             yield return wr.SendWebRequest();
 
             responseCallback.Invoke(wr.result == UnityWebRequest.Result.Success);
-            Debug.Log("Sent activity " + activity.data.custom_data);
-            Debug.Log("Activity sent.");
+            Debug.Log("[Vr Logger] Activity sent.");
         }
 
         public IEnumerator GetParticipants(string apiBaseUrl, string applicationIdentifier, string organisationCode, Action<List<Participant>> responseCallback)
@@ -85,13 +84,13 @@ namespace VRLogger
             var url = apiBaseUrl + "/public/participants/" + applicationIdentifier + "/" + organisationCode;
             UnityWebRequest request = UnityWebRequest.Get(url);
             
-            Debug.Log("Getting Participant from server: " + url);
+            Debug.Log("[Vr Logger] Getting Participant from server: " + url);
             
             yield return request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError(request.error + "with error message: " + request.downloadHandler.text);
+                Debug.LogError("[Vr Logger]" + request.error + "with error message: " + request.downloadHandler.text);
                 responseCallback.Invoke(null);
             }
             else
@@ -111,4 +110,3 @@ namespace VRLogger
         }
     }
 }
-

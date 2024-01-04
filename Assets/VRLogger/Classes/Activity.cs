@@ -2,6 +2,8 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
+namespace VRLogger.Classes
+{
     [Serializable]
     public class Activity
     {
@@ -18,3 +20,4 @@ using UnityEngine;
             this.participantId = participantId;
         }
     }
+}

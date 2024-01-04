@@ -21,7 +21,7 @@ namespace Utils
             }
             else
             {
-                Debug.LogError("There is more than one instance of " + typeof(T).Name);
+                Debug.LogWarning("There is more than one instance of " + typeof(T).Name);
             }
         }
     }
