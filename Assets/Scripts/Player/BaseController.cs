@@ -54,7 +54,7 @@ namespace Player
         /**
          * assigns LocalNetworkPlayer and RemoteNetworkPlayer variables from all player objects in the scene 
          */
-        public void AssignPlayers()
+        public virtual void AssignPlayers()
         {
             NetworkPlayers = FindObjectsOfType<NetworkPlayer>();
             foreach (var networkPlayer in NetworkPlayers)

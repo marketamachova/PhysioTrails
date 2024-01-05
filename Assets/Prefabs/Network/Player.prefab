@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 412528626795722955}
   - component: {fileID: 4046175393662636090}
   - component: {fileID: 8677994868341410317}
+  - component: {fileID: 2632324830231738369}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -98,4 +99,23 @@ MonoBehaviour:
   score: 0
   usingPointingGesture: 0
   wireLoopColliding: 0
-  spawnPoints: 
+  spawningItemsFinished: 0
+  onSceneLoadedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2632324830231738369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228830701967972636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc3a275fd3ffe84d891bbb4ac455bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  enablePassthrough: 0

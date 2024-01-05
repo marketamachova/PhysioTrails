@@ -44,6 +44,8 @@ namespace UI
         private TopCameraDisplayStrategy _topCameraDisplayStrategy;
         private MultiviewDisplayStrategy _multiviewDisplayStrategy;
         private static readonly int SlideDown = Animator.StringToHash("SlideDown");
+        
+        private bool _passthroughEnabled = false;
 
         private void Awake()
         {
@@ -245,6 +247,12 @@ namespace UI
                     _multiviewDisplayStrategy.DisplaySelf(portraitOriented);
                     break;
             }
+        }
+        
+        public void TogglePassThrough()
+        {
+            _passthroughEnabled = !_passthroughEnabled;
+            mobileController.SetPassthroughEnabled(_passthroughEnabled);
         }
     }
 }

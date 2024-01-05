@@ -18,6 +18,7 @@ namespace Player
         private SceneLoader _sceneLoader;
         private NetworkPlayer _vrPlayer;
         private GameObject[] _cameras;
+        private PassthroughNetworkPlayer _passthroughNetworkPlayer;
 
         protected override void Awake()
         {
@@ -31,6 +32,12 @@ namespace Player
             SetLanguage();
 
             AssignPlayers();
+        }
+        
+        public override void AssignPlayers()
+        {
+            base.AssignPlayers();
+            _passthroughNetworkPlayer = FindObjectOfType<PassthroughNetworkPlayer>();
         }
 
         /**
@@ -270,6 +277,16 @@ namespace Player
                 case PlayMode.Multiview:
                     EnableCamerasExclusive(new []{UIConstants.RTCamera, UIConstants.RTTopCamera});
                     break;
+            }
+        }
+        
+        public void SetPassthroughEnabled(bool enable)
+        {
+            Debug.Log("Kuk will check if network player is not null");
+            if (_passthroughNetworkPlayer != null)
+            {
+                Debug.Log("Kuk enabling passthrough " + enable);
+                _passthroughNetworkPlayer.CmdEnablePassthrough(enable);
             }
         }
 
