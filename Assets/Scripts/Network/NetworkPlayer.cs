@@ -6,7 +6,6 @@ using PatientManagement;
 using Player;
 using Scenes;
 using UI;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

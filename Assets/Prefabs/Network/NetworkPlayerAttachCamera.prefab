@@ -1204,6 +1204,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TorusDummy
       objectReference: {fileID: 0}
+    - target: {fileID: 6329669757982934003, guid: e661ade7beea6de47b086064371c8394,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1700487823317579126, guid: e661ade7beea6de47b086064371c8394, type: 3}
     - {fileID: 7743870932766215585, guid: e661ade7beea6de47b086064371c8394, type: 3}

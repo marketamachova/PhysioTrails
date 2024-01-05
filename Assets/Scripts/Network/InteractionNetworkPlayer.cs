@@ -40,12 +40,8 @@ namespace Network
         // Triggers
         [SyncVar(hook = "OnSpawningItemsFinished")]
         public bool spawningItemsFinished = false;
-
-
-        private BaseUIController _uiController;
-        private VRController _vrController;
-        private BaseController _controller;
-        private NetworkPlayer[] _networkPlayers;
+        
+        
         private FindableObjectSpawner _findableObjectSpawner;
         private AvoidableObstacleSpawner _avoidableObstacleSpawner;
         private List<WireLoopVisualiser> _wireLoopVisualisers = new List<WireLoopVisualiser>();
@@ -108,10 +104,10 @@ namespace Network
         }
         private void Awake()
         {
-            _controller = FindObjectOfType<BaseController>();
-            _vrController = FindObjectOfType<VRController>();
-            _uiController = FindObjectOfType<BaseUIController>();
-            _networkPlayers = FindObjectsOfType<NetworkPlayer>();
+            // _controller = FindObjectOfType<BaseController>();
+            // _vrController = FindObjectOfType<VRController>();
+            // _uiController = FindObjectOfType<BaseUIController>();
+            // _networkPlayers = FindObjectsOfType<NetworkPlayer>();
         }
         
 
@@ -181,9 +177,10 @@ namespace Network
         {
             if (_findableObjectSpawner == null)  
             {
-                StartCoroutine(WaitForObjectNotNullCoroutine(_findableObjectSpawner));
+                yield return StartCoroutine(WaitForObjectNotNullCoroutine(_findableObjectSpawner));
             }
 
+            _findableObjectSpawner = FindObjectOfType<FindableObjectSpawner>();
             _findableObjectSpawner.AddSpawnPoint(newItem);
             // CmdSetSpawningItemsFinished(true); // TODO musi se vratit zpet on scene load a taky nevim, kdy to vlastne volat
             yield return null;
@@ -201,9 +198,10 @@ namespace Network
         {
             if (_avoidableObstacleSpawner == null)  
             {
-                StartCoroutine(WaitForObjectNotNullCoroutine(_avoidableObstacleSpawner));
+                yield return StartCoroutine(WaitForObjectNotNullCoroutine(_avoidableObstacleSpawner));
             }
 
+            _avoidableObstacleSpawner = FindObjectOfType<AvoidableObstacleSpawner>();
             _avoidableObstacleSpawner.AddPopulatedSpawnPoint(newItem);
             // CmdSetSpawningItemsFinished(true); // TODO musi se vratit zpet on scene load a taky nevim, kdy to vlastne volat
             yield return null;
@@ -211,9 +209,9 @@ namespace Network
         
         public void OnSpawningItemsFinished(bool oldValue, bool finished)
         {
-            if (IsMobileClient())
+            if (finished)  
             {
-                if (finished)  
+                if (IsMobileClient())
                 {
                     Debug.Log("Kuk spawning items finished");
                     // TODO vymyslet logiku, jak cekat na spawnovani - interactable play tlacitka
@@ -277,6 +275,7 @@ namespace Network
         {
             while (obj == null)
             {
+                Debug.Log("Kuk waiting for object not null");
                 obj = FindObjectOfType<T>();
                 yield return null;
             }

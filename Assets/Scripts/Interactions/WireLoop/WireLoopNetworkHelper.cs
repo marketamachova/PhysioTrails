@@ -1,8 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Utils;
 
 namespace Interactions.WireLoop
 {
+    /**
+     * VR-only
+     * TODO
+     */
     public class WireLoopNetworkHelper : MonoBehaviour
     {
         [SerializeField] private TorusDataHolder torusDataHolder;
@@ -25,7 +32,7 @@ namespace Interactions.WireLoop
         {
             _wireLoopController = wireLoopSceneManager.WireLoopController;
             _torusNetworkDataHolder = _wireLoopController.NetworkTorusDataHolder;
-            
+
             var difficulty = wireLoopSceneManager.Difficulty;
             EnableTorusBasedOnDifficulty(difficulty);
         }

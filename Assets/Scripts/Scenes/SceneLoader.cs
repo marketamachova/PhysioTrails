@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Castle.Core.Internal;
 using Player;
 using UI;
 using UnityEngine;
@@ -85,7 +84,7 @@ namespace Scenes
 
         public void UnloadScene()
         {
-            if (_currentSceneName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(_currentSceneName))
             {
                 return;
             }

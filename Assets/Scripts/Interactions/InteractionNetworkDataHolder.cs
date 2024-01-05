@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Interactions.ObjectFinding;
 using Interactions.WireLoop;
 using UnityEngine;
+using Utils;
 
 namespace Interactions
 {
@@ -10,10 +13,12 @@ namespace Interactions
         [Header("Wire Loop")]
         [SerializeField] private TorusDataHolder networkTorusDataHolder;
         private WireLoopController _wireLoopController;
+        private List<Renderer> _torusNetworkRenderers = new List<Renderer>();
         
         [Header("Object Finding")]
         [SerializeField] private Transform networkPointerTransform;
         private ObjectFindingController _objectFindingController;
+        private List<Renderer> _networkPointerRenderers = new List<Renderer>();
 
         private void Start()
         {
@@ -23,8 +28,17 @@ namespace Interactions
 
             _objectFindingController = FindObjectOfType<ObjectFindingController>(true);
             _objectFindingController.NetworkPointerTransform = networkPointerTransform;
-            Debug.Log("InteractionNetworkDataHolder: " + _objectFindingController.NetworkPointerTransform);
             _objectFindingController.InteractionNetworkDataHolder = this;
+            
+            // The network helper should not be visible in VR
+            if (DeviceTypeChecker.Instance.IsVr)
+            {
+                _torusNetworkRenderers = networkTorusDataHolder.GetComponentsInChildren<Renderer>().ToList();
+                _torusNetworkRenderers.ForEach(rend => rend.enabled = false);
+                
+                _networkPointerRenderers = networkPointerTransform.GetComponentsInChildren<Renderer>().ToList();
+                _networkPointerRenderers.ForEach(rend => rend.enabled = false);
+            }
         }
 
         public void EnableTorusSizeBasedOnDifficulty(InteractionConfigurator.DifficultyType difficulty)

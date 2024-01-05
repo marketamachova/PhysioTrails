@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Analytics;
 using Oculus.Interaction.HandGrab;
@@ -29,8 +30,11 @@ namespace Interactions.WireLoop
 
         public void OnSceneLoaded()
         {
-            _wireLoopSceneManager.onTorusGrabStarted.AddListener(OnTorusGrabStart);
-            _wireLoopSceneManager.SetSpeed(_customSpeed);
+            if (DeviceTypeChecker.Instance.IsVr)
+            {
+                _wireLoopSceneManager.onTorusGrabStarted.AddListener(OnTorusGrabStart);
+                _wireLoopSceneManager.SetSpeed(_customSpeed);
+            }
         }
 
         public void OnMiss()

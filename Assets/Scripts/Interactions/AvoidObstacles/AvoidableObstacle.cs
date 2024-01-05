@@ -25,6 +25,7 @@ namespace Interactions.AvoidObstacles
         [SerializeField] private string hitEventName = "ObstacleHit";
         [SerializeField] private string avoidCorrectEventName = "ObstacleAvoidCorrect";
         [SerializeField] private string avoidIncorrectEventName = "ObstacleAvoidIncorrect";
+        [SerializeField] private int destroyObstacleAfterHitDelay = 2;
         
         private AvoidObstaclesController _avoidObstaclesController;
         private bool useArrows = true;
@@ -105,7 +106,7 @@ namespace Interactions.AvoidObstacles
         
         private IEnumerator DestroyAfterAnimation()
         {
-            yield return new WaitForSeconds(balloonAnimation.clip.length / deflateAnimationSpeedFactor);
+            yield return new WaitForSeconds(destroyObstacleAfterHitDelay);
 
             Destroy(gameObject);
         }

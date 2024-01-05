@@ -30,23 +30,25 @@ namespace Interactions.WireLoop
         private void Start()
         {
             _playerPositionHandler = FindObjectOfType<PlayerPositionHandler>();
-
+            
             _wireLoopController = FindObjectOfType<WireLoopController>();
             _wireLoopController.WireLoopSceneManager = this;
             _wireLoopController.OnSceneLoaded();
-            
-            torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart));
-            torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
-            
-            _difficulty = _wireLoopController.Difficulty;
-            EnableTorusBasedOnDifficulty(_difficulty);
-            
             var handType = _wireLoopController.HandType;
-            EnableTorusGhostHand(handType);
             PositionPlayerBasedOnHandType(handType);
             
-            torusDataHolder.TorusGhost.SetActive(false);
-            torusDataHolder.TorusPathFollower.enabled = false;
+            if (DeviceTypeChecker.Instance.IsVr)
+            {
+                torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenSelect.AddListener(OnTorusGrabStart)); 
+                torusDataHolder.TorusGrabEventsWrappers.ForEach(wrapper => wrapper.WhenUnselect.AddListener(OnTorusGrabEnd));
+                _difficulty = _wireLoopController.Difficulty;
+                
+                EnableTorusBasedOnDifficulty(_difficulty);
+                EnableTorusGhostHand(handType);
+
+                torusDataHolder.TorusGhost.SetActive(false);
+                torusDataHolder.TorusPathFollower.enabled = false;
+            }
         }
         
         private void EnableTorusBasedOnDifficulty(InteractionConfigurator.DifficultyType difficulty)

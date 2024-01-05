@@ -152,9 +152,7 @@ namespace Interactions.AvoidObstacles
             var spawnedObject = Instantiate(prefab, parent);
             AvoidableObstacle avoidableObstacle = spawnedObject.GetComponent<AvoidableObstacle>();
             avoidableObstacle.AvoidObstaclesController = _avoidObstaclesController;
-
-            var spawnedObjectTransform = spawnedObject.transform;
-            spawnedObjectTransform.parent = parent;
+            spawnedObject.transform.localPosition = Vector3.zero;
 
             return avoidableObstacle;
         }
