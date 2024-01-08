@@ -94,7 +94,6 @@ namespace Analytics
             
             _tracking = false;
             vrLogger.StopLogging();
-            Debug.Log("Kuk End tracking. Current score: " + interactionManager.CurrentScoreController.CurrentScore1);
             vrLogger.SetRecordCustomData("{\"score\": " + 2 + "}");
             
 #if UNITY_EDITOR
@@ -107,7 +106,8 @@ namespace Analytics
             {
                 Debug.Log(response);
             }, true);
-#endif
+#endif  
+            Debug.Log("Kuk End tracking. Current score: " + interactionManager.CurrentScoreController?.CurrentScore1);
         }
         
         public void OnTriggerEventEnter(string eventName)

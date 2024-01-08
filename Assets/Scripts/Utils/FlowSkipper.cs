@@ -3,6 +3,7 @@ using Interactions;
 using PatientManagement;
 using PatientManagement_;
 using Player;
+using UI;
 using UnityEngine;
 
 namespace Utils
@@ -13,6 +14,7 @@ namespace Utils
         [SerializeField] private VRLobbyController vrLobbyController;
         [SerializeField] private InteractionConfigurator interactionConfigurator;
         [SerializeField] private PatientsManager patientsManager;
+        [SerializeField] private EscapeGestureHandler escapeGestureHandler;
 
         [SerializeField] private string testPatientId = "155fcb8b-78f2-4cb3-bfea-bcef3a0931ff";
         
@@ -54,6 +56,12 @@ namespace Utils
             {
                 interactionConfigurator.SetInteractionTypeAvoidObstacles();
             }
+        }
+
+        [ContextMenu("Test GO to lobby")]
+        public void TestGoToLobby()
+        {
+            escapeGestureHandler.GoToLobby(true);
         }
     }
 }

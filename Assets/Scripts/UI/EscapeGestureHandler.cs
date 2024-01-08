@@ -45,6 +45,11 @@ namespace UI
             StartCoroutine(EscapeToLobby());
         }
 
+        public void GoToLobby(bool testing = false)
+        {
+            StartCoroutine(EscapeToLobby(testing));
+        }
+
         public void OnGestureDetectionEnd()
         {
             _gestureDetected = false;
@@ -52,10 +57,10 @@ namespace UI
             spinnerLoader.gameObject.SetActive(false);
         }
 
-        private IEnumerator EscapeToLobby()
+        private IEnumerator EscapeToLobby(bool testing = false)
         {
             yield return new WaitForSecondsRealtime(gestureTimeThreshold);
-            if (_gestureDetected)
+            if (_gestureDetected || testing)
             {
                 _vrController.TriggerGoToLobby();
                 spinnerLoader.gameObject.SetActive(false);
