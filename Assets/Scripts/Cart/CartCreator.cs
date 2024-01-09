@@ -196,13 +196,13 @@ namespace Cart
             _cart.transform.Rotate(-cartRotation);
 
 
-            var children = networkCamera.GetComponentsInChildren<Transform>();
-            foreach (var child in children)
-            {
-                child.transform.Rotate(-cartRotation);
-            }
+            // var children = networkCamera.GetComponentsInChildren<Transform>();
+            // foreach (var child in children)
+            // {
+            //     child.transform.Rotate(-cartRotation);
+            // }
 
-            networkCamera.transform.Rotate(cartRotation);
+            // networkCamera.transform.Rotate(cartRotation);
             _cart.transform.parent = networkCamera.transform.GetChild(0);
 
             OnCartCreatorCalibrationComplete?.Invoke();

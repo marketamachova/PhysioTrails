@@ -126,7 +126,10 @@ namespace Player
                 }
                 
                 // yield return new WaitForSecondsRealtime(4);
-                TriggerPlayerMoving();
+                if (!_networkPlayer.currentSceneStatic)
+                {
+                    TriggerPlayerMoving();
+                }
             }
 
             _analyticsController = FindObjectOfType<AnalyticsController>();

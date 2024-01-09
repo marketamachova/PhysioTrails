@@ -147,6 +147,22 @@ namespace Player
                 networkPlayer.CmdHandleSelectedWorld(sceneName);
             }
         }
+        
+        // Testing
+        public virtual void OnSceneSelectedStatic(string sceneName)
+        {
+            if (SceneManager.sceneCount > 1)
+            {
+                Debug.Log("scene count > 1");
+                return;
+            }
+
+            foreach (var networkPlayer in NetworkPlayers)
+            {
+                networkPlayer.CmdHandleSelectedWorld(sceneName);
+                networkPlayer.CmdSetStaticScene(true);
+            }
+        }
 
         public virtual void OnGoToLobby(bool wait = true)
         {

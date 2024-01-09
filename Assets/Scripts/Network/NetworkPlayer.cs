@@ -45,7 +45,10 @@ namespace Network
         [SyncVar(hook = "GoToLobby")] public bool goToLobby = true;
 
         [SyncVar(hook = "OnWorldLoaded")] public bool worldLoaded;
+        
+        [SyncVar(hook = "OnSetStaticScene")] public bool currentSceneStatic = false;
 
+        
 
         private BaseUIController _uiController;
         private VRController _vrController;
@@ -137,6 +140,10 @@ namespace Network
                 _sceneLoader.LoadScene(sceneToLoad, true);
             }
         }
+        
+        public void OnSetStaticScene(bool oldValue, bool isStatic)
+        {
+        }
 
         /**
          * if goToLobby true: set SyncVars to default values and synchronise them across players
@@ -150,6 +157,7 @@ namespace Network
                 chosenWorld = String.Empty;
                 triggerTimeSync = false;
                 timePlaying = 0f;
+                currentSceneStatic = false;
 
                 if (_networkPlayers.Length < 2)
                 {
@@ -319,6 +327,12 @@ namespace Network
             {
                 chosenWorld = sceneName; //changing syncvar as cmd results in server synchronising all clients
             }
+        }
+        
+        [Command(requiresAuthority = false)]
+        public void CmdSetStaticScene(bool isStatic)
+        {
+            currentSceneStatic = isStatic;
         }
 
         [Command(requiresAuthority = false)]

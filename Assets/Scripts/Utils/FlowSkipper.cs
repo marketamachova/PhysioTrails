@@ -44,6 +44,14 @@ namespace Utils
             {
                 vrLobbyController.OnSceneSelected("RuralScene");
             }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                vrLobbyController.OnSceneSelectedStatic("MainScene");
+            }
+            else if (Input.GetKeyDown(KeyCode.X))
+            {
+                escapeGestureHandler.GoToLobby(true);
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 interactionConfigurator.SetInteractionTypeWireLoop();

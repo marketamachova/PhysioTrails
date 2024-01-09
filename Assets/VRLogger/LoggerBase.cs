@@ -13,7 +13,7 @@ namespace VRLogger
         public GameObject head;
         public GameObject leftHand;
         public GameObject rightHand;
-        public bool globalPositionAndRotation = true;
+        public bool globalPositionAndRotation = false;
         
         protected readonly List<string> Events = new List<string>();
         protected string Environment;
@@ -67,17 +67,17 @@ namespace VRLogger
 
             if (_isHeadNotNull)
             {
-                headData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(head) : PositionAndRotation.GetLocalPositionAndRotation(head);
+                headData = PositionAndRotation.GetLocalPositionAndRotation(head);
             }
 
             if (_isLeftHandNotNull)
             {
-                leftHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(leftHand) : PositionAndRotation.GetLocalPositionAndRotation(leftHand);
+                leftHandData = PositionAndRotation.GetLocalPositionAndRotation(leftHand);
             }
 
             if (_isRightHandNotNull)
             {
-                rightHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(rightHand) : PositionAndRotation.GetLocalPositionAndRotation(rightHand);
+                rightHandData = PositionAndRotation.GetLocalPositionAndRotation(rightHand);
             }
 
             var record = new Record(DateTime.Now, _tick, Environment, headData, leftHandData, rightHandData,
