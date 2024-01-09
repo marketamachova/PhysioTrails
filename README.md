@@ -2,22 +2,6 @@
 
 PhysioTrails is an application for virtual reality serving as an auxiliary tool for balance training. The   system consists of two applications, a VR application mediating a travelling experience for Oculus Quest and an Android mobile application for controlling the VR experience.
 
-
-**Relevant** **Branches**
-
-- *vr-app*: Unity project set for building the VR application
-- *mobile-app*: Unity project set for building the mobile application
-
-
-**Content**
-
-- source project of the thesis in Unity 3D
-- ApplicationExports folder:
-
-    — PhysioTrails-vr.apk - installation package of the VR application
-
-    — PhysioTrails-mobile.apk - installation package of the mobile application
-
 ---
 
 ## Installation Manual
@@ -36,12 +20,11 @@ PhysioTrails is an application for virtual reality serving as an auxiliary tool 
 
 **Installation**
 
-1. Clone this repo
-2. Connect the Quest device to your computer and make sure it is switched on
-3. Open SideQuest and drag and drop the *PhysioTrails-vr.apk* from the *ApplicationExports* folder into the SideQuest window
-4. Enable hand tracking in the Quest device
-5. Navigate to Applications/Unknown Sources in the Quest device
-6. Open the PhysioTrails application
+1. Navigate to Releases page and download the _physioTrails_vr.apk_
+2. Open SideQuest and drag and drop the _physioTrails_vr.apk_ from the *ApplicationExports* folder into the SideQuest window
+3. Enable hand tracking in the Quest device
+4. Navigate to Applications/Unknown Sources in the Quest device
+5. Open the PhysioTrails application
 
 
 ### Mobile Application
@@ -59,12 +42,11 @@ PhysioTrails is an application for virtual reality serving as an auxiliary tool 
 
 **Installation**
 
-1. Clone this repo
-2. Connect the Android device to your computer and make sure it is switched on
-3. Open Android File Transfer and drag and drop the *PhysioTrails-mobile.apk* from the *ApplicationExports* folder into the Android File Transfer window
-4. Navigate to Settings/Storage/Explore in the Android device
-5. Open the PhysioTrails application package and choose Install
-6. Open the PhysioTrails application
+1. Navigate to Releases page and download the _physioTrails_mobile.apk_
+2. Open Android File Transfer and drag and drop the *PhysioTrails-mobile.apk* from the *ApplicationExports* folder into the Android File Transfer window
+3. Navigate to Settings/Storage/Explore in the Android device
+4. Open the PhysioTrails application package and choose Install
+5. Open the PhysioTrails application
 
 
  > For a more complex installation manual, please see the Appendix B in the thesis' text.
