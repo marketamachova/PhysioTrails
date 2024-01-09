@@ -67,17 +67,17 @@ namespace VRLogger
 
             if (_isHeadNotNull)
             {
-                headData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(head) : PositionAndRotation.GetLocalPositionAndRotation(head);
+                headData = PositionAndRotation.GetLocalPositionAndRotation(head);
             }
 
             if (_isLeftHandNotNull)
             {
-                leftHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(leftHand) : PositionAndRotation.GetLocalPositionAndRotation(leftHand);
+                leftHandData = PositionAndRotation.GetLocalPositionAndRotation(leftHand);
             }
 
             if (_isRightHandNotNull)
             {
-                rightHandData = globalPositionAndRotation ? PositionAndRotation.GetPositionAndRotation(rightHand) : PositionAndRotation.GetLocalPositionAndRotation(rightHand);
+                rightHandData = PositionAndRotation.GetLocalPositionAndRotation(rightHand);
             }
 
             var record = new Record(DateTime.Now, _tick, Environment, headData, leftHandData, rightHandData,
